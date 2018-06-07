@@ -1,0 +1,264 @@
+﻿<div data-role="view" data-layout="main" data-model="app.controlPoint" data-init="app.controlPoint.onShowTestSectionInit" data-show="app.controlPoint.onShowTestSection" style="" dir="rtl">
+    <header data-role="header">
+        <div data-role="navbar" class="header" style="background: linear-gradient(5.58deg, #923714 0%, #f7931e 100%);">
+            <span>סעיפי בדיקה</span>
+            <a class="headerButton" data-role="button" data-align="right" style="color: white;" href="components/hightGuard/view.html">
+                <i class="material-icons" style="color:white">home</i>
+            </a>
+            <a class="headerButton" id="" data-role="button" data-align="left" style="color: white;" href="">
+                <i class="material-icons" style="color:transparent">dashboard</i>
+            </a>
+        </div>
+        <div style="height:1em;background-color:#e9eaeb;"></div>
+        <div style="width:100%;height:17%;background-color:#e9eaeb;">
+            <label style="box-shadow: 0px 2px 3px #A29E9E;background-color:#1A607C;font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 400;text-align:center;padding-left: 6px;padding-top: 2px;padding-right: 12px;padding-bottom: 3px;" id="controlPointLabel"></label>
+        </div>
+    </header>
+    
+    
+    <div style="background-color: transparent;height:3px;"></div>
+    <center>
+        <div id="sectionStatusDiv" style="width:100%;background-color: #fff;"></div>
+        <br />
+        <div style="width:100%;background-color: #fff;">
+            <!-- תמונה 1 -->
+            <div class="divFinding" dir="rtl" style="border:none;">
+                <table border="0" style="width:100%">
+                    <tr style="width:100%">
+                        <td style="width:80%">
+                            <label style="color:rgba(0, 0, 0, 0.82); font-family:Tahoma, Geneva, sans-serif;font-weight: 200;font-size:small;"> תמונה 1</label>
+                        </td>
+                        <td style="width:20%">
+                            <a data-role="button" id="capturePhoto1" onclick="takeIdImage(this.id)" data-icon="cameraNew" style="color:rgba(0, 0, 0, 0.82);background-color:transparent;border-style: none;right:57%;"></a>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+            <!-- תמונה 2 -->
+            <div class="divFinding" dir="rtl" style="border:none;">
+                <table border="0" style="width:100%">
+                    <tr style="width:100%">
+                        <td style="width:80%">
+                            <label style="color:rgba(0, 0, 0, 0.82); font-family:Tahoma, Geneva, sans-serif;font-weight: 200;font-size:small;"> תמונה 2</label>
+                        </td>
+                        <td style="width:20%">
+                            <a data-role="button" id="capturePhoto2" onclick="takeIdImage(this.id)" data-bind="enabled:flagImage" data-icon="cameraNew" style="color:rgba(0, 0, 0, 0.82);background-color:transparent;border-style: none;right:57%;"></a>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+            <!--הערות נוספות-->
+            <div class="divFinding" dir="rtl" style="border-bottom-color:transparent;">
+                <table border="0" style="width:100%">
+                    <tr style="width:100%">
+                        <td style="width:80%">
+                            <label style="color:rgba(0, 0, 0, 0.82); font-family:Tahoma, Geneva, sans-serif;font-weight: 200;font-size:small;">הערות נוספות</label>
+                        </td>
+                        <td style="width:20%">
+                            <a id="description_all_control_point" data-bind="events: {click:homeModel.open_pop_item_description}" data-role="button" data-icon="descriptionPenNew" style="color:rgba(0, 0, 0, 0.82);background-color:transparent;border-style: none;right: 57%;"></a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+</center>
+    <!--פוטר -->
+    <footer data-role="footer" style="background-color:#e9eaeb;">
+        <center>
+            <div>
+                <a data-role="button" data-bind="events: {click:homeModel.save1}" style="font-family: Tahoma, Geneva, sans-serif;border-style:none;border-radius: 0;align-self:center;width:94%;    margin-top: 3%;margin-bottom: 3%;background-color:#1A607C;color: #ffffff;text-align:center;white-space: normal;direction:ltr;">
+                    <span style="font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 200;" >שמור</span>
+                </a>
+            </div>
+        </center>
+    </footer>
+    <script>
+
+        function takeIdImage(id) {
+            if (id == "capturePhoto2") {
+                if (app.controlPoint.flagImage == true) {
+                    app.controlPoint.homeModel.set("cameraId", id)
+                    app.controlPoint.homeModel.ifOpenPictureFrom();
+                }
+            }
+            else {
+                app.controlPoint.homeModel.set("cameraId", id)
+                app.controlPoint.homeModel.ifOpenPictureFrom();
+            }
+
+        }
+        function takeFromGalery() {
+            app.controlPoint.homeModel.getPhotoLibrary();
+        }
+        function takeFromCamera() {
+            app.controlPoint.homeModel.takePhoto();
+        }
+        function takeFromGalery1() {
+            app.controlPoint.homeModel.getPhotoLibrary1();
+        }
+        function takeFromCamera1() {
+            app.controlPoint.homeModel.takePhoto1();
+        }
+
+
+        function myChooseSectionStatus(controlPointId, thisId) {
+            var statusId = "";
+            for (var i = 0; i < thisId.length - 2; i++) {
+                statusId += thisId[i]
+            }
+            if (document.getElementById(thisId).checked == true) {
+                app.controlPoint.homeModel.addToSectionStatusArr(controlPointId, statusId);
+            }
+            else {
+                app.controlPoint.homeModel.removeToSectionStatusArr(controlPointId);
+            }
+        }
+        function oneChecked() {
+            $("input:checkbox").on('click', function () {
+                var $box = $(this);
+                if ($box.is(":checked")) {
+                    var group = "input:checkbox[name='" + $box.attr("name") + "']";
+                    $(group).prop("checked", false);
+                    $box.prop("checked", true);
+                } else {
+                    $box.prop("checked", false);
+                }
+            });
+        }
+    </script>
+    <!--פופאפ  הערות-->
+    <div data-role="modalview" id="pop_item_description" style="left:1px;width: 95%; height: 33%;">
+        <br />
+        <div style="width:100%;height:36%; background-color:#e9eaeb;box-shadow:0 4px 2px -2px #c7c1c1;">
+            <label  style="box-shadow: 0px 2px 3px #A29E9E;background-color:#1A607C;font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 200;text-align:center;padding-left: 6px;padding-top: 2px;padding-right: 12px;padding-bottom: 3px;float: right;">הערות נוספות</label>
+        </div>
+        <br />
+        <br />
+        <div style="text-align:center;" dir="rtl">
+            <center>
+                <textarea id="description_html" style="padding: 1em;font-weight:200;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;width:25em;height:7em;"></textarea>
+            </center>
+
+        </div>
+        <footer data-role="footer">
+            <center>
+                <a data-role="button" data-bind="events: {click:homeModel.close_pop_item_description }" style=" font-family:Tahoma, Geneva, sans-serif;border-style:none;border-radius: 0;margin-bottom:2%;align-self:center;width:40%;background-color:#1A607C;color: #ffffff;text-align:center;white-space: normal;direction:ltr;">
+                    <span style="font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;" >אישור</span>
+
+                </a>
+            </center>
+        </footer>
+    </div>
+    <!--פופאפ מצלמה או גלריה-->
+    <div data-role="modalview" id="popPictureFrom" style="left:1px;width: 90%; height: 20%;">
+        <div style="text-align:center;background-color:transparent;" dir="rtl">
+            <center>
+                <ul class="cameraorglery1" data-role="buttongroup" data-index="-1">
+                    <li dir="ltr" style=" border: 1.5px;border-color:black; color: black; background-color: #e9eaeb;">
+                        <a onclick="takeFromCamera()" data-role="button" data-icon="cameraNew" style="width:98%;border-style: solid;background-color: #e9eaeb;border-color:black; color: black;font-family:Tahoma, Geneva, sans-serif;font-weight:200 ">
+                            <span style="color:black; font-size:small; height:5rem;font-family:Tahoma, Geneva, sans-serif;" >מצלמה</span>
+                        </a>
+                    </li>
+                    <li dir="ltr" style=" border: 1.5px;border-color:black; color: black;background-color: #e9eaeb;">
+                        <a onclick="takeFromGalery()" data-role="button" data-icon="galeryNew" style="width:98%;border-style: solid;background-color: #e9eaeb;border-color:black; color: black;font-family:Tahoma, Geneva, sans-serif;font-weight:200">
+                            <span style="color:black; font-size:small; height:5rem;font-family:Tahoma, Geneva, sans-serif;" > גלריה/רחפן</span>
+                        </a>
+                    </li>
+                </ul>
+            </center>
+        </div>
+        <br />
+
+        <footer data-role="footer">
+            <center>
+                <a data-role="button" data-bind="events: {click:homeModel.closePopPictureFrom}" style=" font-family:Tahoma, Geneva, sans-serif;border-style:none;border-radius: 0;margin-bottom:2%;align-self:center;width:30%;background-color:#1A607C;color: #ffffff;text-align:center;white-space: normal;direction:ltr;">
+                    <span style="font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;" >סגור</span>
+
+                </a>
+            </center>
+        </footer>
+    </div>
+    <!--2פופאפ מצלמה או גלריה-->
+    <div data-role="modalview" id="popPictureFrom1" style="left:1px;width: 90%; height: 20%;">
+        <div style="text-align:center;background-color:transparent;" dir="rtl">
+            <center>
+                <ul class="cameraorglery1" data-role="buttongroup" data-index="-1">
+                    <li dir="ltr" style=" border: 1.5px;border-color:black; color: black; background-color: #e9eaeb;">
+                        <a onclick="takeFromCamera1()" data-role="button" data-icon="cameraNew" style="width:98%;border-style: solid;background-color: #e9eaeb;border-color:black; color: black;font-family:Tahoma, Geneva, sans-serif;font-weight:200 ">
+                            <span style="color:black; font-size:small; height:5rem;font-family:Tahoma, Geneva, sans-serif;">מצלמה</span>
+                        </a>
+                    </li>
+                    <li dir="ltr" style=" border: 1.5px;border-color:black; color: black;background-color: #e9eaeb;">
+
+                        <a onclick="takeFromGalery1()" data-role="button" data-icon="galeryNew" style="width:98%;border-style: solid;background-color: #e9eaeb;border-color:black; color: black;font-family:Tahoma, Geneva, sans-serif;font-weight:200">
+                            <span style="color:black; font-size:small; height:5rem;font-family:Tahoma, Geneva, sans-serif;"> גלריה/רחפן</span>
+                        </a>
+                    </li>
+                </ul>
+            </center>
+            <br />
+        </div>
+        <footer data-role="footer">
+            <center>
+                <a data-role="button" data-bind="events: {click:homeModel.closePopPictureFrom1}" style=" font-family:Tahoma, Geneva, sans-serif;border-style:none;border-radius: 0;margin-bottom:2%;align-self:center;width:30%;background-color:#1A607C;color: #ffffff;text-align:center;white-space: normal;direction:ltr;">
+                    <span style="font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;" >סגור</span>
+                </a>
+            </center>
+        </footer>
+    </div>
+    <!--פופאפ תמונה 1-->
+    <div data-role="modalview" id="pop_image_all_control_point_1" data-zoom="true" dir="rtl" style="left: 1px;width: 90%; height: 100%; background-color:transparent">
+        <header data-role="header" style="border-style: solid;  border-width: 1px; border-top-style: hidden; border-left-style: hidden; border-right-style: hidden;">
+            <div data-role="navbar" style="background-image: url('');background-color: #1A607C;">
+                <span style="font-family:Tahoma, Geneva, sans-serif;color:white">תמונה</span>
+            </div>
+        </header>
+        <div data-role="content" dir="rtl" style="background-color: transparent; margin-top: 2%;">
+            <center>
+                <img id="picture_all_control_point1" src="" style="width: 100%;" />
+            </center>
+        </div>
+        <footer data-role="footer" style="background-color: transparent;">
+            <a data-role="button" style="margin-bottom: 0%;border-radius: 0; width: 99%;background-color:#1A607C;color: white;" data-bind="events: {click:homeModel.openPopPictureFrom1}">
+                <span style="font-family:Tahoma, Geneva, sans-serif;color:white;" >החלף תמונה</span>
+            </a>
+            <a data-role="button" class="km-primary" style="margin-bottom: 0%;border-radius: 0;width: 99%; background-color: #1A607C; color: white;" data-bind="events: { click:homeModel.image_all_control_point_1_ClosePop }">
+                <span style="font-family:Tahoma, Geneva, sans-serif;color:white;">סגור</span>
+            </a>
+        </footer>
+    </div>
+    <!--פופאפ תמונה 2-->
+    <div data-role="modalview" id="pop_image_all_control_point_2" data-zoom="true" dir="rtl" style="left: 1px;width:100%; height:100%; background-color:transparent">
+        <header data-role="header" style="border-style: solid;  border-width: 1px; border-top-style: hidden; border-left-style: hidden; border-right-style: hidden;">
+            <div data-role="navbar" style="background-image: url('');background-color: #1A607C;">
+                <span style="font-family:Tahoma, Geneva, sans-serif;color:white;">תמונה</span>
+            </div>
+        </header>
+        <div data-role="content" dir="rtl" style="background-color: transparent; margin-top: 2%;">
+            <center>
+                <img id="picture_all_control_point2" src="" style="width: 100%;" />
+            </center>
+        </div>
+        <footer data-role="footer" style="background-color: transparent;">
+            <a data-role="button" style="margin-bottom: 0%;
+                border-radius: 0;
+                width: 99%;
+                background-color:#1A607C;
+                color: white;" data-bind="events: {click:homeModel.openPopPictureFrom1}">
+                <span style="font-family:Tahoma, Geneva, sans-serif;color:white;">החלף תמונה </span>
+            </a>
+            <a data-role="button" class="km-primary" style="margin-bottom: 0%;
+                border-radius: 0;
+                width: 99%;
+                background-color:#1A607C;
+    color: white;" data-bind="events: { click:homeModel.image_all_control_point_2_ClosePop }">
+                <span style="font-family:Tahoma, Geneva, sans-serif;color:white;">סגור</span>
+            </a>
+        </footer>
+    </div>
+</div>
+
+
+

@@ -1,0 +1,32 @@
+﻿<div data-role="view" data-model="app.project" data-show="app.project.onShow" data-after-show="app.project.afterShow" id="projectScreen" class="screen" style="background-color:#e9eaeb;">
+    <header data-role="header">
+        <div data-role="navbar" class="header" style="background: linear-gradient(5.58deg, #923714 0%, #f7931e 100%);">
+            <span>פרויקטים</span>
+            <a class="headerButton" data-role="button" data-align="right" style="color: white;"  href="#:back">
+                <i class="material-icons" style="color:white">navigate_next</i>
+            </a>
+            <a class="headerButton" id="" data-role="button" data-align="left" style="color: white;" href="">
+                <i class="material-icons" style="color:transparent">dashboard</i>
+            </a>
+        </div>
+      
+    </header>
+    <ul id="ulProjectViewModel" style="background-color: transparent;padding:5px" class="masterDetailView grid" data-role="listview" data-auto-bind="false" data-style="inset" data-template="projectViewModelTemplate" data-bind="source: homeModel.dataSource, events: {click: homeModel.itemClick}"></ul>
+    <script type="text/x-kendo-template" id="projectViewModelTemplate">
+        <div style="background:rgb(26, 96, 124);height: 130px;width: 100%;">
+            <img style="position:absolute;width: 94%;  height: 124px; padding-right: 5px;" src='newImages/Triangle.png' />
+            # data = app.project.homeModel.fixHierarchicalData(data); #
+            <center>
+                #if(data['URL_LocationImage'] != "null" ){#
+                <img src="#: data['URL_LocationImage'] #" style="padding: 8px;height: 90px; width: 100%;" />
+                #}
+                else{#
+                <img src='newImages/defualt.png' style="padding: 8px;height: 90px;width: 100%;" />
+                #}#
+                <span style="-webkit-margin-before: 0em;-webkit-margin-after: 1em;">#: data['LocationName'] #</span>
+            </center>
+        </div>
+    </script>
+    
+    <!--style="background:linear-gradient(186.34deg, #f15a24 0%, #f7931e 100%);"-->
+</div>

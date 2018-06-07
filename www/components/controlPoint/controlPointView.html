@@ -1,0 +1,196 @@
+<div data-role="view" data-layout="main" data-model="app.controlPoint" data-init="app.controlPoint.onShow" data-show="app.controlPoint.onShow2" id="controlPointScreen" dir="rtl" >
+    <header data-role="header">
+        <div data-role="navbar" class="header" style="background: linear-gradient(5.58deg, #923714 0%, #f7931e 100%);">
+            <span>מבדק בטיחות</span>
+            <a class="headerButton" data-role="button" data-align="right" style="color: white;" href="components/hightGuard/view.html">
+                <i class="material-icons" style="color:white">home</i>
+            </a>
+            <a class="headerButton" id="" data-role="button" data-align="left" style="color: white;" href="">
+                <i class="material-icons" style="color:transparent">dashboard</i>
+            </a>
+        </div>
+    </header>
+        
+
+        <div style="background-color: transparent;height:3px;"></div>
+        <script>
+            function itemclick(num) {
+                app.controlPoint.homeModel.itemClick(num);
+            }
+        </script>
+    
+        <div style=" width:100%;">
+            <div style="width:100%;height:36%;box-shadow:0 4px 2px -2px #c7c1c1;">
+                <label id="NameReviwerAndcreatedAt" style="background-color:#1A607C;font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 200;text-align:center;padding-left: 6px;padding-top: 2px;padding-right: 12px;padding-bottom: 3px;float: right;"></label>
+            </div>
+            <br />
+            <br />
+            <center>
+                <div style="width:96%;">
+                    <div id="example" style="width:100%;">
+                        <div class="demo-section k-content wide">
+                            <div id="listView" style="border-style: none;background-color:transparent;"></div>
+                        </div>
+                        <script type="text/x-kendo-template" id="template1">
+                            <div style="" class="product" id="divOpen" onclick="itemclick(this.attributes['data-uid'].value)">
+                                <div class="controlPoint">
+                                    <table border="0" style="width:98%;">
+                                        <tr>
+                                            <td colspan="2" style="height:6px;"></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:35%;">
+                                                #if(data['ControlPointIcon_URL']!="null"){#
+                                                <img src="#=data['ControlPointIcon_URL'] #" style="height:35px;margin-right: 20%;" />
+
+                                                #}#
+                                            </td>
+                                            <td rowspan="2" style="width:65%;">
+                                                <label style="margin-left: 4%;font-family:Tahoma, Geneva, sans-serif;font-weight: 200;font-size:small;color:white;">
+                                                    #:data['name'] #
+                                                </label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:30%;"></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </script>
+                    </div>
+
+                    <br />
+                    <div class="divFinding" dir="rtl" style="border:none;">
+                        <table border="0" style="width:100%">
+                            <tr style="width:100%">
+                                <td style="width:90%">
+                                    <label style="color:#fff; font-family:Tahoma, Geneva, sans-serif;font-weight: 200;font-size:small;">דוח</label>
+                                </td>
+                                <td style="width:10%">
+                                    <a id="CheckupReport_URL" style="color:#7B7878;font-family:Tahoma, Geneva, sans-serif;font-size:6vw;">
+                                        <i class="glyphicon glyphicon-save-file" style="color:#fff;"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="divFinding" dir="rtl" style="border:none;">
+                        <table border="0" style="width:100%">
+                            <tr style="width:100%">
+                                <td style="width:90%">
+                                    <label style="color:#fff; font-family:Tahoma, Geneva, sans-serif;font-weight: 200;font-size:small;">ציון</label>
+                                </td>
+                                <td style="width:10%">
+                                    <label id="CheckupScore" style="color:#fff; font-family:Tahoma, Geneva, sans-serif;font-weight: 200;font-size:small;">ציון</label>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </center>
+
+
+        </div>
+        <!--פוטר -->
+        <footer data-role="footer" style="background-color:#0B2B38;">
+            <center>
+                <div>
+                    <a data-role="button" data-bind="events: {click:homeModel.endCheck1}" style="font-family: Tahoma, Geneva, sans-serif;border-style:none;border-radius: 0;align-self:center;width:94%;    margin-top: 3%;margin-bottom: 3%;background-color:#1A607C;color: #ffffff;text-align:center;white-space: normal;direction:ltr;">
+                        <span style="font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 200;">סגור מבדק</span>
+                    </a>
+                </div>
+            </center>
+        </footer>
+
+
+        <!-- פופאפ סיום מבדק   -->
+
+        <div data-role="modalview" id="popEndCheck" style="left:1px;width:97%;height:55%;">
+            <br />
+            <div style="width:100%;height:36%; background-color:#e9eaeb;box-shadow:0 4px 2px -2px #c7c1c1;">
+                <label style="box-shadow: 0px 2px 3px #A29E9E;background-color:#1A607C;font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 200;text-align:center;padding-left: 6px;padding-top: 2px;padding-right: 12px;padding-bottom: 3px;float: right;">פרטים נוספים</label>
+            </div>
+            <br />
+            <center>
+                <div style="width:96%;" dir="rtl">
+                    <div style="padding-left: 1.5%; padding-right: 0.1%; padding-top: 1.5%;">
+                        <table style="width:98%;">
+                            <tr>
+                                <td style="width:12%;">
+                                    <img src="images/drone.png" style="width: 55%;" />
+                                </td>
+                                <td>
+                                    <center>
+                                        <input type="text" id="DroneURL" placeholder="הכנס קישור רחפן" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;" />
+                                    </center>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <div style="height:5px;background-color:transparent;"></div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="width:12%;">
+                                    <img src="images/participants.png" style="width:45%;" />
+                                </td>
+                                <td>
+                                    <center>
+                                        <input type="text" id="TourParticipants" placeholder="משתתפים בסיור" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;" />
+                                    </center>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <div style="height:5px;background-color:transparent;"></div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="width:12%;">
+                                    <i class="glyphicon glyphicon-pencil" aria-hidden="true" style="color:#7B7878;font-size: 16px;"></i>
+                                </td>
+                                <td>
+                                    <center>
+                                        <input type="text" id="AdditionalComments" placeholder="הערות נוספות" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;" />
+                                    </center>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <div style="height:5px;background-color:transparent;"></div>
+                                </td>
+                            </tr>
+                        </table>
+                        <br />
+                        <br />
+                    </div>
+                </div>
+            </center>
+            <footer data-role="footer" style="background-color:#e9eaeb;">
+                <center>
+                    <table style="width:100%">
+                        <tr>
+                            <td style="width:50%">
+                                <a data-role="button" data-bind="events: {click:homeModel.endCheck }" style=" font-family:Tahoma, Geneva, sans-serif;border-style:none;border-radius: 0;margin-bottom:2%;align-self:center;width:98%;background-color:#1A607C;color: #ffffff;text-align:center;white-space: normal;direction:ltr;">
+                                    <span style="font-family:Tahoma, Geneva, sans-serif;">סיים</span>
+                                </a>
+                            </td>
+                            <td style="width:50%">
+                                <a data-role="button" data-bind="events: {click:homeModel.closePopEndCheck }" style=" font-family:Tahoma, Geneva, sans-serif;border-style:none;border-radius: 0;margin-bottom:2%;align-self:center;width:98%;background-color:#1A607C;color: #ffffff;text-align:center;white-space: normal;direction:ltr;">
+                                    <span style="font-family:Tahoma, Geneva, sans-serif;">סגור</span>
+                                </a>
+
+                            </td>
+                        </tr>
+                    </table>
+                </center>
+            </footer>
+        </div>
+</div>
+
+
+
+   

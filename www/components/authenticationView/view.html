@@ -1,0 +1,132 @@
+﻿<div data-role="view" data-model="app.authenticationView" data-show="app.authenticationView.onShow" data-after-show="app.authenticationView.afterShow" id="authenticationScreen" class="screen" style="overflow-y: hidden;overflow-x: hidden;">
+    <div data-role="content" data-responsive style="overflow-y: hidden;overflow-x: hidden; ">
+        <div style="transform-origin: left top 0px;overflow-y: hidden;overflow-x: hidden;">
+            <center style="margin-top:20%;overflow-y: hidden;overflow-x: hidden;">
+                <img src="imagesLogin/Safeguardicon.png" style="width:30%;" alt="Safeguard">
+            </center>
+       
+            <div style="overflow-y: hidden;overflow-x: hidden;">
+                <center>
+                    <table style="margin-top:22%;width:100%;overflow-y: hidden;overflow-x: hidden;">
+                        <tr>
+                            <td>
+                                <div>
+                                    <center>
+
+                                        <input class="rectangleInput" id="email" type="email" data-bind="value: homeModel.email" placeholder="שם משתמש"  style="direction: ltr;font-size: small;font-family: Tahoma, Geneva, sans-serif;" />
+                                    </center>
+                                </div>
+                                <div style="height:24px;background-color:transparent"></div>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:center">
+                                <div>
+                                    <center>
+                                        <input class="rectangleInput" type="password" data-bind="value: homeModel.password" placeholder="סיסמא"  style="direction: ltr;font-size: small;font-family: Tahoma, Geneva, sans-serif;" />
+                                    </center>
+                                </div>
+                                <div style="height:13px;background-color:transparent"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:right;padding-right: 6.5%;" dir="rtl">
+                                <label>
+                                    <input type="checkbox" data-bind="checked: homeModel.rememberme" style="right:25%;background-color:transparent">
+                                    <span style="color:#DDF2FD;background-color:transparent;font-size:small;font-family: Tahoma, Geneva, sans-serif;">זכור אותי </span>
+                                </label>
+                                <div style="height:18px;background-color:transparent"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:center">
+                                <center>
+                                    <button class="bttnbkg" type='button' data-bind="events: {click:homeModel.signin}" style=" color: #ffffff; font-weight: 200;font-size: small;font-family: Tahoma, Geneva, sans-serif;">
+                                        <span class="bttnbkgSpan" style="font-size: medium;font-family: Tahoma, Geneva, sans-serif;">התחבר</span>
+                                    </button>
+                                </center>
+                                <div style="height:8px;background-color:transparent"></div>
+
+                            </td>
+                        </tr>
+
+                    </table>
+
+                </center>
+            </div>
+
+
+            <div style="display:none;overflow-y: hidden;overflow-x: hidden;">
+                <form>
+                    <div>
+                        <ul data-role="listview" data-style="inset">
+                            <li>
+                                <label>
+                                    Email
+                                    <input type="email" data-bind="value: homeModel.email" required="">
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                    Password
+                                    <input type="password" data-bind="value: homeModel.password">
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                    Name
+                                    <input type="text" data-bind="value: homeModel.displayName">
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <a data-role="button" data-bind="events: { click: homeModel.register }"><span>Register</span></a>
+                        <a data-role="button" data-bind="events: { click: homeModel.toggleView }"><span>Sign In</span></a>
+                    </div>
+
+                    <span data-bind="text: homeModel.errorMessage"></span>
+                </form>
+            </div>
+            <div align="center" style="display:none;overflow-y: hidden;overflow-x: hidden;">
+                You are currently offline. Before using this app in offline mode you must initialize it while you are online
+            </div>
+
+
+
+        </div>
+    </div>
+    <style>
+        .rectangleInput {
+            height: 52px;
+            width: 86%;
+            background-color: #FFFFFF;
+            box-shadow: inset 0 1px 3px 0 rgba(0,0,0,0.5);
+            padding: 2%;
+            color: #5F5F5F;
+            border-style: none;
+            text-align: center;
+        }
+
+        .bttnbkg {
+            /*height: 43px;
+            width: 124px;*/
+            height: 50px;
+            width: 145px;
+            background-image: url('imagesLogin/bttnSafeguard.png');
+            background-repeat: no-repeat;
+            background-size: cover;
+            border-radius: 8px;
+            border: 1px solid #0D1A20;
+        }
+
+        .bttnbkgSpan {
+            /*height: 27px;
+            width: 116px;*/
+            color: #DBF3FC;
+            line-height: 28px;
+            text-align: center;
+        }
+    </style>
+</div>

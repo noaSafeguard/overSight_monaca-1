@@ -1,0 +1,1022 @@
+﻿
+/*פנקס כללי*/
+
+.km-nova .km-collapsible-header {
+    line-height: 1.7em;
+    background-color: white;
+    height: 1.8em;
+    color: black;
+    width: 100%;
+    overflow: hidden;
+}
+
+.km-nova .km-icon-left .km-arrow-s:after {
+    content: "\e013";
+}
+
+#ulId {
+    border: none;
+}
+
+    #ulId > li {
+        border-top: 1px solid #dfe0e1;
+        border-bottom: none;
+        border-left: none;
+        border-right: none;
+        /*border-color: #dfe0e1;*/
+        /*border-top-style: solid;*/
+        padding: 1em;
+        /*border-width: 0 0px 1px 0px;*/
+        font-weight: 400;
+        background-color: white;
+    }
+
+        #ulId > li > div > label {
+            color: black;
+            font-size: small;
+            font-weight: 400;
+            font-family: Tahoma, Geneva, sans-serif;
+        }
+
+
+/*סוף פנקס כללי
+*/
+.userRole {
+    display: none;
+}
+
+/*דף  נקודות בקרה*/
+/*.project11 {
+    width: 100%;
+    height: 55px;
+    background-color: #18556a;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.28);
+}
+
+    .project11:hover {
+        box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.00);
+    }*/
+/*footer*/
+
+.project22 {
+    float: left;
+    position: relative;
+    padding: 0;
+    width: 50%;
+    padding-left: 1.5%;
+    padding-right: 1.5%;
+    padding-top: 1.5%;
+    padding-bottom: 1.5%;
+    background-color: transparent;
+}
+
+#authenticationScreen .km-content, #authenticationScreen {
+    color: white;
+    background: linear-gradient(220.41deg, #5DA8C8 0%, #032A39 100%);
+}
+#controlPointScreen .km-content, #controlPointScreen #ceoScreenDashboard .km-content, #ceoScreenDashboard, #GeneralLedgerScreen .km-content, #GeneralLedgerScreen {
+    color: white;
+    background: linear-gradient(186.34deg, #17536A 0%, #0B2B38 100%);
+    /*background-color: #21364A;*/
+    /*background-image: url('imagesLogin/Safeguardtexturebkg.png');*/
+    /*background-repeat: no-repeat;
+    background-size: cover;*/
+}
+
+#projectScreen .km-content, #projectScreen, #machozScreen .km-content, #machozScreen {
+    color: white;
+    background: linear-gradient(186.34deg, #17536A 0%, #0B2B38 100%);
+}
+
+.weightSquare {
+    /*background: linear-gradient(192.61deg, #1A607C 0%, #114A60 100%);*/
+    border-bottom: 1px solid rgba(255, 255, 255, 0.66);
+    width: 96.25%;
+    height: 50px;
+}
+
+#weightList > li {
+    background-color: transparent;
+    padding: 0.25em;
+    border-style: none;
+}
+
+.iR {
+    display: none;
+}
+
+.iL {
+    display: inline;
+}
+
+.circleR {
+    left: 1em;
+}
+
+.circleL {
+    right: 1em;
+}
+
+.dirRtl {
+    direction: rtl;
+}
+
+.dirLtr {
+    direction: ltr;
+}
+
+.floatByLenRtl {
+    float: right;
+}
+
+.floatByLenLtr {
+    float: left;
+}
+
+.TextAlignRight {
+    text-align: right;
+}
+
+.TextAlignLeft {
+    text-align: left;
+}
+
+.km-flat #navigation-container .active {
+    background-color: #10c4b2;
+}
+
+.km-flat .km-drawer .km-content {
+    background-color: #fcfcfc;
+}
+
+.km-flat .km-listview-label:after, .km-flat .km-listview-link:after {
+    border-color: rgba(202, 205, 206, 0);
+}
+
+.km-listview-span:after {
+    border-color: rgba(202, 205, 206, 0);
+}
+
+.km-flat .km-content {
+    color: black;
+    background-color: #e9eaeb;
+}
+
+.km-flat .km-list > li {
+    background: #fcfcfc;
+    border-style: none;
+    -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.2);
+    box-shadow: inset 0 1px 0 rgba(243, 203, 203, 0);
+}
+
+.km-content, .km-popover-root .km-content .km-widget, .km-widget {
+    color: black;
+    /*background-color: #e9eaeb;*/
+    border: none;
+}
+
+.k-block, .k-widget {
+    background-color: #e9eaeb;
+}
+
+/*header*/
+.myHeader {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-flow: row;
+    -ms-flex-flow: row;
+    flex-flow: row;
+    -webkit-box-orient: horizontal;
+    background-color: #18556a;
+    box-shadow: 0px 4px 7px #A29E9E;
+}
+
+#navigation-container {
+    background: linear-gradient(186.34deg, #17536A 0%, #0B2B38 100%);
+}
+
+/*שבאפליקצייה footer כל ה*/
+.km-flat .km-footer {
+    background-color: #e9eaeb;
+}
+
+/*דף כניסה*/
+.loginInput:hover {
+    border-style: inset;
+}
+
+.km-flat input[type=checkbox]:checked:after {
+    color: #ffffff;
+}
+
+.km-flat input[type=checkbox], .km-flat input[type=radio] {
+    border-color: #ffffff;
+}
+
+/*דף פרויקטים*/
+#listOfProject2 > li {
+    overflow-x: hidden;
+    display: inline-block;
+    border: none;
+    width: 120px;
+    height: 130px;
+    padding-top: 0.5%;
+    padding-bottom: 10%;
+}
+
+#listOfProject2 {
+    /*background-color: #e9eaeb;*/
+    /*border: 3px solid #e9eaeb;*/
+}
+
+#listOfProject {
+    float: left;
+    height: 100%;
+    background-color: transparent;
+}
+
+.locationProj {
+    float: left;
+    position: relative;
+    padding: 0;
+    width: 100%;
+    background-color: transparent;
+    opacity: 3;
+    border-style: none;
+}
+
+    .locationProj img {
+        width: 100%;
+        height: 88%;
+        border-color: #686565;
+        border-radius: 2px;
+        box-shadow: 2px 2px 2px #CACACA;
+    }
+
+    .locationProj div {
+        background-color: #18556a;
+        box-shadow: 2px 2px 2px #CACACA;
+    }
+
+    .locationProj img:hover {
+        border: 4px solid #e9eaeb;
+        /*background-color: gray;
+        opacity: 0.8;
+        border-style: solid;
+     
+        box-shadow: 5px 5px 5px #686565;*/
+    }
+/* דף הבית*/
+/*דיב מניו*/
+.dropbtn1 {
+    background-color: transparent;
+    color: white;
+    padding: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+    .dropbtn1:hover, .dropbtn1:focus {
+        background-color: transparent;
+    }
+
+.dropdown1 {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content1 {
+    display: none;
+    position: absolute;
+    background-color: #e9eaeb;
+    min-width: 103px;
+    overflow: auto;
+    box-shadow: -5px 5px 5px rgba(6, 6, 6, 0.38);
+}
+
+    .dropdown-content1 a {
+        color: white;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+.show {
+    display: block;
+}
+
+.km-flat .km-external-link, .km-flat a:not([class]) {
+    color: black;
+}
+
+/*דף הבית*/
+.userRole {
+    display: none;
+}
+/*טאב לוח בקרה*/
+/*פקד טווח*/
+input[type=range] {
+    -webkit-appearance: none;
+    margin: 10px 0;
+    width: 100%;
+}
+
+    input[type=range]:focus {
+        outline: none;
+    }
+
+    input[type=range]::-webkit-slider-runnable-track {
+        width: 100%;
+        height: 20px;
+        cursor: pointer;
+        animate: 0.2s;
+        box-shadow: 0px 0px 0px #000000;
+        /*background: #2f5ca0;*/
+        background: red;
+        background: -webkit-linear-gradient(-90deg, #61f844, red);
+        background: -o-linear-gradient(-90deg, #61f844, red);
+        background: -moz-linear-gradient(-90deg, #61f844, red);
+        background: linear-gradient(-90deg, #61f844, red);
+        border-radius: 7px;
+        border: 1px solid white;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+        box-shadow: 1px 1px 1px 1px #828282;
+        border: 2px solid #ffffff;
+        height: 19px;
+        width: 19px;
+        border-radius: 15px;
+        background: rgba(218, 218, 218, 0.00);
+        cursor: pointer;
+        -webkit-appearance: none;
+        margin-top: -2px;
+    }
+
+    input[type=range]:focus::-webkit-slider-runnable-track {
+        /*background: #2f5ca0;*/
+        background: red;
+        background: -webkit-linear-gradient(-90deg, #61f844, red);
+        background: -o-linear-gradient(-90deg, #61f844, red);
+        background: -moz-linear-gradient(-90deg, #61f844, red);
+        background: linear-gradient(-90deg, #61f844, red);
+    }
+
+    input[type=range]::-moz-range-track {
+        width: 100%;
+        height: 20px;
+        cursor: pointer;
+        animate: 0.2s;
+        box-shadow: 0px 0px 0px #000000;
+        /*background: #2f5ca0;*/
+        background: red;
+        background: -webkit-linear-gradient(-90deg, #61f844, red);
+        background: -o-linear-gradient(-90deg, #61f844, red);
+        background: -moz-linear-gradient(-90deg, #61f844, red);
+        background: linear-gradient(-90deg, #61f844, red);
+        border-radius: 7px;
+        border: 1px solid white;
+    }
+
+    input[type=range]::-moz-range-thumb {
+        box-shadow: 1px 1px 1px 1px #828282;
+        border: 2px solid #ffffff;
+        height: 19px;
+        width: 19px;
+        border-radius: 15px;
+        background: rgba(218, 218, 218, 0.00);
+        cursor: pointer;
+    }
+
+    input[type=range]::-ms-track {
+        width: 100%;
+        height: 20px;
+        cursor: pointer;
+        animate: 0.2s;
+        background: transparent;
+        border-color: transparent;
+        color: transparent;
+    }
+
+    input[type=range]::-ms-fill-lower {
+        background: red;
+        background: -webkit-linear-gradient(-90deg, #61f844, red);
+        background: -o-linear-gradient(-90deg, #61f844, red);
+        background: -moz-linear-gradient(-90deg, #61f844, red);
+        background: linear-gradient(-90deg, #61f844, red);
+        border: 1px solid white;
+        border-radius: 14px;
+        box-shadow: 0px 0px 0px #000000;
+    }
+
+    input[type=range]::-ms-fill-upper {
+        /*background: #2f5ca0;*/
+        background: red;
+        background: -webkit-linear-gradient(-90deg, #61f844, red);
+        background: -o-linear-gradient(-90deg, #61f844, red);
+        background: -moz-linear-gradient(-90deg, #61f844, red);
+        background: linear-gradient(-90deg, #61f844, red);
+        border: 1px solid white;
+        border-radius: 14px;
+        box-shadow: 0px 0px 0px #000000;
+    }
+
+    input[type=range]::-ms-thumb {
+        box-shadow: 1px 1px 1px 1px #828282;
+        border: 2px solid #ffffff;
+        height: 19px;
+        width: 19px;
+        border-radius: 15px;
+        background: rgba(218, 218, 218, 0.00);
+        cursor: pointer;
+    }
+
+    input[type=range]:focus::-ms-fill-lower {
+        /*background: #2f5ca0;*/
+        background: red;
+        background: -webkit-linear-gradient(-90deg, #61f844, red);
+        background: -o-linear-gradient(-90deg, #61f844, red);
+        background: -moz-linear-gradient(-90deg, #61f844, red);
+        background: linear-gradient(-90deg, #61f844, red);
+    }
+
+    input[type=range]:focus::-ms-fill-upper {
+        /*background: #2f5ca0;*/
+        background: red;
+        background: -webkit-linear-gradient(-90deg, #61f844, red);
+        background: -o-linear-gradient(-90deg, #61f844, red);
+        background: -moz-linear-gradient(-90deg, #61f844, red);
+        background: linear-gradient(-90deg, #61f844, red);
+    }
+/*טאב ליקויים*/
+/*מלבן ממצא*/
+.rectangle {
+    width: 100%;
+    height: 100%;
+    background: white;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.08);
+}
+
+    .rectangle:hover {
+        /*border-style: solid;
+        border-width: 2px;
+        border-color: #AFAFAF;*/
+        border: 4px solid #e9eaeb;
+    }
+/*ממצאים */
+#listviewLikuy > li, #listviewActionOpenVDC > li, #listviewActionOpenVRL > li,
+#listviewActionOpenVCT > li, #listviewActionOpenVGN > li, #listviewActionOpenVSE > li,
+#listviewActionOpenVPW > li, #listviewActionOpenVCD > li, #listviewActionOpenVCM > li {
+    padding: 0.25em;
+    border-style: none;
+}
+
+#listviewContractor > li {
+    padding: 0.1em;
+    border-style: none;
+}
+/*כפתור פלוס*/
+
+.circle {
+    position: absolute;
+    width: 70px;
+    height: 70px;
+    background: #f7931e;
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    border-radius: 50px;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 2px 10px 0 rgba(0, 0, 0, 0.19);
+}
+
+    .circle:hover {
+        width: 68px;
+        height: 68px;
+    }
+/*טאב הערכה*/
+.rectangle2 {
+    width: 95%;
+    height: 100%;
+    background: white;
+    /*border: 2px solid rgba(2, 2, 61, 0.58);*/
+    /*box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.32);*/
+}
+
+#listviewHarachaW > li {
+    padding: 0.15em;
+    border-style: none;
+    width: 100%;
+    background-color: #e9eaeb;
+}
+
+#listviewHaracha > li {
+    padding: 0.15em;
+    border-style: none;
+    width: 100%;
+    background-color: #e9eaeb;
+}
+
+#listviewHaracha, listviewHarachaW {
+    width: 100%;
+    background-color: #e9eaeb;
+}
+/*טאב דוחות*/
+.rectangle3 {
+    width: 95%;
+    height: 100%;
+    background: white;
+    /*border: 2px solid #18556a;*/
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.08);
+}
+
+#listviewReport > li {
+    padding: 0.25em;
+    border-style: none;
+    width: 100%;
+}
+
+#listviewReport {
+    width: 98%;
+}
+
+/*דף צפייה ממצא*/
+/*כל שדה מיצירת הממצא*/
+#listViewActions > li {
+    border-style: solid;
+    border-color: rgba(255, 255, 255, 0.96);
+}
+
+.divActions {
+    /*border-bottom: 1px solid rgba(0, 0, 0, 0.05);*/
+    margin-right: 5%;
+    margin-left: 5%;
+    margin-top: 2%;
+    margin-bottom: 6%;
+}
+
+#photoButtonGroup2 > li:hover {
+    box-shadow: 3px 5px 2px 5px rgba(0, 0, 0, 0.11), 1px 1px 8px 2px rgba(151, 152, 157, 0.62);
+}
+
+#photoButtonGroup2 > li {
+    border-radius: 7px;
+}
+
+#talkbubbleStyleW {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.68);
+    position: relative;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    color: white;
+    border-color: red;
+    border-style: solid;
+}
+
+#talkbubbleStyle {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.68);
+    position: relative;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    color: white;
+    border-color: red;
+    border-style: solid;
+}
+/*דף  נקודות בקרה*/
+.controlPoint {
+    width: 100%;
+    height: 55px;
+    background: linear-gradient(192.61deg, #1A607C 0%, #114A60 100%);
+    /*background-color: #18556a;*/
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.28);
+    /*border: 1px solid rgba(51, 45, 45, 0.16);*/
+}
+
+    .controlPoint:hover {
+        /*opacity: 0.5;*/
+        /*border: 3px solid #e9eaeb;*/
+        box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.00);
+    }
+
+.product {
+    float: left;
+    position: relative;
+    padding: 0;
+    width: 50%;
+    padding-left: 1.5%;
+    padding-right: 1.5%;
+    padding-top: 1.5%;
+    padding-bottom: 1.5%;
+    background-color: transparent;
+}
+
+.k-listview:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+.example {
+    width: 90%;
+    float: left;
+}
+
+#listviewDayCheck > li {
+    padding: 0.1em;
+    border-style: solid;
+}
+
+/*בדיקה יומית*/
+.controlPointDayCheck {
+    width: 100%;
+    height: 39px;
+    background-color: #dd1a1a;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.28);
+    /*border: 1px solid rgba(51, 45, 45, 0.16);*/
+}
+/*דף יצירת ממצא*/
+/*מצלמה או גלריה*/
+#cameraorglery1 > li {
+    border-radius: 7px;
+}
+
+/*ינפוט קבלן ואחראי מעקב*/
+/*ומעקב בצפייה*/
+#selectContractor-list .k-item, #superV-list .k-item,
+#makav-list .k-item, #employeDC-list .k-item, #EmployerNameVDC-list .k-item {
+    line-height: 2em;
+    /*min-width: 300px;*/
+    color: black;
+    direction: rtl;
+    background-color: #e9eaeb;
+    font-family: Tahoma, Geneva, sans-serif;
+    font-weight: 200;
+    font-size: small;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.5);
+}
+
+    #selectContractor-list .k-item:hover, #superV-list .k-item:hover,
+    #makav-list .k-item:hover, #employeDC-list .k-item:hover, #EmployerNameVDC-list .k-item:hover {
+        line-height: 2em;
+        /*min-width: 300px;*/
+        color: black;
+        background-color: #ffffff;
+        font-family: Tahoma, Geneva, sans-serif;
+        font-weight: 200;
+        font-size: small;
+        direction: rtl;
+    }
+
+#selectContractor-list, #superV-list,
+#makav-list, #employeDC-list, #EmployerNameVDC-list {
+    border-style: none;
+    direction: rtl;
+}
+
+    #selectContractor-list div, #superV-list div,
+    #makav-list div, #employeDC-list div, #EmployerNameVDC-list div {
+        color: black;
+        background-color: #fff;
+        font-family: Tahoma, Geneva, sans-serif;
+        font-weight: 200;
+        font-size: small;
+        direction: rtl;
+    }
+
+#selectContractor, #superV,
+#makav, #employeDC, #EmployerNameVDC {
+    font-family: Tahoma, Geneva, sans-serif;
+}
+/*עושה מסגרת אפורה לתיבת האינפוט*/
+.k-dropdown-wrap {
+    border: 1px solid rgba(128, 128, 128, 0.5);
+    background-color: white
+}
+
+/*ינפוט ליקויים*/
+/*ינפוט*/
+#likyInput {
+    font-family: Tahoma, Geneva, sans-serif;
+    font-weight: 200;
+    font-size: small;
+    background-color: #ffffff;
+    color: black;
+    direction: rtl;
+}
+/*איקון*/
+.k-select span {
+    visibility: hidden;
+}
+/*כל שורה*/
+#likyInput-list .k-item {
+    line-height: 1em;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    color: black;
+    direction: rtl;
+    background-color: #ffffff;
+    font-family: Tahoma, Geneva, sans-serif;
+    font-weight: 200;
+    font-size: small;
+}
+    /*במעבר על שורה*/
+    #likyInput-list .k-item:hover {
+        line-height: 1em;
+        /*min-width: 300px;*/
+        color: black;
+        background-color: #ffffff;
+        font-family: Tahoma, Geneva, sans-serif;
+        font-weight: 200;
+        font-size: small;
+        direction: rtl;
+    }
+/*התיבה הניפתחת*/
+#likyInput-list {
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    direction: rtl;
+    background-color: #ffffff;
+    /*height:100px;*/
+}
+
+    #likyInput-list div {
+        color: black;
+        background-color: #ffffff;
+        font-family: Tahoma, Geneva, sans-serif;
+        font-weight: 200;
+        font-size: small;
+        direction: rtl;
+        height: 150px;
+    }
+/*ליקויים*/
+/*#likyInput ul >li.k-button{
+   width:100%;
+}*/
+
+
+/*ינפוט*/
+div.k-multiselect-wrap.k-floatwrap {
+    font-family: Tahoma, Geneva, sans-serif;
+    font-weight: 200;
+    font-size: small;
+    background-color: #ffffff;
+    color: black;
+    direction: rtl;
+}
+/*הבפנים*/
+li.k-button {
+    border-style: none;
+}
+    /*הטקסט של הבפנים*/
+    li.k-button span {
+        font-family: Tahoma, Geneva, sans-serif;
+        font-weight: 200;
+        font-size: small;
+        color: black;
+    }
+
+k-list-scroller {
+    height: 450px;
+}
+/*span.k-icon.k-i-arrow-60-down::before {
+    color: black;
+    content: '\e002';
+}
+span.k-icon.k-i-arrow-60-down::after {
+    color: black;
+    content: '\e002';
+}*/
+/*מיקום לפי אובייקטים*/
+/*שייך לקבלן*/
+#selectLocSide, #selectLocApartment, #selectLocFloor, #selectLocBuilding, #selectWorker, #selectLoc {
+    color: #000000;
+    background-color: #e9eaeb;
+    font-family: Tahoma, Geneva, sans-serif;
+    direction: rtl;
+    font-size: small;
+}
+
+#selectLocSide-list, #selectLocApartment-list, #selectLocFloor-list, #selectLocBuilding-list, #selectWorker-list, #selectLoc-list {
+    background-color: #e9eaeb;
+    font-family: Tahoma, Geneva, sans-serif;
+    font-weight: 200;
+    direction: rtl;
+    font-size: small;
+    border: 1px solid rgba(255, 255, 255, 0.76);
+}
+/*x של התיבה הניפתחת*/
+span.k-icon.k-clear-value.k-i-close {
+    color: #000000;
+    margin-right: 90%;
+}
+
+/*span.k-icon.k-i-arrow-60-down {
+    color: #ffffff;
+    margin-right: 90%;
+}*/
+/*k-list-container k-popup k-group k-reset {
+    height: 450px;
+}
+div #listLikuy-list.list.k-list-container.k.popup.k.group.k-reset {
+    height: 450px;
+}*/
+
+#selectLocSide-list li.k-item, #selectLocApartment-list li.k-item, #selectLocFloor-list li.k-item, #selectLocBuilding-list li.k-item, #selectWorker-list li.k-item, #selectLoc-list li.k-item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.76);
+    font-family: Tahoma, Geneva, sans-serif;
+    font-size: small;
+    color: black;
+    background-color: #e9eaeb;
+    direction: rtl;
+}
+
+    #selectLocSide-list li.k-item:hover, #selectLocApartment-list li.k-item:hover, #selectLocFloor-list li.k-item:hover, #selectLocBuilding-list li.k-item:hover, #selectWorker-list li.k-item:hover, #selectLoc-list li.k-item:hover {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.76);
+        font-family: Tahoma, Geneva, sans-serif;
+        font-size: small;
+        background-color: white;
+        color: #000000;
+        direction: rtl;
+    }
+
+#selectLocSide-list div, #selectLocApartment-list div, #selectLocFloor-list div, #selectLocBuilding-list div, #selectWorker-list div, #selectWorker-list div, #selectLoc-list div {
+    font-family: Tahoma, Geneva, sans-serif;
+    font-weight: 200;
+    color: black;
+    background-color: #e9eaeb;
+    direction: rtl;
+    font-size: small;
+}
+
+    #selectLocSide-list div button.k-button, #selectLocApartment-list div button.k-button, #selectLocFloor-list div button.k-button, #selectLocBuilding-list div button.k-button, #selectWorker-list div button.k-button, #selectLoc-list div button.k-button {
+        font-family: Tahoma, Geneva, sans-serif;
+        font-weight: 200;
+        color: black;
+        background-color: #949494;
+        direction: rtl;
+        font-size: small;
+    }
+
+/*#selectLocBuilding span.k-icon.k-i-zoom{
+    color:aqua;
+}*/
+/*תיבת חיפוש*/
+input.k-textbox {
+    background-color: #ffffff;
+    width: 90%;
+    margin-right: 10%;
+    font-family: Tahoma, Geneva, sans-serif;
+    font-weight: 200;
+    font-size: small;
+    border-style: none;
+}
+
+span.k-list-filter {
+    background-color: #ffffff;
+    border-bottom: 1px solid #ffffff;
+}
+/*תמונות*/
+#photoButtonGroup > li:hover {
+    box-shadow: 3px 5px 2px 5px rgba(0, 0, 0, 0.11), 1px 1px 8px 2px rgba(151, 152, 157, 0.62);
+}
+
+#photoButtonGroup > li {
+    border-radius: 7px;
+}
+
+
+#talkbubble1 {
+    width: 100%;
+    background-color: transparent;
+    position: relative;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    color: white;
+    border-color: red;
+    border-style: solid;
+}
+
+#talkbubble3 {
+    width: 95%;
+    background-color: transparent;
+    position: relative;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    color: white;
+    border-color: red;
+    border-style: solid;
+}
+
+.rectangle1 {
+    width: 90%;
+    background: #ffffff;
+    margin-right: 5%;
+    margin-left: 5%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    box-shadow: 0px 0px 10px #BFBABA;
+}
+
+
+#listViewFinding > li {
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.13);
+}
+
+.divFinding {
+    border-bottom: 1px solid #000000;
+    margin-right: 5%;
+    margin-left: 5%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
+#hasContractor {
+    border-bottom: 1px solid #000000;
+    margin-right: 5%;
+    margin-left: 5%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
+#myProgress {
+    width: 100%;
+    background-color: #ddd;
+}
+
+#myBar {
+    width: 1%;
+    height: 30px;
+    background-color: #4CAF50;
+}
+
+/*#PopProgressBar .km-widget, #PopProgressBar .km-modalview, #PopProgressBar .km-view {
+    background-color: transparent;
+}*/
+/*switch*/
+/* The switch - the box around the slider */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+    /* Hide default HTML checkbox */
+    .switch input {
+        display: none;
+    }
+
+/* The slider */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+input:checked + .slider {
+    background-color: #f7931e;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #f7931e;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 34px;
+}
+
+    .slider.round:before {
+        border-radius: 50%;
+    }
