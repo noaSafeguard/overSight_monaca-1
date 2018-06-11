@@ -1,7 +1,8 @@
-﻿<div data-role="view" data-layout="main" data-model="app.controlPoint" data-init="app.controlPoint.onShowTestSectionInit" data-show="app.controlPoint.onShowTestSection" style="" dir="rtl">
+<!--<div data-role="view" data-layout="main" data-model="app.controlPoint" data-init="app.controlPoint.onShowTestSectionInit" data-show="app.controlPoint.onShowTestSection" style="" dir="rtl">-->
+<div data-role="view" data-layout="main" data-model="app.controlPoint" data-init="app.controlPoint.onShowSectionInit" data-show="app.controlPoint.onShowSection" style="" dir="rtl">
     <header data-role="header">
         <div data-role="navbar" class="header" style="background: linear-gradient(5.58deg, #923714 0%, #f7931e 100%);">
-            <span>סעיפי בדיקה</span>
+            <span id="controlPointLabel"></span>
             <a class="headerButton" data-role="button" data-align="right" style="color: white;" href="components/hightGuard/view.html">
                 <i class="material-icons" style="color:white">home</i>
             </a>
@@ -9,13 +10,13 @@
                 <i class="material-icons" style="color:transparent">dashboard</i>
             </a>
         </div>
-        <div style="height:1em;background-color:#e9eaeb;"></div>
+        <!--<div style="height:1em;background-color:#e9eaeb;"></div>
         <div style="width:100%;height:17%;background-color:#e9eaeb;">
-            <label style="box-shadow: 0px 2px 3px #A29E9E;background-color:#1A607C;font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 400;text-align:center;padding-left: 6px;padding-top: 2px;padding-right: 12px;padding-bottom: 3px;" id="controlPointLabel"></label>
-        </div>
+            <label style="box-shadow: 0px 2px 3px #A29E9E;background-color:#1A607C;font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 400;text-align:center;padding-left: 6px;padding-top: 2px;padding-right: 12px;padding-bottom: 3px;" ></label>
+        </div>-->
     </header>
-    
-    
+
+
     <div style="background-color: transparent;height:3px;"></div>
     <center>
         <div id="sectionStatusDiv" style="width:100%;background-color: #fff;"></div>
@@ -63,13 +64,13 @@
                 </table>
             </div>
         </div>
-</center>
+    </center>
     <!--פוטר -->
     <footer data-role="footer" style="background-color:#e9eaeb;">
         <center>
             <div>
                 <a data-role="button" data-bind="events: {click:homeModel.save1}" style="font-family: Tahoma, Geneva, sans-serif;border-style:none;border-radius: 0;align-self:center;width:94%;    margin-top: 3%;margin-bottom: 3%;background-color:#1A607C;color: #ffffff;text-align:center;white-space: normal;direction:ltr;">
-                    <span style="font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 200;" >שמור</span>
+                    <span style="font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 200;">שמור</span>
                 </a>
             </div>
         </center>
@@ -115,6 +116,24 @@
                 app.controlPoint.homeModel.removeToSectionStatusArr(controlPointId);
             }
         }
+
+
+        function myChooseSectionStatusN(this1,seif, val) {
+            app.controlPoint.homeModel.myChooseSectionStatusN(this1,seif, val);
+            //var arrObjectes = app.controlPoint.homeModel.get('arrObjectes');
+            //for (var i = 0; i < arrObjectes.length; i++) {
+            //    for (var j = 0; j < arrObjectes[i].arrSeif.length; j++) {
+            //        if (arrObjectes[i].arrSeif[j].id == seif) {
+            //            arrObjectes[i].arrSeif[j].value = val;
+            //            break
+            //        }
+
+            //    }
+            //}
+            //app.controlPoint.homeModel.set('arrObjectes', arrObjectes)
+
+        }
+
         function oneChecked() {
             $("input:checkbox").on('click', function () {
                 var $box = $(this);
@@ -132,7 +151,7 @@
     <div data-role="modalview" id="pop_item_description" style="left:1px;width: 95%; height: 33%;">
         <br />
         <div style="width:100%;height:36%; background-color:#e9eaeb;box-shadow:0 4px 2px -2px #c7c1c1;">
-            <label  style="box-shadow: 0px 2px 3px #A29E9E;background-color:#1A607C;font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 200;text-align:center;padding-left: 6px;padding-top: 2px;padding-right: 12px;padding-bottom: 3px;float: right;">הערות נוספות</label>
+            <label style="box-shadow: 0px 2px 3px #A29E9E;background-color:#1A607C;font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 200;text-align:center;padding-left: 6px;padding-top: 2px;padding-right: 12px;padding-bottom: 3px;float: right;">הערות נוספות</label>
         </div>
         <br />
         <br />
@@ -145,7 +164,7 @@
         <footer data-role="footer">
             <center>
                 <a data-role="button" data-bind="events: {click:homeModel.close_pop_item_description }" style=" font-family:Tahoma, Geneva, sans-serif;border-style:none;border-radius: 0;margin-bottom:2%;align-self:center;width:40%;background-color:#1A607C;color: #ffffff;text-align:center;white-space: normal;direction:ltr;">
-                    <span style="font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;" >אישור</span>
+                    <span style="font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;">אישור</span>
 
                 </a>
             </center>
@@ -158,12 +177,12 @@
                 <ul class="cameraorglery1" data-role="buttongroup" data-index="-1">
                     <li dir="ltr" style=" border: 1.5px;border-color:black; color: black; background-color: #e9eaeb;">
                         <a onclick="takeFromCamera()" data-role="button" data-icon="cameraNew" style="width:98%;border-style: solid;background-color: #e9eaeb;border-color:black; color: black;font-family:Tahoma, Geneva, sans-serif;font-weight:200 ">
-                            <span style="color:black; font-size:small; height:5rem;font-family:Tahoma, Geneva, sans-serif;" >מצלמה</span>
+                            <span style="color:black; font-size:small; height:5rem;font-family:Tahoma, Geneva, sans-serif;">מצלמה</span>
                         </a>
                     </li>
                     <li dir="ltr" style=" border: 1.5px;border-color:black; color: black;background-color: #e9eaeb;">
                         <a onclick="takeFromGalery()" data-role="button" data-icon="galeryNew" style="width:98%;border-style: solid;background-color: #e9eaeb;border-color:black; color: black;font-family:Tahoma, Geneva, sans-serif;font-weight:200">
-                            <span style="color:black; font-size:small; height:5rem;font-family:Tahoma, Geneva, sans-serif;" > גלריה/רחפן</span>
+                            <span style="color:black; font-size:small; height:5rem;font-family:Tahoma, Geneva, sans-serif;"> גלריה/רחפן</span>
                         </a>
                     </li>
                 </ul>
@@ -174,7 +193,7 @@
         <footer data-role="footer">
             <center>
                 <a data-role="button" data-bind="events: {click:homeModel.closePopPictureFrom}" style=" font-family:Tahoma, Geneva, sans-serif;border-style:none;border-radius: 0;margin-bottom:2%;align-self:center;width:30%;background-color:#1A607C;color: #ffffff;text-align:center;white-space: normal;direction:ltr;">
-                    <span style="font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;" >סגור</span>
+                    <span style="font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;">סגור</span>
 
                 </a>
             </center>
@@ -193,7 +212,7 @@
                     <li dir="ltr" style=" border: 1.5px;border-color:black; color: black;background-color: #e9eaeb;">
 
                         <a onclick="takeFromGalery1()" data-role="button" data-icon="galeryNew" style="width:98%;border-style: solid;background-color: #e9eaeb;border-color:black; color: black;font-family:Tahoma, Geneva, sans-serif;font-weight:200">
-                            <span style="color:black; font-size:small; height:5rem;font-family:Tahoma, Geneva, sans-serif;"> גלריה/רחפן</span>
+                            <span style="color:black; font-size:small; height:5rem;font-family:  Tahoma, Geneva, sans-serif;"> גלריה/רחפן</span>
                         </a>
                     </li>
                 </ul>
@@ -203,7 +222,7 @@
         <footer data-role="footer">
             <center>
                 <a data-role="button" data-bind="events: {click:homeModel.closePopPictureFrom1}" style=" font-family:Tahoma, Geneva, sans-serif;border-style:none;border-radius: 0;margin-bottom:2%;align-self:center;width:30%;background-color:#1A607C;color: #ffffff;text-align:center;white-space: normal;direction:ltr;">
-                    <span style="font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;" >סגור</span>
+                    <span style="font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;">סגור</span>
                 </a>
             </center>
         </footer>
@@ -222,7 +241,7 @@
         </div>
         <footer data-role="footer" style="background-color: transparent;">
             <a data-role="button" style="margin-bottom: 0%;border-radius: 0; width: 99%;background-color:#1A607C;color: white;" data-bind="events: {click:homeModel.openPopPictureFrom1}">
-                <span style="font-family:Tahoma, Geneva, sans-serif;color:white;" >החלף תמונה</span>
+                <span style="font-family:Tahoma, Geneva, sans-serif;color:white;">החלף תמונה</span>
             </a>
             <a data-role="button" class="km-primary" style="margin-bottom: 0%;border-radius: 0;width: 99%; background-color: #1A607C; color: white;" data-bind="events: { click:homeModel.image_all_control_point_1_ClosePop }">
                 <span style="font-family:Tahoma, Geneva, sans-serif;color:white;">סגור</span>

@@ -1,4 +1,4 @@
-﻿
+
 'use strict';
 app.controlPoint = kendo.observable({
     onShow: function () { },
@@ -7,7 +7,7 @@ app.controlPoint = kendo.observable({
     showEditDelete: true,
     flagImage: false,
     flagImageEdit: false,
-    flagIsEdit:false
+    flagIsEdit: false
 });
 (function (parent) {
     var dataProvider = app.data.progressDataProvider,
@@ -23,7 +23,7 @@ app.controlPoint = kendo.observable({
             name: 'CategorySection',
             autoFill: false
         },
-        //אובייקט  בקרה יומית
+        //אובייקט  סעיפים שניבחרו
         jsdoOptionsSectionCheckup = {
             name: 'SectionCheckup',
             autoFill: false
@@ -38,7 +38,16 @@ app.controlPoint = kendo.observable({
             name: 'CheckupObject',
             autoFill: false
         },
-      
+        //אובייקט מפגעים
+        jsdoOptionsHazhardCPE = {
+            name: 'HazhardCPE',
+            autoFill: false
+        },
+        //אובייקט מפגעים למבדק
+        jsdoOptionsHazhardCPEC = {
+            name: 'HazhardCPEC',
+            autoFill: false
+        },
         dataSourceOptions = {
             type: 'jsdo',
             transport: {},
@@ -73,7 +82,7 @@ app.controlPoint = kendo.observable({
         dataSourceSectionCheckupEdit = new kendo.data.DataSource({
             pageSize: 50
         }),
-        
+
         homeModel = kendo.observable({
             dataSource: dataSource,
             dataSourceCategorySection: dataSourceCategorySection,
@@ -83,6 +92,8 @@ app.controlPoint = kendo.observable({
             _jsdoOptionsSectionCheckup: jsdoOptionsSectionCheckup,
             _jsdoOptionsControlPointCheckup: jsdoOptionsControlPointCheckup,
             _jsdoOptionsCheckupObject: jsdoOptionsCheckupObject,
+            _jsdoOptionsHazhardCPE: jsdoOptionsHazhardCPE,
+            _jsdoOptionsHazhardCPEC: jsdoOptionsHazhardCPEC,
             dataSourceSectionCheckupEdit: dataSourceSectionCheckupEdit,
             EditSectionItem: null,
             itemClickCp: {},
@@ -91,7 +102,7 @@ app.controlPoint = kendo.observable({
             currentControlPointCheckup: null,
             default: null,
             dailyCheckOrLikuy: false,
-            flagFoundCheck:false,
+            flagFoundCheck: false,
 
             cameraId: "null",
             capturePhoto1: "null",
@@ -102,6 +113,161 @@ app.controlPoint = kendo.observable({
             capturePhoto1Edit: "null",
             capturePhoto2Edit: "null",
             fileURIEdit: "null",
+
+
+            //בלחיצה על ציון בסעיף
+            myChooseSectionStatusN: function (this1,seif, val) {
+               
+                var arrObjectes = homeModel.get('arrObjectes');
+                for (var i = 0; i < arrObjectes.length; i++) {
+                    for (var j = 0; j < arrObjectes[i].seif.length; j++) {
+                        if (arrObjectes[i].seif[j].id == seif) {
+                            if (this1.checked == true)
+                                arrObjectes[i].seif[j].value = val;
+                            else
+                                arrObjectes[i].seif[j].value = "null";
+                            break
+                        }
+
+                    }
+                }
+                homeModel.set('arrObjectes', arrObjectes)
+
+            },
+            myChooseSectionStatusND: function (this1, seif, val) {
+
+                var arrObjectes = homeModel.get('arrObjectes');
+                for (var i = 0; i < arrObjectes.length; i++) {
+                    for (var j = 0; j < arrObjectes[i].seif.length; j++) {
+                        if (arrObjectes[i].seif[j].id == seif) {
+                            if (this1.checked == true)
+                                arrObjectes[i].seif[j].value = val;
+                            else
+                                arrObjectes[i].seif[j].value = "null";
+                            break
+                        }
+
+                    }
+                }
+                homeModel.set('arrObjectes', arrObjectes)
+
+            },
+            //יצירת נקודת בקרה
+            save1: function () {
+                app.mobileApp.showLoading();
+                document.getElementById('sectionStatusDiv').innerHTML = "";
+                //שמירת יצירת נקודת בקרה למבדק
+                var jsdoOptions = homeModel.get('_jsdoOptionsControlPointCheckup'),
+                    jsdo = new progress.data.JSDO(jsdoOptions),
+                    dataSourceOptions = homeModel.get('_dataSourceOptions'),
+                    dataSource;
+                dataSourceOptions.transport.jsdo = jsdo;
+                dataSource = new kendo.data.DataSource(dataSourceOptions);
+                function saveModel(data) {
+                    var obj = {
+                        "locationId": (app.project.homeModel.get("dataItem")).locationId,
+                        "R370259027": (app.controlPoint.homeModel.get("itemClickCp")).id,//מקשרת לנקודת בקרה
+                        "R370258935": (app.hightGuard.homeModel.get("currentCheck")).id,//מקשרת למבדק
+                        "ControlPointComment": document.getElementById("description_html").value,
+                        "cb_isActive": true//פעיל
+                    };
+                    dataSource.add(obj);
+                    dataSource.one('change', function (e) {
+                        homeModel.currentControlPointCheckup = current;
+                        //homeModel.save2();
+                        //תמונות
+                        if (app.controlPoint.homeModel.get("capturePhoto1") != null && app.controlPoint.homeModel.get("capturePhoto1") != "null" ||
+                            app.controlPoint.homeModel.get("capturePhoto2") != null && app.controlPoint.homeModel.get("capturePhoto2") != "null") {
+                            uploadWork(current);
+                        }
+                        else {
+                            homeModel.save2();
+                        }
+                    });
+                    dataSource.sync();
+                };
+                saveModel();
+            },
+            //יצירת  סעיפים ומפגעים
+            save2: function () {
+                var arrObjectes = homeModel.get('arrObjectes');
+                var arr = []
+                for (var i = 0; i < arrObjectes.length; i++) {
+                    var flag = false;
+                    for (var j = 0; j < arrObjectes[i].seif.length; j++) {
+                        if (arrObjectes[i].seif[j].value != "null") {
+                            flag = true;
+                            var obj = {
+                                "R408159700": arrObjectes[i].id,//מקשרת למפגע שניבחר
+                                "R370259173": arrObjectes[i].seif[j].id,//מקשרת לסעיף בנק
+                                "IntScore": arrObjectes[i].seif[j].value,//ערך
+                                "locationId": (app.project.homeModel.get("dataItem")).locationId,
+                                "cb_isActive": true//פעיל
+                            };
+                            arr.push(obj);
+                        }
+                    }
+                    if (flag == true) {
+                        var obj = {
+                            "R408159685": homeModel.currentControlPointCheckup.id,//מקשרת לנקודת בקרה שנוצרה
+                            "R408159765": arrObjectes[i].id,//מקשרת למפגע בנק
+                            "locationId": (app.project.homeModel.get("dataItem")).locationId,
+                            "cb_isActive": true//פעיל
+                        };
+                        saveMefga(obj)
+                    }
+                }
+
+                function saveMefga(obj) {
+                    dataProvider.loadCatalogs().then(function _catalogsLoaded() {
+                        var jsdoOptions = homeModel.get('_jsdoOptionsHazhardCPEC'),
+                            jsdo = new progress.data.JSDO(jsdoOptions),
+                            dataSourceOptions = homeModel.get('_dataSourceOptions'),
+                            dataSource;
+                        dataSourceOptions.transport.jsdo = jsdo;
+                        dataSource = new kendo.data.DataSource(dataSourceOptions)
+                        function saveModel() {
+                            dataSource.add(obj);
+                            dataSource.one('change', function (e) {
+                                for (var k = 0; k < arr.length; k++) {
+                                    if (arr[k].R408159700 == current.R408159765) {
+                                        arr[k].R408159700 = current.id;
+                                        saveSeif(arr[k])
+                                    }
+
+                                }
+
+                            
+                            });
+                            dataSource.sync();
+                        };
+                        saveModel();
+                    });
+                }
+                //שמירת סעיף למבדק
+                function saveSeif(obj) {
+                    dataProvider.loadCatalogs().then(function _catalogsLoaded() {
+                        var jsdoOptions = homeModel.get('_jsdoOptionsSectionCheckup'),
+                            jsdo = new progress.data.JSDO(jsdoOptions),
+                            dataSourceOptions = homeModel.get('_dataSourceOptions'),
+                            dataSource;
+                        dataSourceOptions.transport.jsdo = jsdo;
+                        dataSource = new kendo.data.DataSource(dataSourceOptions)
+                        function saveModel() {
+                            dataSource.add(obj);
+                            dataSource.one('change', function (e) {
+                                console.log(current.R408159700)
+                                $("input:checkbox").prop("checked", false);
+                                homeModel.arrObjectes = [];
+                                app.mobileApp.hideLoading();
+                                app.mobileApp.navigate('#components/controlPoint/controlPointView.html');
+                            });
+                            dataSource.sync();
+                        };
+                        saveModel();
+                    });
+                }
+            },
 
             //בלחיצת וי על אחד מסעיפי בדיקה יומית שומר בחירה במערך
             addToSectionStatusArr: function (sectionId, statusId) {
@@ -125,41 +291,8 @@ app.controlPoint = kendo.observable({
                 }
                 homeModel.set('SectionStatusArr', arr)
             },
-
-            save1: function () {
-                app.mobileApp.showLoading();
-                document.getElementById('sectionStatusDiv').innerHTML = "";
-                //שמירת יצירת נקודת בקרה למבדק
-                var jsdoOptions = homeModel.get('_jsdoOptionsControlPointCheckup'),
-                    jsdo = new progress.data.JSDO(jsdoOptions),
-                    dataSourceOptions = homeModel.get('_dataSourceOptions'),
-                    dataSource;
-                dataSourceOptions.transport.jsdo = jsdo;
-                dataSource = new kendo.data.DataSource(dataSourceOptions);
-                function saveModel(data) {
-                    var obj = {
-                        "R370259027": (app.controlPoint.homeModel.get("itemClickCp")).id,
-                        "R370258935": (app.hightGuard.homeModel.get("currentCheck")).id,
-                        "ControlPointComment": document.getElementById("description_html").value,
-                    };
-                    dataSource.add(obj);
-                    dataSource.one('change', function (e) {
-                        homeModel.currentControlPointCheckup = current;
-                        //homeModel.save2();
-                        //תמונות
-                        if (app.controlPoint.homeModel.get("capturePhoto1") != null && app.controlPoint.homeModel.get("capturePhoto1") != "null" ||
-                            app.controlPoint.homeModel.get("capturePhoto2") != null && app.controlPoint.homeModel.get("capturePhoto2") != "null") {
-                            uploadWork(current);
-                        }
-                        else {
-                            homeModel.save2();
-                        }
-                    });
-                    dataSource.sync();
-                };
-                saveModel();
-            },
-            save2: function () {
+            //יצירת סעיפים
+            save2B: function () {
                 var arr = homeModel.get('SectionStatusArr');
                 console.log("arr.length")
                 console.log(arr.length)
@@ -171,7 +304,7 @@ app.controlPoint = kendo.observable({
                 app.mobileApp.hideLoading();
                 app.mobileApp.navigate('#components/controlPoint/controlPointView.html');
             },
-            save3: function (sectionId, statusId) {
+            save3B: function (sectionId, statusId) {
                 //שמירת סעיף
                 var jsdoOptions = homeModel.get('_jsdoOptionsSectionCheckup'),
                     jsdo = new progress.data.JSDO(jsdoOptions),
@@ -214,7 +347,7 @@ app.controlPoint = kendo.observable({
                             dataSource;
                         dataSourceOptions.transport.jsdo = jsdo;
                         dataSource = new kendo.data.DataSource(dataSourceOptions)
-                      
+
                         dataSource.filter({
                             logic: "and",
                             filters: [
@@ -229,10 +362,10 @@ app.controlPoint = kendo.observable({
                                 homeModel.currentControlPointCheckup = view[0];
                             }
                             else {
-                                setTimeout(function () {
-                                    app.mobileApp.navigate('#components/controlPoint/sections.html');
-                                    app.mobileApp.hideLoading();
-                                }, 100);
+                                // setTimeout(function () {
+                                app.mobileApp.navigate('#components/controlPoint/sections.html');
+                                app.mobileApp.hideLoading();
+                                // }, 100);
                             }
                         });
                         //app.mobileApp.hideLoading();
@@ -242,7 +375,71 @@ app.controlPoint = kendo.observable({
                 }
             },
             //עריכה- שליפת כל הסעיפים שקשורים לתחום הניבחר
-            editSection: function (getId) {
+            editSection: function (cpId) {
+                try {
+                    
+                    var arrObjectesSelect = [];
+                    //שליפת כל המפגעים
+                    //dataProvider.loadCatalogs().then(function _catalogsLoaded() {
+                        var jsdoOptions = homeModel.get('_jsdoOptionsHazhardCPEC'),
+                            jsdo = new progress.data.JSDO(jsdoOptions),
+                            dataSourceOptions = homeModel.get('_dataSourceOptions'),
+                            dataSource;
+                        dataSourceOptions.transport.jsdo = jsdo;
+                        dataSource = new kendo.data.DataSource(dataSourceOptions)
+                        dataSource.filter({
+                            logic: "and",
+                            filters: [
+                                { field: "R408159685", operator: "eq", value: cpId },
+                            ]
+                        })
+                        var jsdoOptions = homeModel.get('_jsdoOptionsSectionCheckup'),
+                            jsdo = new progress.data.JSDO(jsdoOptions),
+                            dataSourceOptions = homeModel.get('_dataSourceOptions'),
+                            dataSource1;
+                        dataSourceOptions.transport.jsdo = jsdo;
+                        dataSource1 = new kendo.data.DataSource(dataSourceOptions)
+                        var view;
+                        var view1
+                        dataSource.fetch(function () {
+                             view = dataSource.view();
+                            if (view && view1)
+                                foritemes();
+                          
+                        });
+                        dataSource1.fetch(function () {
+                             view1 = dataSource1.view();
+                            if (view && view1)
+                                foritemes();
+
+
+                        });
+                    //});
+
+                    function foritemes() {
+                        for (var i = 0; i < view.length; i++) {//עובר כל כל המפגעים
+                            for (var j = 0; j < view1.length; j++) {//עובר על כל הסעיפים
+                                //אם הסעיף מקושר ל
+                                if (view[i].id == view1[j].R408159700) {//אם מקושר סעיף למפגע
+                                    var obj = { "idMefga": view[i].R408159765, "idSeif": view1[j].R370259173, "id": view1[j].id, "val": view1[j].IntScore }
+                                    arrObjectesSelect.push(obj);
+                                }
+                            }
+                        }
+                        homeModel.set("arrObjectesSelect", arrObjectesSelect);
+                      
+                        app.mobileApp.hideLoading();
+                        //app.mobileApp.navigate('#components/controlPoint/sectionsEdit.html');
+                        app.mobileApp.navigate('#components/controlPoint/sectionsDetails.html');
+                       
+                    }
+
+                } catch (e) {
+                    alert("שגיאה")
+                }
+            },
+            //עריכה- שליפת כל הסעיפים שקשורים לתחום הניבחר
+            editSection2: function (getId) {
                 try {
                     //app.mobileApp.showLoading();
                     //שולף טבלה מהשרת
@@ -261,14 +458,14 @@ app.controlPoint = kendo.observable({
                         })
                         dataSource.fetch(function () {
                             var view = dataSource.view();
-                            homeModel.set('EditSectionItem', view); 
+                            homeModel.set('EditSectionItem', view);
                             homeModel.set('dataSourceSectionCheckupEdit', dataSource);
-                          
-                            
-                                setTimeout(function () {
-                                    app.mobileApp.navigate('#components/controlPoint/sectionsEdit.html');
-                                    app.mobileApp.hideLoading();
-                                }, 100);
+
+
+                            setTimeout(function () {
+                                app.mobileApp.navigate('#components/controlPoint/sectionsEdit.html');
+                                app.mobileApp.hideLoading();
+                            }, 100);
                         });
                         //app.mobileApp.hideLoading();
                     });
@@ -288,7 +485,7 @@ app.controlPoint = kendo.observable({
                 $("#descriptionEdit").attr("disabled", false);
                 imageEdit1.hidden = false;
                 imageEdit2.hidden = false;
-                app.controlPoint.set("flagIsEdit",true)
+                app.controlPoint.set("flagIsEdit", true)
             },
             //שמירת עריכה
             saveEdit1: function () {
@@ -304,7 +501,7 @@ app.controlPoint = kendo.observable({
                 var descriptionEdit = document.getElementById("descriptionEdit").value;
                 if ((descriptionEdit != currentControlPointCheckup.ControlPointComment && descriptionEdit != "null" && descriptionEdit != "" && descriptionEdit != " ")
                     || (app.controlPoint.homeModel.get("capturePhoto1Edit") != null && app.controlPoint.homeModel.get("capturePhoto1Edit") != "null" ||
-                    app.controlPoint.homeModel.get("capturePhoto2Edit") != null && app.controlPoint.homeModel.get("capturePhoto2Edit") != "null")){
+                        app.controlPoint.homeModel.get("capturePhoto2Edit") != null && app.controlPoint.homeModel.get("capturePhoto2Edit") != "null")) {
                     dataSource.fetch(function () {
                         if (descriptionEdit != currentControlPointCheckup.ControlPointComment && descriptionEdit != "null" && descriptionEdit != "" && descriptionEdit != " ") {
                             var obj = {
@@ -352,10 +549,10 @@ app.controlPoint = kendo.observable({
                 else {
                     homeModel.saveEdit2();
                 }
-          
+
             },
             saveEdit2: function () {
-               
+
                 var dataSource = homeModel.get('dataSourceSectionCheckupEdit');
                 var view = dataSource.view();
                 var arr = homeModel.get('SectionStatusArr');
@@ -373,9 +570,9 @@ app.controlPoint = kendo.observable({
                                 afterUpdateFn = function (jsdo, record, success, request) {
                                     jsdo.unsubscribe('afterUpdate', afterUpdateFn);
                                     if (success === true) {
-                                       //console.log("הצלחה")
+                                        //console.log("הצלחה")
                                         //app.mobileApp.hideLoading();
-                                        
+
                                     }
                                     else {
                                         alert("שגיאה");
@@ -427,8 +624,8 @@ app.controlPoint = kendo.observable({
                     ]
                 })
                 var pos = {
-                    lat :"",
-                    lng:""
+                    lat: "",
+                    lng: ""
                 };
                 if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition(function (position) {
@@ -436,7 +633,7 @@ app.controlPoint = kendo.observable({
                         pos.lng = position.coords.longitude;
                     });
                 }
-               
+
                 dataSource.fetch(function () {
                     var view = dataSource.view();
                     console.log(view);
@@ -446,7 +643,7 @@ app.controlPoint = kendo.observable({
                         "AdditionalComments": document.getElementById("AdditionalComments").value,//הערות נוספות
                         "Latitude": pos.lat,
                         "Longitude": pos.lng
-                        
+
                     }
                     try {
                         var jsdo = dataSource.transport.jsdo;
@@ -491,7 +688,7 @@ app.controlPoint = kendo.observable({
             //camera
             ifOpenPictureFrom: function () {
                 var check1 = app.controlPoint.homeModel.get("cameraId");
-              
+
                 if (document.getElementById(check1).style.color == "red" && check1 == "capturePhoto1") {
                     $("#pop_image_all_control_point_1").kendoMobileModalView("open");
                 }
@@ -517,7 +714,7 @@ app.controlPoint = kendo.observable({
                         }
                     }
 
-                      
+
             },
 
 
@@ -525,7 +722,7 @@ app.controlPoint = kendo.observable({
                 $("#popPictureFrom").kendoMobileModalView("close");
 
                 var check1 = app.controlPoint.homeModel.get("cameraId");
-               
+
                 if (document.getElementById(check1).style.color == "red" && check1 == "capturePhoto1") {
 
                     $("#pop_image_all_control_point_1").kendoMobileModalView("open");
@@ -597,9 +794,9 @@ app.controlPoint = kendo.observable({
             //פותח מצלמה
             takePhoto: function (e) {
                 $("#popPictureFrom").kendoMobileModalView("close");
-              
+
                 var check1 = app.controlPoint.homeModel.get("cameraId");
-               
+
                 if (document.getElementById(check1).style.color == "red" && check1 == "capturePhoto1") {
                     $("#pop_image_all_control_point_1").kendoMobileModalView("open");
                 }
@@ -818,13 +1015,13 @@ app.controlPoint = kendo.observable({
         }
 
         var cameraIdT = cameraId;
-      
+
         document.getElementById(cameraIdT).style.color = "red";
         app.controlPoint.set("flagImageEdit", true);
         app.controlPoint.homeModel.set("fileURIEdit", cameraId);
     }
 
-   
+
 
     //ההעלת תמונות לשרת
     function uploadWork(cur) {
@@ -910,28 +1107,28 @@ app.controlPoint = kendo.observable({
         function onFileUploadSuccess(fieldName) {
             //alert("in")
             //alert(fieldName)
-            if (fieldName === "photo1") {
-                window.plugins.toast.showWithOptions(
-                    {
-                        message: "תמונה עלתה בהצלחה",
-                        duration: "short", // which is 2000 ms. "long" is 4000. Or specify the nr of ms yourself.
-                        position: "bottom",
-                        addPixelsY: -40  // added a negative value to move it up a bit (default 0)
-                    }
+            //if (fieldName === "photo1") {
+            //    window.plugins.toast.showWithOptions(
+            //        {
+            //            message: "תמונה עלתה בהצלחה",
+            //            duration: "short", // which is 2000 ms. "long" is 4000. Or specify the nr of ms yourself.
+            //            position: "bottom",
+            //            addPixelsY: -40  // added a negative value to move it up a bit (default 0)
+            //        }
 
-                );
-            }
-            if (fieldName === "photo2") {
-                window.plugins.toast.showWithOptions(
-                    {
-                        message: "תמונה עלתה בהצלחה",
-                        duration: "short", // which is 2000 ms. "long" is 4000. Or specify the nr of ms yourself.
-                        position: "bottom",
-                        addPixelsY: -40  // added a negative value to move it up a bit (default 0)
-                    }
+            //    );
+            //}
+            //if (fieldName === "photo2") {
+            //    window.plugins.toast.showWithOptions(
+            //        {
+            //            message: "תמונה עלתה בהצלחה",
+            //            duration: "short", // which is 2000 ms. "long" is 4000. Or specify the nr of ms yourself.
+            //            position: "bottom",
+            //            addPixelsY: -40  // added a negative value to move it up a bit (default 0)
+            //        }
 
-                );
-            }
+            //    );
+            //}
             moneS++;
             if (mone == moneS) {
                 app.controlPoint.homeModel.set("fileURI", "null");
@@ -950,7 +1147,7 @@ app.controlPoint = kendo.observable({
             alert("Error loading the image");
         }
 
-        
+
     }
     //ההעלת תמונות לשרת
     function uploadWorkEdit(cur) {
@@ -1205,15 +1402,15 @@ app.controlPoint = kendo.observable({
                             dataItem = this.dataSource.view()[index];
                     }
                 });
-             
-              
-                   
+
+
+
 
 
                 app.mobileApp.hideLoading();
-           
+
             });
-        
+
         } catch (e) {
             alert("שגיאה")
         }
@@ -1236,153 +1433,213 @@ app.controlPoint = kendo.observable({
             else
                 document.getElementById("TourParticipants").value = "";
 
-             txt = (app.hightGuard.homeModel.get("currentCheck")).AdditionalComments;
+            txt = (app.hightGuard.homeModel.get("currentCheck")).AdditionalComments;
             if (txt != null && txt != "null")
                 document.getElementById("AdditionalComments").value = txt;//הערות נוספות
             else
                 document.getElementById("AdditionalComments").value = "";
-     
+
             //דוח
             document.getElementById("CheckupReport_URL").setAttribute("href", (app.hightGuard.homeModel.get("currentCheck")).CheckupReport_URL);
             document.getElementById("CheckupScore").innerHTML = (app.hightGuard.homeModel.get("currentCheck")).CheckupScore;
             NameReviwerAndcreatedAt.innerHTML = (app.hightGuard.homeModel.get("currentCheck")).NameReviwer + " " + kendo.toString((app.hightGuard.homeModel.get("currentCheck")).createdAt, "dd/MM/yyyy HH:mm")
 
-        
+
 
 
         } catch (e) {
             alert("שגיאה")
         }
     });
-    parent.set('onShowTestSectionInit', function (e) {
+    parent.set('onShowSectionInit', function (e) {
         //try {
-         
-            var scroller = e.view.scroller;
-            scroller.reset();
-            app.mobileApp.showLoading();
-            //סעיפים למבדק זה
-            dataProvider.loadCatalogs().then(function _catalogsLoaded() {
-                var jsdoOptions = homeModel.get('_jsdoOptionsSectionCheckup'),
-                    jsdo = new progress.data.JSDO(jsdoOptions),
-                    dataSourceOptions = homeModel.get('_dataSourceOptions'),
-                    dataSource2;
-                dataSourceOptions.transport.jsdo = jsdo;
-                dataSource2 = new kendo.data.DataSource(dataSourceOptions)
-                homeModel.set('sectionStatus', app.controlPoint.homeModel._dataSourceOptions.transport.jsdo.getPicklist_SectionStatus().response.picklistData);
-            });
+
+        //var scroller = e.view.scroller;
+        //scroller.reset();
+        //app.mobileApp.showLoading();
+    
 
 
-            //שולף טבלה סעיפי בדיקה מהשרת
-            dataProvider.loadCatalogs().then(function _catalogsLoaded() {
-                var jsdoOptions = homeModel.get('_jsdoOptionsCategorySection'),
-                    jsdo = new progress.data.JSDO(jsdoOptions),
-                    dataSourceOptions = homeModel.get('_dataSourceOptions'),
-                    dataSource;
-                dataSourceOptions.transport.jsdo = jsdo;
-                dataSource = new kendo.data.DataSource(dataSourceOptions)
-                homeModel.set('dataSourceCategorySection', dataSource);
-             
-           
+        //סעיפים למבדק זה
+        //dataProvider.loadCatalogs().then(function _catalogsLoaded() {
+        //    var jsdoOptions = homeModel.get('_jsdoOptionsSectionCheckup'),
+        //        jsdo = new progress.data.JSDO(jsdoOptions),
+        //        dataSourceOptions = homeModel.get('_dataSourceOptions'),
+        //        dataSource2;
+        //    dataSourceOptions.transport.jsdo = jsdo;
+        //    dataSource2 = new kendo.data.DataSource(dataSourceOptions)
+        //  //  debugger;
+        // //   homeModel.set('IntScore', jsdo.getPicklist_IntScore().response.picklistData);
 
-            });
-                app.mobileApp.hideLoading();
+        //    //homeModel.set('sectionStatus', app.controlPoint.homeModel._dataSourceOptions.transport.jsdo.getPicklist_SectionStatus().response.picklistData);
+        //});
+
+
+        //שולף טבלה סעיפי בדיקה מהשרת
+        dataProvider.loadCatalogs().then(function _catalogsLoaded() {
+            var jsdoOptions = homeModel.get('_jsdoOptionsCategorySection'),
+                jsdo = new progress.data.JSDO(jsdoOptions),
+                dataSourceOptions = homeModel.get('_dataSourceOptions'),
+                dataSource;
+            dataSourceOptions.transport.jsdo = jsdo;
+            dataSource = new kendo.data.DataSource(dataSourceOptions)
+            homeModel.set('dataSourceCategorySection', dataSource);
+          
+            homeModel.set('IntScore', jsdo.getPicklist_IntScore().response.picklistData);
+
+
+        });
+       // app.mobileApp.hideLoading();
         //} catch (e) {
         //    alert("שגיאה")
         //}
     });
-    parent.set('onShowTestSection', function (e) {
+    parent.set('onShowSection', function (e) {
         //try {
         //projectNameTestSection.innerHTML = (app.project.homeModel.get("dataItem")).LocationName;
-        controlPointLabel.innerHTML = "תחום נבדק:" + (app.controlPoint.homeModel.get("itemClickCp")).name;
-            var scroller = e.view.scroller;
-            scroller.reset();
-            app.mobileApp.showLoading();
-            app.controlPoint.set("flagImage", false);
-            document.getElementById("capturePhoto1").style.color = "black";
-            document.getElementById("capturePhoto2").style.color = "black";
-            document.getElementById("description_all_control_point").style.color = "black";
-            document.getElementById("description_html").value = "";
-            //שולף טבלה מהשרת
-            var dataSource = homeModel.get('dataSourceCategorySection');
+        controlPointLabel.innerHTML =  (app.controlPoint.homeModel.get("itemClickCp")).name;
+        var scroller = e.view.scroller;
+        scroller.reset();
+        app.mobileApp.showLoading();
+        app.controlPoint.set("flagImage", false);
+        document.getElementById("capturePhoto1").style.color = "black";
+        document.getElementById("capturePhoto2").style.color = "black";
+        document.getElementById("description_all_control_point").style.color = "black";
+        document.getElementById("description_html").value = "";
+
+        //מפגעים לפי נקודת בקרה
+        dataProvider.loadCatalogs().then(function _catalogsLoaded() {
+            var jsdoOptions = homeModel.get('_jsdoOptionsHazhardCPE'),
+                jsdo = new progress.data.JSDO(jsdoOptions),
+                dataSourceOptions = homeModel.get('_dataSourceOptions'),
+                dataSource;
+            dataSourceOptions.transport.jsdo = jsdo;
+            dataSource = new kendo.data.DataSource(dataSourceOptions)
             dataSource.filter({
-                field: "R370259295",
+                field: "R408159667",
                 operator: "==",
                 value: (app.controlPoint.homeModel.get("itemClickCp")).id
             });
-            document.getElementById('sectionStatusDiv').innerHTML = "";
-         
+            var viewMefga = [];
+            var viewSeif = [];
+            var flag = false;
             dataSource.fetch(function () {
-                homeModel.set('dataSourceCategorySectionFilter', dataSource);
-                var dataSourceF = homeModel.get('dataSourceCategorySectionFilter');
-                var view = dataSourceF.view();
-                for (var i = 10; i < view.length + 10; i++) {
-                    var node = document.createElement('div');
-                    var string = "";
-                    if (i == 10)
-                        string += ' <div style="background-color: #fff;height:5px;"></div>';
-                    string += '<center><table style="width:95%;background-color:#ffffff;margin-top:20px;margin-bottom:20px;" dir="rtl" >';
-                    string += '<tr style= "width:100%" >';
-                    string += '<td  style= "" >';
-                    string += '<label id="' + view[i - 10].id + '" style="font-family:Tahoma, Geneva, sans-serif;font-weight: bold;font-size:small;color:black;"> ' + view[i - 10].SectionContent + '</label>';
-                    string += '</td>';
-                    string += '</tr>';
-                    string += '<td  style= "" >';
-                    string += ' <div style="background-color: #fff;height:5px;"></div>';
-                    string += '</td>';
-                    string += '</tr>';
-                  
-                    string += '<tr style= "width:100%" >';
-                    string += '<td  style= "width:100%" >';
-                    string += '<table style="width:100%" dir="rtl" >';
-                    //for (var j = homeModel.sectionStatus.length-1; j >=0; j++) {
-                    for (var j = 0; j < homeModel.sectionStatus.length; j++) {
-                        if (j %2==0) {
-                        
-                            string += '<tr style= "width:100%;" >';
-                        }
-                        string += '<td  style= "width:50%" >';
-                        string += '<table style="width:100%" dir="rtl" >';
-                        string += '<tr style= "width:100%" >';
-                        string += ' <td style="width:25%;">';
-                        var myname = "";
-                        myname += view[i - 10].SectionContent;
-                        string += '<input id= "' + homeModel.sectionStatus[j].id + i + '"name="' + view[i - 10].id + '"  type= "checkbox"  onclick="myChooseSectionStatus(this.name,this.id)"/>'
-                        string += ' </td > '
-                        string += '<td style= "width:75%;" > '
-                        string += '<label  style="font-family:Tahoma, Geneva, sans-serif;font-weight: 200;font-size:small;color:black;"> ' + homeModel.sectionStatus[j].name + '</label></td>'
-                        string += '</tr>';
-                        string += '</table>';
-                        string += ' </td > ';
-
-
-                        if (j %2!=0) {
-                            string += '</tr>';
-                        }
-                    }
-                    homeModel.default = homeModel.sectionStatus[j - 1].id;
-                    var obj = { sectionId: view[i - 10].id, statusId: homeModel.default };
-                    homeModel.SectionStatusArr.push(obj)
-                    string += '</table>';
-                    string += ' </td > '
-                    string += '</tr>';
-                    string += '</table></center><div style="background-color: #e9eaeb;height:5px;"></div>';
-                    node.innerHTML = string;
-                    document.getElementById('sectionStatusDiv').appendChild(node);
+                viewMefga = dataSource.view();
+                if (viewMefga.length > 0 && viewSeif.length > 0 && flag == false) {
+                    doTemplatePage()
                 }
-                oneChecked();
-            
-                app.mobileApp.hideLoading();
             });
-  
-        
+            document.getElementById('sectionStatusDiv').innerHTML = "";
+            var dataSource1 = homeModel.get('dataSourceCategorySection');
+            dataSource1.fetch(function () {
+                viewSeif = dataSource1.view();
+                if (viewMefga.length > 0 && viewSeif.length > 0 && flag == false) {
+                    doTemplatePage()
+                }
+
+            });
+
+            function doTemplatePage() {
+                var arrObjectes=[];
+                flag = true;
+                for (var j = 0; j < viewMefga.length; j++) {
+                 
+                    var node1 = document.createElement('div');
+                    var string1 = "";
+                    string1 += "<div style='width: 100 %;height: 36 %;box - shadow:0 4px 2px - 2px #c7c1c1; '>";
+                    string1 += "<label  style='max-width: 80%;background-color:#1A607C;font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 200;text-align:right;padding-left: 6px;padding-top: 2px;padding-right: 12px;padding-bottom: 3px;float: right;'>" + viewMefga[j].HazhardName
+                    string1 += "</label></div>"
+                    node1.innerHTML = string1;
+                    document.getElementById('sectionStatusDiv').appendChild(node1);
+                    var arrSeif = [];
+                    for (var i = 10; i < viewSeif.length + 10; i++) {
+                        if (viewSeif[i - 10].R408388358 == viewMefga[j].id) {
+                            var obj = { "id": viewSeif[i - 10].id, "value": "null" }
+                            arrSeif.push(obj);
+                            var  node = document.createElement('div');
+                            var string = "";
+                            string += '<center style="background-color:#ffffff"><table style="width:95%;background-color:#ffffff;margin-top:20px;margin-bottom:20px;" dir="rtl" >';
+                            string += '<tr style= "width:100%" >';
+                            string += '<td  style= "" >';
+                            string += '<label id="' + viewSeif[i - 10].id + '" style="font-family:Tahoma, Geneva, sans-serif;font-weight: bold;font-size:small;color:black;"> ' + viewSeif[i - 10].SectionContent + '</label>';
+                            string += '</td>';
+                            string += '</tr>';
+                            string += '<td  style= "" >';
+                            string += ' <div style="background-color: #fff;height:5px;"></div>';
+                            string += '</td>';
+                            string += '</tr>';
+
+                            string += '<tr style= "width:100%" >';
+                            string += '<td  style= "width:100%" >';
+                            string += '<table style="width:100%" dir="rtl" >';
+                            var arr = getList(viewSeif[i - 10].IntScore);
+                            for (var k = 0; k < arr.length; k++) {
+                                if (k % 2 == 0) {
+
+                                    string += '<tr style= "width:100%;" >';
+                                }
+                                string += '<td  style= "width:50%" >';
+                                string += '<table style="width:100%" dir="rtl" >';
+                                string += '<tr style= "width:100%" >';
+                                string += ' <td style="width:25%;">';
+                                var nameTxt = "";
+                                for (var o = 0; o < homeModel.get('IntScore').length; o++) {
+                                    if (arr[k] == homeModel.get('IntScore')[o].id)
+                                        nameTxt = homeModel.get('IntScore')[o].name;
+                                }
+                                string += '<input  type= "checkbox" name="' + viewSeif[i - 10].id + '"  onclick="myChooseSectionStatusN(this,this.name,' + nameTxt+')"/>'
+                                string += ' </td > '
+                                string += '<td style= "width:75%;" > '
+                               
+                                string += '<label  style="font-family:Tahoma, Geneva, sans-serif;font-weight: bold;font-size:small;color:black;"> ' + nameTxt+'</label></td>'
+                                string += '</tr>';
+                                string += '</table>';
+                                string += ' </td > ';
+
+
+                                if (k % 2 != 0) {
+                                    string += '</tr>';
+                                }
+                            }
+
+                        
+                            //var obj = { sectionId: viewSeif[i - 10].id };
+                            //homeModel.SectionStatusArr.push(obj)
+                            string += '</table>';
+                            string += ' </td > '
+                            string += '</tr>';
+                            string += '</table></center><div style="background-color: #e9eaeb;height:5px;"></div>';
+                            node.innerHTML = string;
+                            document.getElementById('sectionStatusDiv').appendChild(node);
+                        }
+
+                    }
+                    var obj = { "id": viewMefga[j].id, "seif": arrSeif }
+                    arrObjectes.push(obj)
+                   
+                }
+                homeModel.set("arrObjectes", arrObjectes)
+                oneChecked();
+                app.mobileApp.hideLoading();
+            }
+            function getList(IntScore) {
+                var res = [];
+                if (IntScore != "null" && IntScore != -1)
+
+                    res = IntScore.split(",");
+                return res;
+
+            }
+        });
+
         //} catch (e) {
         //    alert("שגיאה")
         //}
     });
-    parent.set('onShowTestSectionEdit', function (e) {
+    parent.set('onShowSectionEdit', function (e) {
         //try {
         //projectNameTestSectionEdit.innerHTML = (app.project.homeModel.get("dataItem")).LocationName;
-        controlPointLabelEdit.innerHTML = "תחום נבדק:" + (app.controlPoint.homeModel.get("itemClickCp")).name;
+        controlPointLabelEdit.innerHTML =  (app.controlPoint.homeModel.get("itemClickCp")).name;
         var scroller = e.view.scroller;
         scroller.reset();
         app.mobileApp.showLoading();
@@ -1390,7 +1647,7 @@ app.controlPoint = kendo.observable({
         saveSectionAssign1.hidden = true;
 
         app.controlPoint.set("flagIsEdit", false);
-        if (homeModel.currentControlPointCheckup.ControlPointComment!="null"){
+        if (homeModel.currentControlPointCheckup.ControlPointComment != "null") {
             document.getElementById("descriptionEdit").value = homeModel.currentControlPointCheckup.ControlPointComment;
         }
         else {
@@ -1416,7 +1673,321 @@ app.controlPoint = kendo.observable({
             document.getElementById("picture_all_control_point2Edit").src = imag2;
         }
 
+        //מפגעים לפי נקודת בקרה
+        dataProvider.loadCatalogs().then(function _catalogsLoaded() {
+            var jsdoOptions = homeModel.get('_jsdoOptionsHazhardCPE'),
+                jsdo = new progress.data.JSDO(jsdoOptions),
+                dataSourceOptions = homeModel.get('_dataSourceOptions'),
+                dataSource;
+            dataSourceOptions.transport.jsdo = jsdo;
+            dataSource = new kendo.data.DataSource(dataSourceOptions)
+            dataSource.filter({
+                field: "R408159667",
+                operator: "==",
+                value: (app.controlPoint.homeModel.get("itemClickCp")).id
+            });
+            var viewMefga = [];
+            var viewSeif = [];
+            var flag = false;
+            dataSource.fetch(function () {
+                viewMefga = dataSource.view();
+                if (viewMefga.length > 0 && viewSeif.length > 0 && flag == false) {
+                    doTemplatePage()
+                }
+            });
+            document.getElementById('sectionStatusEditDiv').innerHTML = "";
+            var dataSource1 = homeModel.get('dataSourceCategorySection');
+            dataSource1.fetch(function () {
+                viewSeif = dataSource1.view();
+                if (viewMefga.length > 0 && viewSeif.length > 0 && flag == false) {
+                    doTemplatePage()
+                }
+
+            });
+
+            function doTemplatePage() {
+                var arrObjectes = [];
+                flag = true;
+                for (var j = 0; j < viewMefga.length; j++) {
+
+                    var node1 = document.createElement('div');
+                    var string1 = "";
+                    string1 += "<div style='width: 100 %;height: 36 %;box - shadow:0 4px 2px - 2px #c7c1c1; '>";
+                    string1 += "<label  style='max-width: 80%;background-color:#1A607C;font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 200;text-align:right;padding-left: 6px;padding-top: 2px;padding-right: 12px;padding-bottom: 3px;float: right;'>" + viewMefga[j].HazhardName
+                    string1 += "</label></div>"
+                    node1.innerHTML = string1;
+                    document.getElementById('sectionStatusEditDiv').appendChild(node1);
+                    var arrSeif = [];
+                    for (var i = 10; i < viewSeif.length + 10; i++) {
+                        if (viewSeif[i - 10].R408388358 == viewMefga[j].id) {
+                            var obj = { "id": viewSeif[i - 10].id, "value": "null","was":false }
+                            //arrSeif.push(obj);
+                            var node = document.createElement('div');
+                            var string = "";
+                            string += '<center style="background-color:#ffffff"><table style="width:95%;background-color:#ffffff;margin-top:20px;margin-bottom:20px;" dir="rtl" >';
+                            string += '<tr style= "width:100%" >';
+                            string += '<td  style= "" >';
+                            string += '<label id="' + viewSeif[i - 10].id + '" style="font-family:Tahoma, Geneva, sans-serif;font-weight: bold;font-size:small;color:black;"> ' + viewSeif[i - 10].SectionContent + '</label>';
+                            string += '</td>';
+                            string += '</tr>';
+                            string += '<td  style= "" >';
+                            string += ' <div style="background-color: #fff;height:5px;"></div>';
+                            string += '</td>';
+                            string += '</tr>';
+
+                            string += '<tr style= "width:100%" >';
+                            string += '<td  style= "width:100%" >';
+                            string += '<table style="width:100%" dir="rtl" >';
+                            var arr = getList(viewSeif[i - 10].IntScore);
+                            for (var k = 0; k < arr.length; k++) {
+                                if (k % 2 == 0) {
+
+                                    string += '<tr style= "width:100%;" >';
+                                }
+                                string += '<td  style= "width:50%" >';
+                                string += '<table style="width:100%" dir="rtl" >';
+                                string += '<tr style= "width:100%" >';
+                                string += ' <td style="width:25%;">';
+                                var nameTxt = "";
+                                for (var o = 0; o < homeModel.get('IntScore').length; o++) {
+                                    if (arr[k] == homeModel.get('IntScore')[o].id)
+                                        nameTxt = homeModel.get('IntScore')[o].name;
+                                }
+                                var txtCheckbox = "";
+                                // var obj = { "idMefga": view[i].R408159765, "idSeif": view1[j].R370259173, "id": view1[j].id, "val": view1[j].IntScore }
+                                var arrObjectesSelect = homeModel.get("arrObjectesSelect")
+                                for (var f = 0; f < arrObjectesSelect.length; f++) {
+                                    if (arrObjectesSelect[f].idMefga == viewMefga[j].id && arrObjectesSelect[f].idSeif == viewSeif[i - 10].id && nameTxt == arrObjectesSelect[f].val)
+                                    {
+                                       
+                                        txtCheckbox= '<input  type= "checkbox" checked name="' + viewSeif[i - 10].id + '"  onclick="myChooseSectionStatusND(this,this.name,' + nameTxt + ')"/>'
+                                        obj.value = arrObjectesSelect[f].val;
+                                        obj.was = true;
+                                    }
+                                    
+
+
+                                }
+                                if (txtCheckbox=="")
+                                   txtCheckbox = '<input  type= "checkbox" name="' + viewSeif[i - 10].id + '"  onclick="myChooseSectionStatusND(this,this.name,' + nameTxt + ')"/>'
+
+                                string += txtCheckbox;
+                                string += ' </td > '
+                                string += '<td style= "width:75%;" > '
+
+                                string += '<label  style="font-family:Tahoma, Geneva, sans-serif;font-weight: bold;font-size:small;color:black;"> ' + nameTxt + '</label></td>'
+                                string += '</tr>';
+                                string += '</table>';
+                                string += ' </td > ';
+
+
+                                if (k % 2 != 0) {
+                                    string += '</tr>';
+                                }
+                            }
+
+
+                            //var obj = { sectionId: viewSeif[i - 10].id };
+                            //homeModel.SectionStatusArr.push(obj)
+                            string += '</table>';
+                            string += ' </td > '
+                            string += '</tr>';
+                            string += '</table></center><div style="background-color: #e9eaeb;height:5px;"></div>';
+                            node.innerHTML = string;
+                            document.getElementById('sectionStatusEditDiv').appendChild(node);
+
+                            arrSeif.push(obj);
+                        }
+
+                    }
+
+                    var obj = { "id": viewMefga[j].id, "seif": arrSeif }
+                    arrObjectes.push(obj)
+
+                }
+                homeModel.set("arrObjectes", arrObjectes)
+                oneCheckedEdit();
+                $("input:checkbox").attr("disabled", true);
+                $("#descriptionEdit").attr("disabled", true);
+                imageEdit1.hidden = true;
+                imageEdit2.hidden = true;
+                app.mobileApp.hideLoading();
+            }
+            function getList(IntScore) {
+                var res = [];
+                if (IntScore != "null" && IntScore != -1)
+
+                    res = IntScore.split(",");
+                return res;
+
+            }
+        });
+
       
+    });
+    parent.set('onShowTestSectionInit2', function (e) {
+        //try {
+
+        var scroller = e.view.scroller;
+        scroller.reset();
+        app.mobileApp.showLoading();
+        //סעיפים למבדק זה
+        dataProvider.loadCatalogs().then(function _catalogsLoaded() {
+            var jsdoOptions = homeModel.get('_jsdoOptionsSectionCheckup'),
+                jsdo = new progress.data.JSDO(jsdoOptions),
+                dataSourceOptions = homeModel.get('_dataSourceOptions'),
+                dataSource2;
+            dataSourceOptions.transport.jsdo = jsdo;
+            dataSource2 = new kendo.data.DataSource(dataSourceOptions)
+            homeModel.set('sectionStatus', app.controlPoint.homeModel._dataSourceOptions.transport.jsdo.getPicklist_SectionStatus().response.picklistData);
+        });
+
+
+        //שולף טבלה סעיפי בדיקה מהשרת
+        dataProvider.loadCatalogs().then(function _catalogsLoaded() {
+            var jsdoOptions = homeModel.get('_jsdoOptionsCategorySection'),
+                jsdo = new progress.data.JSDO(jsdoOptions),
+                dataSourceOptions = homeModel.get('_dataSourceOptions'),
+                dataSource;
+            dataSourceOptions.transport.jsdo = jsdo;
+            dataSource = new kendo.data.DataSource(dataSourceOptions)
+            homeModel.set('dataSourceCategorySection', dataSource);
+
+
+
+        });
+        app.mobileApp.hideLoading();
+        //} catch (e) {
+        //    alert("שגיאה")
+        //}
+    });
+    parent.set('onShowTestSection2', function (e) {
+        //try {
+        //projectNameTestSection.innerHTML = (app.project.homeModel.get("dataItem")).LocationName;
+        controlPointLabel.innerHTML =(app.controlPoint.homeModel.get("itemClickCp")).name;
+        var scroller = e.view.scroller;
+        scroller.reset();
+        app.mobileApp.showLoading();
+        app.controlPoint.set("flagImage", false);
+        document.getElementById("capturePhoto1").style.color = "black";
+        document.getElementById("capturePhoto2").style.color = "black";
+        document.getElementById("description_all_control_point").style.color = "black";
+        document.getElementById("description_html").value = "";
+        //שולף טבלה מהשרת
+        var dataSource = homeModel.get('dataSourceCategorySection');
+        dataSource.filter({
+            field: "R370259295",
+            operator: "==",
+            value: (app.controlPoint.homeModel.get("itemClickCp")).id
+        });
+        document.getElementById('sectionStatusDiv').innerHTML = "";
+
+        dataSource.fetch(function () {
+            homeModel.set('dataSourceCategorySectionFilter', dataSource);
+            var dataSourceF = homeModel.get('dataSourceCategorySectionFilter');
+            var view = dataSourceF.view();
+            for (var i = 10; i < view.length + 10; i++) {
+                var node = document.createElement('div');
+                var string = "";
+                if (i == 10)
+                    string += ' <div style="background-color: #fff;height:5px;"></div>';
+                string += '<center><table style="width:95%;background-color:#ffffff;margin-top:20px;margin-bottom:20px;" dir="rtl" >';
+                string += '<tr style= "width:100%" >';
+                string += '<td  style= "" >';
+                string += '<label id="' + view[i - 10].id + '" style="font-family:Tahoma, Geneva, sans-serif;font-weight: bold;font-size:small;color:black;"> ' + view[i - 10].SectionContent + '</label>';
+                string += '</td>';
+                string += '</tr>';
+                string += '<td  style= "" >';
+                string += ' <div style="background-color: #fff;height:5px;"></div>';
+                string += '</td>';
+                string += '</tr>';
+
+                string += '<tr style= "width:100%" >';
+                string += '<td  style= "width:100%" >';
+                string += '<table style="width:100%" dir="rtl" >';
+                //for (var j = homeModel.sectionStatus.length-1; j >=0; j++) {
+                for (var j = 0; j < homeModel.sectionStatus.length; j++) {
+                    if (j % 2 == 0) {
+
+                        string += '<tr style= "width:100%;" >';
+                    }
+                    string += '<td  style= "width:50%" >';
+                    string += '<table style="width:100%" dir="rtl" >';
+                    string += '<tr style= "width:100%" >';
+                    string += ' <td style="width:25%;">';
+                    var myname = "";
+                    myname += view[i - 10].SectionContent;
+                    string += '<input id= "' + homeModel.sectionStatus[j].id + i + '"name="' + view[i - 10].id + '"  type= "checkbox"  onclick="myChooseSectionStatus(this.name,this.id)"/>'
+                    string += ' </td > '
+                    string += '<td style= "width:75%;" > '
+                    string += '<label  style="font-family:Tahoma, Geneva, sans-serif;font-weight: 200;font-size:small;color:black;"> ' + homeModel.sectionStatus[j].name + '</label></td>'
+                    string += '</tr>';
+                    string += '</table>';
+                    string += ' </td > ';
+
+
+                    if (j % 2 != 0) {
+                        string += '</tr>';
+                    }
+                }
+                homeModel.default = homeModel.sectionStatus[j - 1].id;
+                var obj = { sectionId: view[i - 10].id, statusId: homeModel.default };
+                homeModel.SectionStatusArr.push(obj)
+                string += '</table>';
+                string += ' </td > '
+                string += '</tr>';
+                string += '</table></center><div style="background-color: #e9eaeb;height:5px;"></div>';
+                node.innerHTML = string;
+                document.getElementById('sectionStatusDiv').appendChild(node);
+            }
+            oneChecked();
+
+            app.mobileApp.hideLoading();
+        });
+
+
+        //} catch (e) {
+        //    alert("שגיאה")
+        //}
+    });
+    parent.set('onShowTestSectionEdit2', function (e) {
+        //try {
+        //projectNameTestSectionEdit.innerHTML = (app.project.homeModel.get("dataItem")).LocationName;
+        controlPointLabelEdit.innerHTML = "תחום נבדק:" + (app.controlPoint.homeModel.get("itemClickCp")).name;
+        var scroller = e.view.scroller;
+        scroller.reset();
+        app.mobileApp.showLoading();
+        editSection1.hidden = false;
+        saveSectionAssign1.hidden = true;
+
+        app.controlPoint.set("flagIsEdit", false);
+        if (homeModel.currentControlPointCheckup.ControlPointComment != "null") {
+            document.getElementById("descriptionEdit").value = homeModel.currentControlPointCheckup.ControlPointComment;
+        }
+        else {
+            document.getElementById("descriptionEdit").value = "";
+        }
+        var imag1 = homeModel.currentControlPointCheckup.URL_Image1;
+        var imag2 = homeModel.currentControlPointCheckup.URL_Image2;
+        //תמונות
+        if (imag1 == "null") {
+            document.getElementById("capturePhoto1Edit").style.color = "black";
+            $("#picture_all_control_point1Edit").attr("src", "");
+        }
+        else {
+            document.getElementById("capturePhoto1Edit").style.color = "red";
+            document.getElementById("picture_all_control_point1Edit").src = imag1;
+        }
+        if (imag2 == "null") {
+            document.getElementById("capturePhoto2Edit").style.color = "black";
+            $("#picture_all_control_point2Edit").attr("src", "");
+        }
+        else {
+            document.getElementById("capturePhoto2Edit").style.color = "red";
+            document.getElementById("picture_all_control_point2Edit").src = imag2;
+        }
+
+
         //שולף טבלה מהשרת
 
         var dataSource = homeModel.get('dataSourceCategorySection');
@@ -1500,7 +2071,7 @@ app.controlPoint = kendo.observable({
             $("#descriptionEdit").attr("disabled", true);
             imageEdit1.hidden = true;
             imageEdit2.hidden = true;
-          
+
             app.mobileApp.hideLoading();
         });
     });

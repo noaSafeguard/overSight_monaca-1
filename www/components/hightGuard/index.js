@@ -1,4 +1,4 @@
-﻿
+
 'use strict';
 app.hightGuard = kendo.observable({
     onShow: function () { },
@@ -119,10 +119,10 @@ app.hightGuard = kendo.observable({
                     dataSource.one('change', function (e) {
                         var cur = current;
                         homeModel.currentCheck = current;
-                        setTimeout(function () {
-                            app.mobileApp.navigate('#components/controlPoint/controlPointView.html');
+                        //setTimeout(function () {
+                          app.mobileApp.navigate('#components/controlPoint/controlPointView.html');
                             app.mobileApp.hideLoading();
-                        }, 100);
+                     //   }, 100);
                     });
                     dataSource.sync();
                 };

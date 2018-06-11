@@ -1,7 +1,9 @@
-﻿<div data-role="view" data-layout="main" data-model="app.controlPoint" data-init="app.controlPoint.onShowTestSectionInit" data-show="app.controlPoint.onShowTestSectionEdit" style="" dir="rtl">
+<!--<div data-role="view" data-layout="main" data-model="app.controlPoint" data-init="app.controlPoint.onShowSectionInit" data-show="app.controlPoint.onShowSectionEdit" style="" dir="rtl">-->
+<!--<div data-role="view" data-layout="main" data-model="app.controlPoint" data-init="app.controlPoint.onShowSectionInit" data-show="app.controlPoint.onShowSectionEdit" style="" dir="rtl">-->
+<div data-role="view" data-layout="main" data-model="app.controlPoint" data-init="app.controlPoint.onShowSectionInit" data-show="app.controlPoint.onShowSectionEdit" style="" dir="rtl">
     <header data-role="header">
         <div data-role="navbar" class="header" style="background: linear-gradient(5.58deg, #923714 0%, #f7931e 100%);">
-            <span>סעיפי בדיקה עריכה</span>
+            <span id="controlPointLabelEdit"></span>
             <a class="headerButton" data-role="button" data-align="right" style="color: white;" href="components/hightGuard/view.html">
                 <i class="material-icons" style="color:white">home</i>
             </a>
@@ -9,13 +11,10 @@
                 <i class="material-icons" style="color:transparent">dashboard</i>
             </a>
         </div>
-        <div style="height:1em;background-color:#e9eaeb;"></div>
-        <div style="width:100%;height:17%;background-color:#e9eaeb;">
-            <label style="box-shadow: 0px 2px 3px #A29E9E;background-color:#1A607C;font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 400;text-align:center;padding-left: 6px;padding-top: 2px;padding-right: 12px;padding-bottom: 3px;" id="controlPointLabelEdit"></label>
-        </div>
+
     </header>
-    
-    
+
+
     <div style="background-color: transparent;height:3px;"></div>
     <center>
         <div id="sectionStatusEditDiv" style="width:100%;background-color: #fff;"></div>
@@ -56,11 +55,11 @@
                         <td style="width:100%">
                             <label style="color:rgba(0, 0, 0, 0.82); font-family:Tahoma, Geneva, sans-serif;font-weight: 200;font-size:small;">הערות נוספות</label>
                         </td>
-                       
+
                     </tr>
                     <tr>
                         <td>
-                            <textarea id="descriptionEdit" style="padding: 1em;font-weight:200;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;width:26em;height:7em;"></textarea>
+                            <textarea id="descriptionEdit" style="padding: 1em;font-weight:200;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;height:7em;"></textarea>
 
                         </td>
                     </tr>
@@ -75,7 +74,7 @@
         <center>
             <table style="width:100%">
                 <tr>
-                   
+
                     <td style="width:50%">
                         <div style="width:100%" id="editSection1">
                             <center>
@@ -106,16 +105,16 @@
     </footer>
     <script>
         function takeIdImageEdit(id) {
-            if (app.controlPoint.get("flagIsEdit")==true){
-             if (id == "capturePhoto2Edit") {
-                if (app.controlPoint.flagImageEdit == true) {
+            if (app.controlPoint.get("flagIsEdit") == true) {
+                if (id == "capturePhoto2Edit") {
+                    if (app.controlPoint.flagImageEdit == true) {
+                        app.controlPoint.homeModel.set("cameraIdEdit", id)
+                        app.controlPoint.homeModel.ifOpenPictureFromEdit();
+                    }
+                }
+                else {
                     app.controlPoint.homeModel.set("cameraIdEdit", id)
                     app.controlPoint.homeModel.ifOpenPictureFromEdit();
-                }
-            }
-            else {
-                app.controlPoint.homeModel.set("cameraIdEdit", id)
-                app.controlPoint.homeModel.ifOpenPictureFromEdit();
                 }
             }
             else {
@@ -159,6 +158,20 @@
                     $box.prop("checked", false);
                 }
             });
+        }
+        function myChooseSectionStatusND(this1, seif, val) {
+            app.controlPoint.homeModel.myChooseSectionStatusND(this1, seif, val);
+            //var arrObjectes = app.controlPoint.homeModel.get('arrObjectes');
+            //for (var i = 0; i < arrObjectes.length; i++) {
+            //    for (var j = 0; j < arrObjectes[i].arrSeif.length; j++) {
+            //        if (arrObjectes[i].arrSeif[j].id == seif) {
+            //            arrObjectes[i].arrSeif[j].value = val;
+            //            break
+            //        }
+
+            //    }
+            //}
+            //app.controlPoint.homeModel.set('arrObjectes', arrObjectes)
         }
     </script>
     <!--פופאפ מצלמה או גלריה-->
@@ -269,7 +282,7 @@
                     <span style="font-family:Tahoma, Geneva, sans-serif;color:white;">החלף תמונה </span>
                 </a>
             </div>
-           
+
             <a data-role="button" class="km-primary" style="margin-bottom: 0%;
                 border-radius: 0;
                 width: 99%;
@@ -280,6 +293,3 @@
         </footer>
     </div>
 </div>
-
-
-
