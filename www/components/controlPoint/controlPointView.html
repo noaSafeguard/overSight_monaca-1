@@ -102,8 +102,173 @@
     </footer>
 
 
-    <!-- פופאפ סיום מבדק   -->
+    <!--כלי טעון בדיקה  -->
+    <div data-role="modalview" id="popBuild" style="width:97%;height:75%;">
+        <br />
+        <div style="width:100%;height:36%; background-color:#e9eaeb;box-shadow:0 4px 2px -2px #c7c1c1;">
+            <label style="box-shadow: 0px 2px 3px #A29E9E;background-color:#1A607C;font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 200;text-align:center;padding-left: 6px;padding-top: 2px;padding-right: 12px;padding-bottom: 3px;float: right;"> הוספת כלי טעון בדיקה</label>
+        </div>
+        <br />
+        <center>
+            <div style="width:96%;" dir="rtl">
+                <div style="padding-left: 1.5%; padding-right: 0.1%; padding-top: 1.5%;">
+                    <table style="width:98%;">
+                        <tr>
+                            <td colspan="2">
+                                <div style="height:4px;background-color:transparent;"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:9%;">
+                                <i class="fas fa-pencil-alt" style="color:#7B7878;font-size:large;"></i>
+                            </td>
+                            <td>
+                                <center>
+                                    <input type="text" data-bind="value:homeModel.toolItem.ToolDescription" placeholder="תיאור" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;" />
+                                </center>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div style="height:4px;background-color:transparent;"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:9%;">
+                                <i class="fas fa-pencil-alt" style="color:#7B7878;font-size:large;"></i>
+                            </td>
+                            <td>
+                                <center>
+                                    <input type="number" data-bind="value:homeModel.toolItem.toolsNum" placeholder="כמות" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;" />
+                                </center>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div style="height:4px;background-color:transparent;"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:9%;">
+                                <i class="fas fa-map-marker" style="color:#7B7878;font-size:large;"></i>
+                            </td>
+                            <td>
+                                <center>
+                                    <input type="text" data-bind="value:homeModel.toolItem.locInSite" placeholder="מיקום באתר" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;" />
+                                </center>
+                            </td>
+                        </tr>
+                    </table>
+                   
+                  
+                </div>
+            </div>
+        </center>
+        <footer data-role="footer" style="background-color:#e9eaeb;">
+            <center>
+                <table style="width:100%">
+                    <tr>
+                        <td style="width:50%">
+                            <a data-role="button" data-bind="events: {click:homeModel.addTool }" style=" font-family:Tahoma, Geneva, sans-serif;border-style:none;border-radius: 0;margin-bottom:2%;align-self:center;width:98%;background-color:#1A607C;color: #ffffff;text-align:center;white-space: normal;direction:ltr;">
+                                <span style="font-family:Tahoma, Geneva, sans-serif;">שמור</span>
+                            </a>
+                        </td>
+                        <td style="width:50%">
+                            <a data-role="button" onclick="closePopTool()" style=" font-family:Tahoma, Geneva, sans-serif;border-style:none;border-radius: 0;margin-bottom:2%;align-self:center;width:98%;background-color:#1A607C;color: #ffffff;text-align:center;white-space: normal;direction:ltr;">
+                                <span style="font-family:Tahoma, Geneva, sans-serif;">חזור</span>
+                            </a>
 
+                        </td>
+                    </tr>
+                </table>
+            </center>
+        </footer>
+    </div>
+    <!-- בניין -->
+    <div data-role="modalview" id="popTool" style="width:97%;height:75%;">
+        <br />
+        <div style="width:100%;height:36%; background-color:#e9eaeb;box-shadow:0 4px 2px -2px #c7c1c1;">
+            <label style="box-shadow: 0px 2px 3px #A29E9E;background-color:#1A607C;font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 200;text-align:center;padding-left: 6px;padding-top: 2px;padding-right: 12px;padding-bottom: 3px;float: right;"> הוספת בניין</label>
+        </div>
+        <br />
+        <center>
+            <div style="width:96%;" dir="rtl">
+                <div style="padding-left: 1.5%; padding-right: 0.1%; padding-top: 1.5%;">
+                    <table style="width:98%;">
+                        <tr>
+                            <td colspan="2">
+                                <div style="height:4px;background-color:transparent;"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:9%;">
+                                <i class="fas fa-building" style="color:#7B7878;font-size:large;"></i>
+                            </td>
+                            <td>
+                                <center>
+                                    <input type="text"  data-bind="value:homeModel.builtItem.buildingNum" placeholder="מספר בניין" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;" />
+                                </center>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div style="height:4px;background-color:transparent;"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:9%;">
+                               
+                                <i class="fas fa-pencil-alt" style="color:#7B7878;font-size:large;"></i>
+                            </td>
+                            <td>
+                                <center>
+                                    <select id="executionStepSelect" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;"></select>
+                                    <!--<input type="text"  placeholder="שלב ביצוע" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;" />-->
+                                </center>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div style="height:4px;background-color:transparent;"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:9%;">
+                                <i class="fas fa-align-justify" style="color:#7B7878;font-size:large;"></i>
+                            </td>
+                            <td>
+                                <center>
+                                    <input type="number" data-bind="value:homeModel.builtItem.floorsNum" placeholder="מס קומות בעת הביקור" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;" />
+                                </center>
+                            </td>
+                        </tr>
+                    </table>
+
+
+                </div>
+            </div>
+        </center>
+        <footer data-role="footer" style="background-color:#e9eaeb;">
+            <center>
+                <table style="width:100%">
+                    <tr>
+                        <td style="width:50%">
+                            <a data-role="button" data-bind="events: {click:homeModel.addBuild }" style=" font-family:Tahoma, Geneva, sans-serif;border-style:none;border-radius: 0;margin-bottom:2%;align-self:center;width:98%;background-color:#1A607C;color: #ffffff;text-align:center;white-space: normal;direction:ltr;">
+                                <span style="font-family:Tahoma, Geneva, sans-serif;">שמור</span>
+                            </a>
+                        </td>
+                        <td style="width:50%">
+                            <a data-role="button" onclick="closePopBuild()" style=" font-family:Tahoma, Geneva, sans-serif;border-style:none;border-radius: 0;margin-bottom:2%;align-self:center;width:98%;background-color:#1A607C;color: #ffffff;text-align:center;white-space: normal;direction:ltr;">
+                                <span style="font-family:Tahoma, Geneva, sans-serif;">חזור</span>
+                            </a>
+
+                        </td>
+                    </tr>
+                </table>
+            </center>
+        </footer>
+    </div>
+    <!-- פופאפ סיום מבדק   -->
     <div data-role="modalview" id="popEndCheck" style="left:1px;width:97%;height:98%;">
         <br />
         <div style="width:100%;height:36%; background-color:#e9eaeb;box-shadow:0 4px 2px -2px #c7c1c1;">
@@ -218,12 +383,13 @@
                             </td>
                             <td>
                                 <div style="width:100%;">
-                                    <div style="  display: inline-block;padding: 0.5em;font-weight:200;width:49%;text-align: center;height: 40px;border:2px solid #F7931E;font-size:small;font-family: Tahoma, Geneva, sans-serif;background-color:#F7931E;">
+                                    <i class="fas fa-check-circle" id="siteSignage" style="position: absolute;color:transparent;font-size:large;"></i>
+                                    <div onclick="takeIdImageF('siteSignage')"  style="  display: inline-block;padding: 0.5em;font-weight:200;width:49%;text-align: center;height: 40px;border:2px solid #F7931E;font-size:small;font-family: Tahoma, Geneva, sans-serif;background-color:#F7931E;">
                                         <span style="font-family:Tahoma, Geneva, sans-serif;color: #ffffff;">צילום שלט באתר</span>
                                     </div>
 
-
-                                    <div style="float: left;display: inline-block;padding: 0.5em;font-weight:200;width:49%;text-align: center;height: 40px;border:2px solid #F7931E;font-size:small;font-family: Tahoma, Geneva, sans-serif;background-color:#F7931E;">
+                                    <i class="fas fa-check-circle" id="FillingStructures" style="right: 54.5%;position: absolute;color:transparent;font-size:large;"></i>
+                                    <div onclick="takeIdImageF('FillingStructures')" id="FillingStructures" style="float: left;display: inline-block;padding: 0.5em;font-weight:200;width:49%;text-align: center;height: 40px;border:2px solid #F7931E;font-size:small;font-family: Tahoma, Geneva, sans-serif;background-color:#F7931E;">
                                         <span style="font-family:Tahoma, Geneva, sans-serif;color: #ffffff;">תמונת בניין</span>
                                     </div>
                                 </div>
@@ -241,13 +407,13 @@
                                 <i class="fas fa-plus" style="color:#7B7878;font-size:large;"></i>
                             </td>
                             <td>
-                                <div style="width:100%;">
-                                    <div style="  display: inline-block;padding: 0.5em;font-weight:200;width:49%;text-align: center;height: 40px;border:2px solid #F7931E;font-size:small;font-family: Tahoma, Geneva, sans-serif;background-color:#F7931E;">
+                                <div style="width:100%;" >
+                                    <div onclick="openPopBuild()" style="display: inline-block;padding: 0.5em;font-weight:200;width:49%;text-align: center;height: 40px;border:2px solid #F7931E;font-size:small;font-family: Tahoma, Geneva, sans-serif;background-color:#F7931E;">
                                         <span style="font-family:Tahoma, Geneva, sans-serif;color: #ffffff;">הוספת כלי טעון בדיקה</span>
                                     </div>
 
 
-                                    <div style="float: left;display: inline-block;padding: 0.5em;font-weight:200;width:49%;text-align: center;height: 40px;border:2px solid #F7931E;font-size:small;font-family: Tahoma, Geneva, sans-serif;background-color:#F7931E;">
+                                    <div onclick="openPopTool()" style="float: left;display: inline-block;padding: 0.5em;font-weight:200;width:49%;text-align: center;height: 40px;border:2px solid #F7931E;font-size:small;font-family: Tahoma, Geneva, sans-serif;background-color:#F7931E;">
                                         <span style="font-family:Tahoma, Geneva, sans-serif;color: #ffffff;">הוסף בניין</span>
                                     </div>
                                 </div>
@@ -302,18 +468,299 @@
         </footer>
     </div>
 
+
+
+
     <script>
+        function openPopBuild() {
+            $("#popEndCheck").kendoMobileModalView("close");
+            $("#popBuild").kendoMobileModalView("open");
+            app.controlPoint.homeModel.doSelect();
+            //document.getElementById("executionStepSelect").options.length = 0;
+            //var list = homeModel.get('executionStep');
+            //var select = document.getElementById("executionStepSelect");
+            //for (var i = 0; i < list.length; i++) {
+            //    var option = document.createElement("option");
+            //    option.text = list[i].name;
+            //    option.value = list[i].id;
+            //    select.add(option);
+            //}
+
+        }
+        function openPopTool() {
+            $("#popEndCheck").kendoMobileModalView("close");
+            $("#popTool").kendoMobileModalView("open");
+        }
+        function closePopBuild() {
+            $("#popEndCheck").kendoMobileModalView("open");
+            $("#popBuild").kendoMobileModalView("close");
+          
+
+        }
+        function closePopTool() {
+            $("#popEndCheck").kendoMobileModalView("open");
+            $("#popTool").kendoMobileModalView("close");
+        }
         function publicBuildingsC() {
             if (document.getElementById("publicBuildings").checked == false) {
                 document.getElementById("publicBuildingsT1").style.display = "none";
-                document.getElementById("publicBuildingsT1").style.display = "none";
+                document.getElementById("publicBuildingsT2").style.display = "none";
             }
             else {
                 document.getElementById("publicBuildingsT1").style.display = "";
-                document.getElementById("publicBuildingsT1").style.display = "";
+                document.getElementById("publicBuildingsT2").style.display = "";
 
 
             }
+        }
+    </script>
+
+    <!-- פופאפ תמונות חדש -->
+    <div data-role="modalview" id="picturedropList1Pop" style="left:1px;width:80%; height:152px;" name="divAlign">
+        <div onclick="takeFromCameraF()" style="width:100%;height:50px;background-color:transparent;padding:1%;border-bottom:1px solid #114A60;">
+            <center style="margin-top: 3%;">
+                <i class="fas fa-camera" style="color:#114A60;font-size:large;"></i>
+                <span tyle="color: black;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;font-size:medium;" >מצלמה</span>
+            </center>
+        </div>
+        <div onclick="takeFromGaleryF()" style="width:100%;height:50px;background-color:transparent;padding:1%;border-bottom:1px solid #114A60;">
+            <center style="margin-top: 3%;">
+                <i class="far fa-image" style="color:#114A60;font-size:large;"></i>
+                <span tyle="color: black;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;font-size:medium;" >גלריה </span>
+            </center>
+        </div>
+        <div onclick="cancelPopF()" style="width:100%;height:50px;background-color:transparent;padding:1%;border-bottom:none;">
+            <center style="margin-top: 3%;">
+                <i class="far fa-times-circle" style="color:#114A60;font-size:large;"></i>
+                <span tyle="color: black;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;font-size:medium;" >סגור </span>
+            </center>
+
+        </div>
+    </div>
+
+
+    <script>
+
+        function takeIdImageF(id) {
+            app.controlPoint.homeModel.set("cameraIdF", id)
+            app.controlPoint.homeModel.ifOpenPictureFromF();
+        }
+
+        function takeFromCameraF() {
+            app.controlPoint.homeModel.takePhotoF();
+        }
+        function takeFromGaleryF() {
+            app.controlPoint.homeModel.getPhotoLibraryF();
+        }
+        function openPopF1() {
+            app.controlPoint.homeModel.set("cameraIdF", 'siteSignage')
+            $("#popImageSiteSignage").kendoMobileModalView("close");
+            $("#picturedropList1Pop").kendoMobileModalView("open");
+        }
+            
+        function openPopF2() {
+            app.controlPoint.homeModel.set("cameraIdF", 'FillingStructures')
+            $("#popImageFillingStructures").kendoMobileModalView("close");
+            $("#picturedropList1Pop").kendoMobileModalView("open");
+        }
+        function closePopImage1() {
+            $("#popImageSiteSignage").kendoMobileModalView("close");
+        }
+
+        function closePopImage2() {
+            $("#popImageFillingStructures").kendoMobileModalView("close");
+        }
+        function cancelPopF() {
+            $("#picturedropList1Pop").kendoMobileModalView("close");
+        }
+    </script>
+    <img id="gibuyImage1" hidden src="" style="width: 100%;" />
+    <img id="gibuyImage2" hidden src="" style="width: 100%;" />
+    <!--פופאפ תמונה 1-->
+    <div data-role="modalview" id="popImageSiteSignage" data-zoom="true" style="left: 1px;width: 98%; height: 100%; background-color:transparent">
+        <header data-role="header" style="background-color: #18556a;">
+            <div data-role="navbar" class="header" style="background-color: #18556a;">
+                <span style="font-family:Tahoma, Geneva, sans-serif;color:white" >צילום שלט באתר</span>
+                <a data-role="button" data-align="right" id="cordova-plugin-sketch-open1" style="color:white;background:#18556a">
+                    <span >סמן</span>
+                </a>
+                <a data-role="button" data-align="left" style="color:transparent;background-color:transparent">
+                    <span style="color:transparent;" >סמן</span>
+                </a>
+            </div>
+        </header>
+
+        <div data-role="content" style="background-color: transparent; margin-top: 2%;">
+            <center>
+                <img id="pictureSiteSignage" src="" style="width: 100%;" />
+            </center>
+
+        </div>
+        <footer data-role="footer" style="background-color: transparent;">
+            <a data-role="button" style="margin-bottom: 0%;border-radius: 0;width: 100%; background-color:#18556a;color: white;" onclick="openPopF1()">
+                <span style="font-family:Tahoma, Geneva, sans-serif;color:white;">החלף תמונה </span>
+            </a>
+            <a data-role="button" style="margin-bottom: 0%;border-radius: 0;width: 100%; background-color:#18556a;color: white;" onclick="closePopImage1()">
+                <span style="font-family:Tahoma, Geneva, sans-serif;color:white;">סגור</span>
+            </a>
+        </footer>
+    </div>
+    <!--פופאפ תמונה 2-->
+    <div data-role="modalview" id="popImageFillingStructures" data-zoom="true" style="left: 1px;width:98%; height:100%; background-color:transparent">
+        <header data-role="header" style="background-color: #18556a;">
+            <div data-role="navbar" class="header" style="background-color: #18556a;">
+                <span style="font-family:Tahoma, Geneva, sans-serif;color:white">תמונת בניין</span>
+                <a data-role="button" data-align="right" id="cordova-plugin-sketch-open2" style="color:white;background:#18556a">
+                    <span >סמן</span>
+                </a>
+                <a data-role="button" data-align="left" style="color:transparent;background-color:transparent">
+                    <span style="color:transparent;" >סמן</span>
+                </a>
+            </div>
+        </header>
+        <div data-role="content" style="background-color: transparent; margin-top: 2%;">
+            <center>
+                <img id="pictureFillingStructures" src="" style="width: 100%;" />
+            </center>
+        </div>
+        <footer data-role="footer" style="background-color: transparent;">
+            <a data-role="button" style="margin-bottom: 0%;border-radius: 0;width: 100%; background-color:#18556a;color: white;" onclick="openPopF2()">
+                <span style="font-family:Tahoma, Geneva, sans-serif;color:white;">החלף תמונה </span>
+            </a>
+            <a data-role="button" style="margin-bottom: 0%;border-radius: 0;width: 100%; background-color:#18556a;color: white;"  onclick="closePopImage2()">
+                <span style="font-family:Tahoma, Geneva, sans-serif;color:white;" >סגור</span>
+            </a>
+        </footer>
+    </div>
+    <script>
+        function getSketch1() {
+
+            var image = document.getElementById('picture_all_control_point1');
+
+            if (cordova.platformId == "ios") {
+
+                navigator.sketch.getSketch(onSuccessD1, onFailD1, {
+                    destinationType: navigator.sketch.DestinationType.DATA_URL,
+                    encodingType: navigator.sketch.EncodingType.JPEG,
+                    inputType: navigator.sketch.InputType.DATA_URL,
+                    inputData: image.src
+                });
+            }
+            else {
+
+                var tempSrc = app.controlPoint.homeModel.get("capturePhoto1SRC");//image.src;
+                tempSrc = tempSrc.toString()
+                navigator.sketch.getSketch(onSuccessD1, onFailD1, {
+                    destinationType: navigator.sketch.DestinationType.DATA_URL,
+                    encodingType: navigator.sketch.EncodingType.PNG,
+                    inputType: navigator.sketch.InputType.FILE_URI,
+                    inputData: tempSrc
+                });
+            }
+
+            // alert("sketch1")
+            // onSuccessD1();
+
+            //if (app.controlPoint.homeModel.get("capturePhoto2") == "null") {
+            //    app.controlPoint.homeModel.set("cameraId", "capturePhoto2")
+            //    $("#picturedropList1").data("kendoMobileActionSheet").open();
+            //}
+        }
+        function onSuccessD1(imageData) {
+            $("#pop_image_all_control_point_1").kendoMobileModalView("close");
+            app.mobileApp.showLoading();
+            if (imageData == null) { return; }
+            setTimeout(function () {
+                var image = document.getElementById('picture_all_control_point1');
+                if (imageData.indexOf("data:image") >= 0) {
+                    image.src = imageData;
+                } else {
+                    image.src = "data:image/png;base64," + imageData;
+                }
+                $("#picture_all_control_point1").show();
+                $("#cordova-plugin-sketch-open1").show();
+                if (document.getElementById('picture_all_control_point1').src == "data:image/png;base64,") {
+                    document.getElementById('picture_all_control_point1').src = document.getElementById('gibuyImage1').src;
+                }
+                else {
+                    document.getElementById('gibuyImage1').src = document.getElementById('picture_all_control_point1').src;
+                }
+                document.getElementById('showImage1').src = document.getElementById('picture_all_control_point1').src;
+                app.mobileApp.hideLoading();
+            }, 0);
+            if (app.controlPoint.homeModel.get("capturePhoto2") == "null") {
+                app.controlPoint.homeModel.set("cameraId", "capturePhoto2")
+                // $("#picturedropList1").data("kendoMobileActionSheet").open();
+                $("#picturedropList1Pop").kendoMobileModalView("open");
+            }
+
+            //$("#popPictureFrom3").kendoMobileModalView("open");
+        }
+        function onFailD1(message) {
+            $("#picture_all_control_point1").show();
+            $("#cordova-plugin-sketch-open1").show();
+            setTimeout(function () {
+                alert('plugin message: ' + message);
+            }, 0);
+        }
+        function getSketch2() {
+            var image = document.getElementById('picture_all_control_point2');
+
+            if (cordova.platformId == "ios") {
+
+                navigator.sketch.getSketch(onSuccessD2, onFailD2, {
+                    destinationType: navigator.sketch.DestinationType.DATA_URL,
+                    encodingType: navigator.sketch.EncodingType.JPEG,
+                    inputType: navigator.sketch.InputType.DATA_URL,
+                    inputData: image.src
+                });
+            }
+            else {
+
+                var tempSrc = app.controlPoint.homeModel.get("capturePhoto2SRC");//image.src;
+                tempSrc = tempSrc.toString()
+                navigator.sketch.getSketch(onSuccessD2, onFailD2, {
+                    destinationType: navigator.sketch.DestinationType.DATA_URL,
+                    encodingType: navigator.sketch.EncodingType.PNG,
+                    inputType: navigator.sketch.InputType.FILE_URI,
+                    inputData: tempSrc
+                });
+            }
+            // // alert("sketch2")
+            // // onSuccessD2();
+        }
+        function onSuccessD2(imageData) {
+            $("#pop_image_all_control_point_2").kendoMobileModalView("close");
+            app.mobileApp.showLoading();
+            if (imageData == null) { return; }
+            setTimeout(function () {
+                var image = document.getElementById('picture_all_control_point2');
+                if (imageData.indexOf("data:image") >= 0) {
+                    image.src = imageData;
+                } else {
+                    image.src = "data:image/png;base64," + imageData;
+                }
+                $("#picture_all_control_point1").show();
+                $("#cordova-plugin-sketch-open2").show();
+                if (document.getElementById('picture_all_control_point2').src == "data:image/png;base64,") {
+                    document.getElementById('picture_all_control_point2').src = document.getElementById('gibuyImage2').src;
+                    //alert("3")
+                }
+                else {
+                    document.getElementById('gibuyImage2').src = document.getElementById('picture_all_control_point2').src;
+                    //alert("4")
+                }
+                document.getElementById('showImage2').src = document.getElementById('picture_all_control_point2').src;
+                app.mobileApp.hideLoading();
+            }, 0);
+            //$("#popPictureFrom3").kendoMobileModalView("close");
+        }
+        function onFailD2(message) {
+            $("#picture_all_control_point2").show();
+            $("#cordova-plugin-sketch-open2").show();
+            setTimeout(function () {
+                alert('plugin message: ' + message);
+            }, 0);
         }
     </script>
 </div>

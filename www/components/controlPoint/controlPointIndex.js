@@ -48,6 +48,16 @@ app.controlPoint = kendo.observable({
             name: 'HazhardCPEC',
             autoFill: false
         },
+        //אובייקט בניין
+        jsdoOptionsbuildingsSite = {
+            name: 'buildingsSite',
+            autoFill: false
+        },
+        //אובייקט כלי טעון בדיקה
+        jsdoOptionsToolsSite = {
+            name: 'ToolsSite',
+            autoFill: false
+        },
         dataSourceOptions = {
             type: 'jsdo',
             transport: {},
@@ -95,6 +105,8 @@ app.controlPoint = kendo.observable({
             _jsdoOptionsHazhardCPE: jsdoOptionsHazhardCPE,
             _jsdoOptionsHazhardCPEC: jsdoOptionsHazhardCPEC,
             dataSourceSectionCheckupEdit: dataSourceSectionCheckupEdit,
+            _jsdoOptionsbuildingsSite: jsdoOptionsbuildingsSite,
+            _jsdoOptionsToolsSite: jsdoOptionsToolsSite,
             EditSectionItem: null,
             itemClickCp: {},
             sectionStatus: [],
@@ -115,6 +127,82 @@ app.controlPoint = kendo.observable({
             fileURIEdit: "null",
 
             checkItem: {},
+            builtItem: {},
+            toolItem: {},
+            addTool: function () {
+                app.mobileApp.showLoading();
+                var jsdoOptions = homeModel.get('_jsdoOptionsToolsSite'),
+                    jsdo = new progress.data.JSDO(jsdoOptions),
+                    dataSourceOptions = homeModel.get('_dataSourceOptions'),
+                    dataSource;
+                dataSourceOptions.transport.jsdo = jsdo;
+                dataSource = new kendo.data.DataSource(dataSourceOptions);
+                homeModel.toolItem.set("locationId", (app.project.homeModel.get("dataItem")).locationId)
+
+                function saveModel(data) {
+
+                    dataSource.add(homeModel.get("toolItem"));
+                    dataSource.one('change', function (e) {
+                        homeModel.set("toolItem", {});
+                        $("#popEndCheck").kendoMobileModalView("open");
+                        $("#popTool").kendoMobileModalView("close");
+                        app.mobileApp.hideLoading();
+
+                    });
+                    dataSource.sync();
+                };
+                saveModel();
+            },
+            addBuild: function () {
+                
+                app.mobileApp.showLoading();
+                var jsdoOptions = homeModel.get('_jsdoOptionsbuildingsSite'),
+                    jsdo = new progress.data.JSDO(jsdoOptions),
+                    dataSourceOptions = homeModel.get('_dataSourceOptions'),
+                    dataSource;
+                dataSourceOptions.transport.jsdo = jsdo;
+                dataSource = new kendo.data.DataSource(dataSourceOptions);
+
+                homeModel.builtItem.set("locationId", (app.project.homeModel.get("dataItem")).locationId);
+               
+                var e = document.getElementById("executionStepSelect");
+                var executionStep = e.options[e.selectedIndex].value;
+
+                homeModel.builtItem.set("executionStep", executionStep);
+
+                function saveModel(data) {
+                 
+                    dataSource.add(homeModel.get("builtItem"));
+                    dataSource.one('change', function (e) {
+                        homeModel.set("builtItem", {});
+                        $("#popEndCheck").kendoMobileModalView("open");
+                        $("#popBuild").kendoMobileModalView("close");
+                        app.mobileApp.hideLoading();
+                  
+                    });
+                    dataSource.sync();
+                };
+                saveModel();
+            },
+
+            doSelect: function () {
+          
+                document.getElementById("executionStepSelect").options.length = 0;
+                var list = homeModel.get('executionStep');
+                var select = document.getElementById("executionStepSelect");
+                var option = document.createElement("option");
+                option.text = "שלב ביצוע";
+                option.value = -1;
+                select.add(option);
+               
+                for (var i = 0; i < list.length; i++) {
+                    var option = document.createElement("option");
+                    option.text = list[i].name;
+                    option.value = list[i].id;
+                    select.add(option);
+                }
+            },
+
             //בלחיצה על ציון בסעיף
             myChooseSectionStatusN: function (this1, seif, val) {
 
@@ -842,17 +930,7 @@ app.controlPoint = kendo.observable({
                         { field: "id", operator: "eq", value: (app.hightGuard.homeModel.get("currentCheck")).id }
                     ]
                 })
-                //var pos = {
-                //    lat: "",
-                //    lng: ""
-                //};
-                //if (navigator.geolocation) {
-                //    navigator.geolocation.getCurrentPosition(function (position) {
-                //        pos.lat = position.coords.latitude;
-                //        pos.lng = position.coords.longitude;
-                //    });
-                //}
-                //homeMode.set("checkItem"
+            
                 dataSource.fetch(function () {
                     var view = dataSource.view();
                     console.log(view);
@@ -864,6 +942,10 @@ app.controlPoint = kendo.observable({
                     //    "Longitude": pos.lng
 
                     //}
+                
+                    if (document.getElementById("publicBuildings").checked == false) {
+                        homeModel.checkItem.set("publicBuildingsDetails", "");
+                    }
                     var obj = homeModel.get("checkItem")
                     try {
                         var jsdo = dataSource.transport.jsdo;
@@ -873,6 +955,11 @@ app.controlPoint = kendo.observable({
                         afterUpdateFn = function (jsdo, record, success, request) {
                             jsdo.unsubscribe('afterUpdate', afterUpdateFn);
                             if (success === true) {
+                                debugger;
+                                if (document.getElementById("siteSignage").style.color == "green" || document.getElementById("FillingStructures").style.color == "green") {
+                                    uploadPictureToServer(view[0]);
+                                }
+                             
                                 app.mobileApp.hideLoading();
                                 app.mobileApp.navigate('#components/hightGuard/view.html');
                             }
@@ -882,10 +969,65 @@ app.controlPoint = kendo.observable({
                         };
                         jsdo.subscribe('afterUpdate', afterUpdateFn);
                         jsdo.saveChanges();
+
+
+                        function uploadPictureToServer(cur) {
+                          
+                            var options = new FileUploadOptions();
+                            options.quality = 10;
+                            options.fileKey = "fileContents";
+
+                            options.mimeType = "image/jpeg";
+                            options.params = {};
+                            options.headers = {
+                                Connection: "Close"
+                            };
+                            options.chunkedMode = false;
+                            var ft = new FileTransfer();
+                            var imageObj1, imageObj2;
+                            var fileURI1, fileURI2;
+                            var urlRB1, urlRB2;
+
+                            if (document.getElementById("siteSignage").style.color == "green") {
+                                imageObj1 = $.parseJSON(cur.siteSignage);
+                                fileURI1 = document.getElementById('pictureSiteSignage').src;
+                                urlRB1 = jsdo.url + imageObj1.src + "?objName=" + app.controlPoint.homeModel._jsdoOptions.name;
+                                options.fileName = "photo1.jpeg";
+                                ft.upload(
+                                    fileURI1,
+                                    encodeURI(urlRB1),
+                                    onFileUploadSuccess("photo1"),
+                                    onFileTransferFail,
+                                    options,
+                                    true);
+                            }
+                            if (document.getElementById("FillingStructures").style.color == "green") {
+                                imageObj2 = $.parseJSON(cur.FillingStructures);
+                                fileURI2 = document.getElementById('pictureFillingStructures').src;
+                                urlRB2 = jsdo.url + imageObj2.src + "?objName=" + app.controlPoint.homeModel._jsdoOptions.name;
+                                options.fileName = "photo2.jpeg";
+                                ft.upload(
+                                    fileURI2,
+                                    encodeURI(urlRB2),
+                                    onFileUploadSuccess("photo2"),
+                                    onFileTransferFail,
+                                    options,
+                                    true);
+                            }
+                            function onFileUploadSuccess(fieldName) {
+                                alert("sss");
+                            }
+                            function onFileTransferFail(error) {
+                                alert("Error loading the image");
+                            }
+
+                        }
+
                     } catch (e) {
                         alert("התגלתה בעיה בטעינת הנתונים, אנא נסה שוב  מאוחר יותר")
                     }
                 });
+             
             },
 
             open_pop_item_description: function () {
@@ -1160,6 +1302,76 @@ app.controlPoint = kendo.observable({
             },
 
 
+            //תמונות סגירת מבדק
+            ifOpenPictureFromF: function () {
+                var check1 = app.controlPoint.homeModel.get("cameraIdF");
+                console.log(document.getElementById(check1).style.color)
+                if (document.getElementById(check1).style.color == "green") {
+                    if (check1 == "siteSignage")
+                        $("#popImageSiteSignage").kendoMobileModalView("open");
+                    else
+                        $("#popImageFillingStructures").kendoMobileModalView("open");
+                    $("#picturedropList1Pop").kendoMobileModalView("close");
+                }
+                else 
+                    $("#picturedropList1Pop").kendoMobileModalView("open");
+            },
+
+            takePhotoF: function (e) {
+                var check1 = app.controlPoint.homeModel.get("cameraIdF");
+                if (cordova.platformId == "ios") {
+                    navigator.camera.getPicture(onSuccessUploadPhotoF, function (message) {
+                        alert("Failed to get a picture. Please select one.");
+                    }, {
+                            quality: 30,
+                            destinationType: Camera.DestinationType.DATA_URL,
+                            targetWidth: 1600,
+                            targetHeight: 1600,
+                            correctOrientation: true,
+                        });
+                }
+                else {
+                    navigator.camera.getPicture(onSuccessUploadPhotoF, function (message) {
+                        alert("Failed to get a picture. Please select one.");
+                    }, {
+                            quality: 30,
+                            destinationType: Camera.DestinationType.FILE_URI,
+                            EncodingType: Camera.EncodingType.PNG,
+                            targetWidth: 1600,
+                            targetHeight: 1600,
+                            correctOrientation: true,
+                        });
+                }
+            },
+
+            getPhotoLibraryF: function (e) {
+                var check1 = app.controlPoint.homeModel.get("cameraIdF");
+                if (cordova.platformId == "ios") {
+                    navigator.camera.getPicture(onSuccessUploadPhotoF, function (message) {
+                        alert("Failed to get a picture. Please select one.");
+                    }, {
+                            quality: 30,
+                            destinationType: Camera.DestinationType.DATA_URL,
+                            sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY,
+                            targetWidth: 1600,
+                            targetHeight: 1600,
+                            correctOrientation: true,
+                        });
+                }
+                else {
+                    navigator.camera.getPicture(onSuccessUploadPhotoF, function (message) {
+                        alert("Failed to get a picture. Please select one.");
+                    }, {
+                            quality: 30,
+                            destinationType: Camera.DestinationType.FILE_URI,
+                            sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY,
+                            targetWidth: 1600,
+                            targetHeight: 1600,
+                            correctOrientation: true,
+                        });
+                }
+            },
+
         });
     //מעלה תמונה לוקלי לאחר תצלום או מגלריה או ממצלמה
     function uploadPhoto(fileURI) {
@@ -1192,7 +1404,67 @@ app.controlPoint = kendo.observable({
         document.getElementById(cameraId).style.color = "red";
         app.controlPoint.homeModel.set("fileURIEdit", fileURI);
     }
+    function onSuccessUploadPhotoF(imageData) {
+        $("#picturedropList1Pop").kendoMobileModalView("close");
+        var cameraId = app.controlPoint.homeModel.get("cameraIdF");
+        var image;
+        if (cameraId == "siteSignage") {
+            image = document.getElementById('pictureSiteSignage');
+            if (cordova.platformId == "ios") {
 
+                image.src = "data:image/jpeg;base64," + imageData;
+            } else {
+                image.src = imageData;
+            }
+            app.controlPoint.homeModel.set("pictureSiteSignageSRC", image.src);
+            //     app.controlPoint.homeModel.set("pictureSiteSignage", cameraId);
+            //  $('#capturePhoto1I').removeClass("material-icons").addClass("fas fa-search-plus");
+            //  capturePhoto1I.innerHTML = ""
+
+
+            //קישקוש עג תמונה
+            document.getElementById('gibuyImage1').src = document.getElementById('pictureSiteSignage').src;
+
+
+            $("#cordova-plugin-sketch-open1").show();
+
+            // getSketch1();
+        }
+        if (cameraId == "FillingStructures") {
+            image = document.getElementById('pictureFillingStructures');
+
+            if (cordova.platformId == "ios") {
+
+                image.src = "data:image/jpeg;base64," + imageData;
+            } else {
+
+                image.src = imageData;
+            }
+            app.controlPoint.homeModel.set("pictureFillingStructuresSRC", image.src);
+            //   app.controlPoint.homeModel.set("pictureFillingStructures", cameraId);
+            //קישקוש עג תמונה
+            document.getElementById('gibuyImage2').src = document.getElementById('pictureFillingStructures').src;
+            //$("#picture_all_control_point2").hide();
+            $("#cordova-plugin-sketch-open2").show();
+            //$('#capturePhoto2I').removeClass("material-icons").addClass("fas fa-search-plus");
+            //   capturePhoto2I.innerHTML = "";
+
+
+            //  getSketch2();
+        }
+
+        //  var cameraIdT = cameraId;
+        //if (cameraIdT == "capturePhoto1")
+        //    cameraIdT = "capturePhoto1T"
+        //else
+        //    if (cameraIdT == "capturePhoto2")
+        //        cameraIdT = "capturePhoto2T"
+        document.getElementById(cameraId).style.color = "green";
+        //   app.controlPoint.set("flagImage", true);
+        app.controlPoint.homeModel.set("fileURI", cameraId);
+        //talkbubbleStylePicture.hidden = false;
+
+    }
     //לאחר ההעלה תמונה לוקלי
     function onSuccessUploadPhoto(imageData) {
         $("#popPictureFrom").kendoMobileModalView("close");
@@ -1475,115 +1747,7 @@ app.controlPoint = kendo.observable({
 
 
     }
-    //function uploadWorkEdit(fileURI, cur) {
-    //    var mone = 0;
-    //    var moneS = 0;
-    //    var myData;
-    //    var myId;
-
-    //    if (app.controlPoint.homeModel.get("capturePhoto1Edit") != null && app.controlPoint.homeModel.get("capturePhoto1Edit") != "null") {
-    //        mone++;
-    //    }
-    //    if (app.controlPoint.homeModel.get("capturePhoto2Edit") != null && app.controlPoint.homeModel.get("capturePhoto2Edit") != "null") {
-    //        mone++;
-    //    }
-    //    //var dataSource = homeModel.get('dataSource')
-    //    //dataSource.fetch(function () {
-    //    //    var view = dataSource.view();
-    //    //    for (var i = 0; i < view.length; i++) {
-    //    var options = new FileUploadOptions();
-    //    options.quality = 10;
-    //    options.fileKey = "fileContents";
-    //    //options.fileName = key;
-
-    //    options.mimeType = "image/jpeg";
-    //    options.params = {};
-    //    options.headers = {
-    //        Connection: "Close"
-    //    };
-    //    options.chunkedMode = false;
-    //    var ft = new FileTransfer();
-    //    var imageObj1, imageObj2;
-    //    var fileURI1, fileURI2;
-    //    var urlRB1, urlRB2;
-
-    //    if (app.controlPoint.homeModel.get("capturePhoto1Edit") != null && app.controlPoint.homeModel.get("capturePhoto1Edit") != "null") {
-    //        imageObj1 = $.parseJSON(cur.CategoryImage1);
-    //        fileURI1 = document.getElementById('picture_all_control_point1Edit').src;
-    //        urlRB1 = app.controlPoint.homeModel._dataSourceOptions.transport.jsdo.url + imageObj1.src + "?objName=" + app.controlPoint.homeModel._jsdoOptions.name;
-    //        options.fileName = "photo1.jpeg";
-    //        ft.upload(
-    //            fileURI1,
-    //            encodeURI(urlRB1),
-    //            onFileUploadSuccess("photo1"),
-    //            onFileTransferFail,
-    //            options,
-    //            true);
-    //    }
-    //    else {
-    //    }
-    //    if (app.controlPoint.homeModel.get("capturePhoto2Edit") != null && app.controlPoint.homeModel.get("capturePhoto2Edit") != "null") {
-    //        imageObj2 = $.parseJSON(cur.CategoryImage2);
-    //        fileURI2 = document.getElementById('picture_all_control_point2Edit').src;
-    //        urlRB2 = app.controlPoint.homeModel._dataSourceOptions.transport.jsdo.url + imageObj2.src + "?objName=" + app.controlPoint.homeModel._jsdoOptions.name;
-    //        options.fileName = "photo2.jpeg";
-    //        ft.upload(
-    //            fileURI2,
-    //            encodeURI(urlRB2),
-    //            onFileUploadSuccess("photo2"),
-    //            onFileTransferFail,
-    //            options,
-    //            true);
-    //    }
-    //    else {
-    //    }
-    //    //    }
-    //    //    myData = dataSource;
-    //    //    myId = view[0].id;
-    //    //    homeModel.set("idToShare", myId)
-    //    //});
-
-    //    function onFileUploadSuccess(fieldName) {
-
-    //        if (fieldName === "photo1") {
-    //            window.plugins.toast.showWithOptions(
-    //                {
-    //                    message: "תמונה עלתה בהצלחה",
-    //                    duration: "short", // which is 2000 ms. "long" is 4000. Or specify the nr of ms yourself.
-    //                    position: "bottom",
-    //                    addPixelsY: -40  // added a negative value to move it up a bit (default 0)
-    //                }
-
-    //            );
-    //        }
-    //        if (fieldName === "photo2") {
-    //            window.plugins.toast.showWithOptions(
-    //                {
-    //                    message: "תמונה עלתה בהצלחה",
-    //                    duration: "short", // which is 2000 ms. "long" is 4000. Or specify the nr of ms yourself.
-    //                    position: "bottom",
-    //                    addPixelsY: -40  // added a negative value to move it up a bit (default 0)
-    //                }
-
-    //            );
-    //        }
-    //        moneS++;
-    //        if (mone == moneS) {
-    //            app.controlPoint.homeModel.set("fileURIEdit", "null");
-    //            app.controlPoint.homeModel.set("capturePhoto1Edit", "null");
-    //            app.controlPoint.homeModel.set("capturePhoto2Edit", "null");
-    //            homeModel.save2();
-    //        }
-    //    }
-    //    function onFileTransferFail(error) {
-    //        console.log("FileTransfer Error:");
-    //        console.log("Code: " + error.code);
-    //        console.log("Body:" + error.body);
-    //        console.log("Source: " + error.source);
-    //        console.log("Target: " + error.target);
-    //        alert("Error loading the image");
-    //    }
-    //}
+ 
     //till camera
 
     parent.set('homeModel', homeModel);
@@ -1631,35 +1795,30 @@ app.controlPoint = kendo.observable({
                 app.mobileApp.hideLoading();
 
             });
+            
+         
+         
+
+            dataProvider.loadCatalogs().then(function _catalogsLoaded() {
+                var jsdoOptions = homeModel.get('_jsdoOptionsbuildingsSite'),
+                    jsdo = new progress.data.JSDO(jsdoOptions),
+                    dataSourceOptions = homeModel.get('_dataSourceOptions'),
+                    dataSource;
+                dataSourceOptions.transport.jsdo = jsdo;
+                dataSource = new kendo.data.DataSource(dataSourceOptions)
+                homeModel.set('executionStep', jsdo.getPicklist_executionStep().response.picklistData);
+            });
 
         } catch (e) {
             alert("שגיאה")
         }
     });
+    //בכל כניסה
     parent.set('onShow2', function (e) {
         try {
-            //projectNameControlPoint.innerHTML = (app.project.homeModel.get("dataItem")).LocationName;
+            
             var scroller = e.view.scroller;
             scroller.reset();
-
-            //var txt = (app.hightGuard.homeModel.get("currentCheck")).DroneURL;
-            //if (txt != null && txt != "null")
-            //    document.getElementById("DroneURL").value = txt;//רחפן
-            //else
-            //    document.getElementById("DroneURL").value = "";
-
-            //txt = (app.hightGuard.homeModel.get("currentCheck")).TourParticipants;
-            //if (txt != null && txt != "null")
-            //    document.getElementById("TourParticipants").value = txt;//משתתפים בסיור
-            //else
-            //    document.getElementById("TourParticipants").value = "";
-
-            //txt = (app.hightGuard.homeModel.get("currentCheck")).AdditionalComments;
-            //if (txt != null && txt != "null")
-            //    document.getElementById("AdditionalComments").value = txt;//הערות נוספות
-            //else
-            //    document.getElementById("AdditionalComments").value = "";
-
 
             //דוח
             document.getElementById("CheckupReport_URL").setAttribute("href", (app.hightGuard.homeModel.get("currentCheck")).CheckupReport_URL);
@@ -1679,13 +1838,13 @@ app.controlPoint = kendo.observable({
                 homeModel.set("checkItem", itemModel)
                 if (itemModel.publicBuildings == true) {
                     document.getElementById("publicBuildingsT1").style.display = "";
-                    document.getElementById("publicBuildingsT1").style.display = "";
+                    document.getElementById("publicBuildingsT2").style.display = "";
                     document.getElementById("publicBuildings").checked = true;
                 }
                 else {
                     document.getElementById("publicBuildings").checked = false;
                     document.getElementById("publicBuildingsT1").style.display = "none";
-                    document.getElementById("publicBuildingsT1").style.display = "none";
+                    document.getElementById("publicBuildingsT2").style.display = "none";
                 }
                
             } else {
@@ -1700,7 +1859,10 @@ app.controlPoint = kendo.observable({
                 homeModel.set("checkItem", obj)
                 document.getElementById("publicBuildings").checked = false;
                 document.getElementById("publicBuildingsT1").style.display = "none";
-                document.getElementById("publicBuildingsT1").style.display = "none";
+                document.getElementById("publicBuildingsT2").style.display = "none";
+                document.getElementById("siteSignage").style.color = "transparent";
+                document.getElementById("FillingStructures").style.color = "transparent";
+                homeModel.set("toolItem", {});
             }
          
             console.log(homeModel.get("checkItem"))
@@ -1710,28 +1872,7 @@ app.controlPoint = kendo.observable({
         }
     });
     parent.set('onShowSectionInit', function (e) {
-        //try {
-
-        //var scroller = e.view.scroller;
-        //scroller.reset();
-        //app.mobileApp.showLoading();
-
-
-
-        //סעיפים למבדק זה
-        //dataProvider.loadCatalogs().then(function _catalogsLoaded() {
-        //    var jsdoOptions = homeModel.get('_jsdoOptionsSectionCheckup'),
-        //        jsdo = new progress.data.JSDO(jsdoOptions),
-        //        dataSourceOptions = homeModel.get('_dataSourceOptions'),
-        //        dataSource2;
-        //    dataSourceOptions.transport.jsdo = jsdo;
-        //    dataSource2 = new kendo.data.DataSource(dataSourceOptions)
-        //  //  debugger;
-        // //   homeModel.set('IntScore', jsdo.getPicklist_IntScore().response.picklistData);
-
-        //    //homeModel.set('sectionStatus', app.controlPoint.homeModel._dataSourceOptions.transport.jsdo.getPicklist_SectionStatus().response.picklistData);
-        //});
-
+    
 
         //שולף טבלה סעיפי בדיקה מהשרת
         dataProvider.loadCatalogs().then(function _catalogsLoaded() {
@@ -1747,10 +1888,7 @@ app.controlPoint = kendo.observable({
 
 
         });
-        // app.mobileApp.hideLoading();
-        //} catch (e) {
-        //    alert("שגיאה")
-        //}
+     
     });
     parent.set('onShowSection', function (e) {
         //try {
