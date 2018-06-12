@@ -138,6 +138,7 @@ app.controlPoint = kendo.observable({
                 dataSourceOptions.transport.jsdo = jsdo;
                 dataSource = new kendo.data.DataSource(dataSourceOptions);
                 homeModel.toolItem.set("locationId", (app.project.homeModel.get("dataItem")).locationId)
+                homeModel.toolItem.set("R408159722", (app.hightGuard.homeModel.get("currentCheck")).id);
 
                 function saveModel(data) {
 
@@ -164,6 +165,8 @@ app.controlPoint = kendo.observable({
                 dataSource = new kendo.data.DataSource(dataSourceOptions);
 
                 homeModel.builtItem.set("locationId", (app.project.homeModel.get("dataItem")).locationId);
+                homeModel.builtItem.set("R408159712", (app.hightGuard.homeModel.get("currentCheck")).id);
+             
                
                 var e = document.getElementById("executionStepSelect");
                 var executionStep = e.options[e.selectedIndex].value;
@@ -946,6 +949,10 @@ app.controlPoint = kendo.observable({
                     if (document.getElementById("publicBuildings").checked == false) {
                         homeModel.checkItem.set("publicBuildingsDetails", "");
                     }
+
+                    homeModel.checkItem.set("publicBuildings", document.getElementById("publicBuildings").checked);//קיימים מבנים ציבוריים
+                    //homeModel.checkItem.set("publicBuildings", document.getElementById("publishToContact").checked);//הפצה לאנשי קשר לפי מחוז
+
                     var obj = homeModel.get("checkItem")
                     try {
                         var jsdo = dataSource.transport.jsdo;
@@ -1836,7 +1843,7 @@ app.controlPoint = kendo.observable({
             //}
             if (app.hightGuard.homeModel.get("itemIs") == true) { 
                 homeModel.set("checkItem", itemModel)
-                if (itemModel.publicBuildings == true) {
+                if (itemModel.publicBuildings == 1) {
                     document.getElementById("publicBuildingsT1").style.display = "";
                     document.getElementById("publicBuildingsT2").style.display = "";
                     document.getElementById("publicBuildings").checked = true;
@@ -1846,6 +1853,12 @@ app.controlPoint = kendo.observable({
                     document.getElementById("publicBuildingsT1").style.display = "none";
                     document.getElementById("publicBuildingsT2").style.display = "none";
                 }
+                //if (itemModel.publicBuildings == 1) {//הפצה לאנשי קשר
+                //    document.getElementById("publishToContact").checked = true;
+                //}
+                //else {
+                //    document.getElementById("publishToContact").checked = false;
+                //}
                
             } else {
                 var obj = {
@@ -1858,6 +1871,7 @@ app.controlPoint = kendo.observable({
                 }
                 homeModel.set("checkItem", obj)
                 document.getElementById("publicBuildings").checked = false;
+                document.getElementById("publishToContact").checked = false;
                 document.getElementById("publicBuildingsT1").style.display = "none";
                 document.getElementById("publicBuildingsT2").style.display = "none";
                 document.getElementById("siteSignage").style.color = "transparent";

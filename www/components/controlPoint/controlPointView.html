@@ -103,7 +103,7 @@
 
 
     <!--כלי טעון בדיקה  -->
-    <div data-role="modalview" id="popBuild" style="width:97%;height:75%;">
+    <div data-role="modalview" id="popTool" style="width:97%;height:75%;">
         <br />
         <div style="width:100%;height:36%; background-color:#e9eaeb;box-shadow:0 4px 2px -2px #c7c1c1;">
             <label style="box-shadow: 0px 2px 3px #A29E9E;background-color:#1A607C;font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 200;text-align:center;padding-left: 6px;padding-top: 2px;padding-right: 12px;padding-bottom: 3px;float: right;"> הוספת כלי טעון בדיקה</label>
@@ -185,7 +185,7 @@
         </footer>
     </div>
     <!-- בניין -->
-    <div data-role="modalview" id="popTool" style="width:97%;height:75%;">
+    <div data-role="modalview" id="popBuild" style="width:97%;height:75%;">
         <br />
         <div style="width:100%;height:36%; background-color:#e9eaeb;box-shadow:0 4px 2px -2px #c7c1c1;">
             <label style="box-shadow: 0px 2px 3px #A29E9E;background-color:#1A607C;font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 200;text-align:center;padding-left: 6px;padding-top: 2px;padding-right: 12px;padding-bottom: 3px;float: right;"> הוספת בניין</label>
@@ -408,12 +408,12 @@
                             </td>
                             <td>
                                 <div style="width:100%;" >
-                                    <div onclick="openPopBuild()" style="display: inline-block;padding: 0.5em;font-weight:200;width:49%;text-align: center;height: 40px;border:2px solid #F7931E;font-size:small;font-family: Tahoma, Geneva, sans-serif;background-color:#F7931E;">
+                                    <div  onclick="openPopTool()" style="display: inline-block;padding: 0.5em;font-weight:200;width:49%;text-align: center;height: 40px;border:2px solid #F7931E;font-size:small;font-family: Tahoma, Geneva, sans-serif;background-color:#F7931E;">
                                         <span style="font-family:Tahoma, Geneva, sans-serif;color: #ffffff;">הוספת כלי טעון בדיקה</span>
                                     </div>
 
 
-                                    <div onclick="openPopTool()" style="float: left;display: inline-block;padding: 0.5em;font-weight:200;width:49%;text-align: center;height: 40px;border:2px solid #F7931E;font-size:small;font-family: Tahoma, Geneva, sans-serif;background-color:#F7931E;">
+                                    <div onclick="openPopBuild()" style="float: left;display: inline-block;padding: 0.5em;font-weight:200;width:49%;text-align: center;height: 40px;border:2px solid #F7931E;font-size:small;font-family: Tahoma, Geneva, sans-serif;background-color:#F7931E;">
                                         <span style="font-family:Tahoma, Geneva, sans-serif;color: #ffffff;">הוסף בניין</span>
                                     </div>
                                 </div>
@@ -435,7 +435,7 @@
                                 <center>
                                     <div style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);">
                                         <label style="float: right;text-align: right;font-size:small;font-family: Tahoma, Geneva, sans-serif;">הפצה לאנשי קשר לפי מחוז</label>
-                                        <input type="checkbox" style="float: left;"/>
+                                        <input type="checkbox" style="float: left;" id="publishToContact"/>
                                     </div>
                                 </center>
                               
@@ -475,6 +475,7 @@
         function openPopBuild() {
             $("#popEndCheck").kendoMobileModalView("close");
             $("#popBuild").kendoMobileModalView("open");
+          
             app.controlPoint.homeModel.doSelect();
             //document.getElementById("executionStepSelect").options.length = 0;
             //var list = homeModel.get('executionStep');
