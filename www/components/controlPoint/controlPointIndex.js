@@ -114,10 +114,10 @@ app.controlPoint = kendo.observable({
             capturePhoto2Edit: "null",
             fileURIEdit: "null",
 
-
+            checkItem: {},
             //בלחיצה על ציון בסעיף
-            myChooseSectionStatusN: function (this1,seif, val) {
-               
+            myChooseSectionStatusN: function (this1, seif, val) {
+
                 var arrObjectes = homeModel.get('arrObjectes');
                 for (var i = 0; i < arrObjectes.length; i++) {
                     for (var j = 0; j < arrObjectes[i].seif.length; j++) {
@@ -237,7 +237,7 @@ app.controlPoint = kendo.observable({
 
                                 }
 
-                            
+
                             });
                             dataSource.sync();
                         };
@@ -257,16 +257,19 @@ app.controlPoint = kendo.observable({
                             dataSource.add(obj);
                             dataSource.one('change', function (e) {
                                 console.log(current.R408159700)
-                                $("input:checkbox").prop("checked", false);
+                                //$("input:checkbox").prop("checked", false);
                                 homeModel.arrObjectes = [];
-                                app.mobileApp.hideLoading();
-                                app.mobileApp.navigate('#components/controlPoint/controlPointView.html');
+                                //app.mobileApp.hideLoading();
+                                //app.mobileApp.navigate('#components/controlPoint/controlPointView.html');
                             });
                             dataSource.sync();
                         };
                         saveModel();
                     });
                 }
+                $("input:checkbox").prop("checked", false);
+                app.mobileApp.hideLoading();
+                app.mobileApp.navigate('#components/controlPoint/controlPointView.html');
             },
 
             //בלחיצת וי על אחד מסעיפי בדיקה יומית שומר בחירה במערך
@@ -377,43 +380,43 @@ app.controlPoint = kendo.observable({
             //עריכה- שליפת כל הסעיפים שקשורים לתחום הניבחר
             editSection: function (cpId) {
                 try {
-                    
+
                     var arrObjectesSelect = [];
                     //שליפת כל המפגעים
                     //dataProvider.loadCatalogs().then(function _catalogsLoaded() {
-                        var jsdoOptions = homeModel.get('_jsdoOptionsHazhardCPEC'),
-                            jsdo = new progress.data.JSDO(jsdoOptions),
-                            dataSourceOptions = homeModel.get('_dataSourceOptions'),
-                            dataSource;
-                        dataSourceOptions.transport.jsdo = jsdo;
-                        dataSource = new kendo.data.DataSource(dataSourceOptions)
-                        dataSource.filter({
-                            logic: "and",
-                            filters: [
-                                { field: "R408159685", operator: "eq", value: cpId },
-                            ]
-                        })
-                        var jsdoOptions = homeModel.get('_jsdoOptionsSectionCheckup'),
-                            jsdo = new progress.data.JSDO(jsdoOptions),
-                            dataSourceOptions = homeModel.get('_dataSourceOptions'),
-                            dataSource1;
-                        dataSourceOptions.transport.jsdo = jsdo;
-                        dataSource1 = new kendo.data.DataSource(dataSourceOptions)
-                        var view;
-                        var view1
-                        dataSource.fetch(function () {
-                             view = dataSource.view();
-                            if (view && view1)
-                                foritemes();
-                          
-                        });
-                        dataSource1.fetch(function () {
-                             view1 = dataSource1.view();
-                            if (view && view1)
-                                foritemes();
+                    var jsdoOptions = homeModel.get('_jsdoOptionsHazhardCPEC'),
+                        jsdo = new progress.data.JSDO(jsdoOptions),
+                        dataSourceOptions = homeModel.get('_dataSourceOptions'),
+                        dataSource;
+                    dataSourceOptions.transport.jsdo = jsdo;
+                    dataSource = new kendo.data.DataSource(dataSourceOptions)
+                    dataSource.filter({
+                        logic: "and",
+                        filters: [
+                            { field: "R408159685", operator: "eq", value: cpId },
+                        ]
+                    })
+                    var jsdoOptions = homeModel.get('_jsdoOptionsSectionCheckup'),
+                        jsdo = new progress.data.JSDO(jsdoOptions),
+                        dataSourceOptions = homeModel.get('_dataSourceOptions'),
+                        dataSource1;
+                    dataSourceOptions.transport.jsdo = jsdo;
+                    dataSource1 = new kendo.data.DataSource(dataSourceOptions)
+                    var view;
+                    var view1
+                    dataSource.fetch(function () {
+                        view = dataSource.view();
+                        if (view && view1)
+                            foritemes();
+
+                    });
+                    dataSource1.fetch(function () {
+                        view1 = dataSource1.view();
+                        if (view && view1)
+                            foritemes();
 
 
-                        });
+                    });
                     //});
 
                     function foritemes() {
@@ -421,19 +424,19 @@ app.controlPoint = kendo.observable({
                             for (var j = 0; j < view1.length; j++) {//עובר על כל הסעיפים
                                 //אם הסעיף מקושר ל
                                 if (view[i].id == view1[j].R408159700) {//אם מקושר סעיף למפגע
-                                    var obj = { "idMefga": view[i].R408159765, "idSeif": view1[j].R370259173, "id": view1[j].id, "val": view1[j].IntScore }
+                                    var obj = { "idMefga": view[i].R408159765, "idMefgaID": view[i].id, "idSeif": view1[j].R370259173, "id": view1[j].id, "val": view1[j].IntScore }
                                     arrObjectesSelect.push(obj);
                                 }
                             }
                         }
                         homeModel.set("arrObjectesSelect", arrObjectesSelect);
-                      
+
                         app.mobileApp.hideLoading();
                         //app.mobileApp.navigate('#components/controlPoint/sectionsEdit.html');
                         app.mobileApp.navigate('#components/controlPoint/sectionsDetails.html');
-                       
-                    }
 
+                    }
+                    homeModel.set("dataSectionCheckup", dataSource1);
                 } catch (e) {
                     alert("שגיאה")
                 }
@@ -474,9 +477,9 @@ app.controlPoint = kendo.observable({
                 }
             },
             //סוגר את העמוד של נקודות בקרה
-            closeCurrentPage: function () {
-                app.mobileApp.navigate('#components/MB/home.html');
-            },
+            //closeCurrentPage: function () {
+            //    app.mobileApp.navigate('#components/MB/home.html');
+            //},
             //בלחיצה על כפתור ערוך
             startEdit: function () {
                 editSection1.hidden = true;
@@ -552,6 +555,222 @@ app.controlPoint = kendo.observable({
 
             },
             saveEdit2: function () {
+                app.mobileApp.showLoading();
+                var arrObjectes = homeModel.get('arrObjectes');
+                var arrNew = [];
+                var arrIsMefga = [];
+                var arrEdit = [];
+                var arrObjectesSelect = homeModel.get("arrObjectesSelect")
+                for (var i = 0; i < arrObjectes.length; i++) {
+                    var flag = false;
+                    for (var j = 0; j < arrObjectes[i].seif.length; j++) {
+                        if (arrObjectes[i].seif[j].was == false) {//סעיף חדש
+                            if (arrObjectes[i].seif[j].value != "null") {//אם קיים ערך
+                                if (arrObjectes[i].was == true) {//אם קיים מפגע
+                                    //מייצרת סעיף ומקשרת למפגע שקיים
+                                    var obj = {
+                                        "R408159700": arrObjectes[i].mefgaID,//מקשרת למפגע שניבחר
+                                        "R370259173": arrObjectes[i].seif[j].id,//מקשרת לסעיף בנק
+                                        "IntScore": arrObjectes[i].seif[j].value,//ערך
+                                        "locationId": (app.project.homeModel.get("dataItem")).locationId,
+                                        "cb_isActive": true//פעיל
+                                    };
+                                    arrIsMefga.push(obj);
+                                }
+                                else {//לא קיים מפגע
+                                    //מייצרת מפגע 
+                                    //מייצרת סעיף
+                                    flag = true;
+                                    var obj = {
+                                        "R408159700": arrObjectes[i].id,//מקשרת למפגע שניבחר
+                                        "R370259173": arrObjectes[i].seif[j].id,//מקשרת לסעיף בנק
+                                        "IntScore": arrObjectes[i].seif[j].value,//ערך
+                                        "locationId": (app.project.homeModel.get("dataItem")).locationId,
+                                        "cb_isActive": true//פעיל
+                                    };
+                                    arrNew.push(obj);
+
+                                }
+                            }
+                        }
+                        else {//עריכת סעיף
+                            var val = "";
+                            for (var k = 0; k < arrObjectesSelect.length; k++) {
+                                if (arrObjectes[i].seif[j].seifID == arrObjectesSelect[k].id)
+                                    val = arrObjectesSelect[k].val;
+                            }
+                            if (arrObjectes[i].seif[j].value != val) {//אם השתנה הערך
+                                var obj = {
+                                    "id": arrObjectes[i].seif[j].seifID,
+                                    "IntScore": arrObjectes[i].seif[j].value,//ערך
+                                };
+                                arrEdit.push(obj);
+                            }
+
+                        }
+                    }
+                    if (flag == true) {
+                        var objM = {
+                            "R408159685": homeModel.currentControlPointCheckup.id,//מקשרת לנקודת בקרה שנוצרה
+                            "R408159765": arrObjectes[i].id,//מקשרת למפגע בנק
+                            "locationId": (app.project.homeModel.get("dataItem")).locationId,
+                            "cb_isActive": true//פעיל
+                        };
+                        saveMefga(objM)
+                    }
+
+                }
+                function saveMefga(obj) {
+                    dataProvider.loadCatalogs().then(function _catalogsLoaded() {
+                        var jsdoOptions = homeModel.get('_jsdoOptionsHazhardCPEC'),
+                            jsdo = new progress.data.JSDO(jsdoOptions),
+                            dataSourceOptions = homeModel.get('_dataSourceOptions'),
+                            dataSource;
+                        dataSourceOptions.transport.jsdo = jsdo;
+                        dataSource = new kendo.data.DataSource(dataSourceOptions)
+                        function saveModel() {
+                            dataSource.add(obj);
+                            dataSource.one('change', function (e) {
+                                for (var k = 0; k < arrNew.length; k++) {
+                                    if (arrNew[k].R408159700 == current.R408159765) {
+                                        arrNew[k].R408159700 = current.id;
+                                        saveSeif(arrNew[k])
+                                    }
+
+                                }
+
+
+                            });
+                            dataSource.sync();
+                        };
+                        saveModel();
+                    });
+                }
+                //שמירת סעיף למבדק
+                for (var i = 0; i < arrIsMefga.length; i++) {
+                    saveSeif(arrIsMefga[i]);
+                }
+                function saveSeif(obj) {
+                    dataProvider.loadCatalogs().then(function _catalogsLoaded() {
+                        var jsdoOptions = homeModel.get('_jsdoOptionsSectionCheckup'),
+                            jsdo = new progress.data.JSDO(jsdoOptions),
+                            dataSourceOptions = homeModel.get('_dataSourceOptions'),
+                            dataSource;
+                        dataSourceOptions.transport.jsdo = jsdo;
+                        dataSource = new kendo.data.DataSource(dataSourceOptions)
+                        function saveModel() {
+                            dataSource.add(obj);
+                            dataSource.one('change', function (e) {
+                                console.log("יצירה")
+                                console.log(current)
+                            });
+                            dataSource.sync();
+                        };
+                        saveModel();
+                    });
+                }
+                editSeif();
+                function editSeif() {
+                    var dataSource = homeModel.get("dataSectionCheckup");
+                    for (var i = 0; i < arrEdit.length; i++) {
+                        var newVal = {
+                            "IntScore": arrEdit[i].IntScore,//ערך
+                        }
+                        var id = arrEdit[i].id;
+                        try {
+                            var jsdo = dataSource.transport.jsdo;
+                            var jsrow = jsdo.findById(id);
+                            var afterUpdateFn;
+                            jsrow.assign(newVal);
+                            afterUpdateFn = function (jsdo, record, success, request) {
+                                jsdo.unsubscribe('afterUpdate', afterUpdateFn);
+                                if (success === true) {
+                                    console.log("הצלחה")
+
+                                    //app.mobileApp.hideLoading();
+
+                                }
+                                else {
+                                    alert("שגיאה");
+                                }
+                            };
+                            jsdo.subscribe('afterUpdate', afterUpdateFn);
+                            jsdo.saveChanges();
+                        } catch (e) {
+                            alert("התגלתה בעיה בטעינת הנתונים, אנא נסה שוב  מאוחר יותר")
+                        }
+                    }
+
+                }
+                document.getElementById('sectionStatusEditDiv').innerHTML = "";
+                $("input:checkbox").prop("checked", false);
+                app.mobileApp.hideLoading();
+                app.mobileApp.navigate('#components/controlPoint/controlPointView.html');
+            },
+            saveEdit1B: function () {
+                app.mobileApp.showLoading();
+                var currentControlPointCheckup = homeModel.currentControlPointCheckup;
+                //שמירת יצירת נקודת בקרה למבדק
+                var jsdoOptions = homeModel.get('_jsdoOptionsControlPointCheckup'),
+                    jsdo = new progress.data.JSDO(jsdoOptions),
+                    dataSourceOptions = homeModel.get('_dataSourceOptions'),
+                    dataSource;
+                dataSourceOptions.transport.jsdo = jsdo;
+                dataSource = new kendo.data.DataSource(dataSourceOptions);
+                var descriptionEdit = document.getElementById("descriptionEdit").value;
+                if ((descriptionEdit != currentControlPointCheckup.ControlPointComment && descriptionEdit != "null" && descriptionEdit != "" && descriptionEdit != " ")
+                    || (app.controlPoint.homeModel.get("capturePhoto1Edit") != null && app.controlPoint.homeModel.get("capturePhoto1Edit") != "null" ||
+                        app.controlPoint.homeModel.get("capturePhoto2Edit") != null && app.controlPoint.homeModel.get("capturePhoto2Edit") != "null")) {
+                    dataSource.fetch(function () {
+                        if (descriptionEdit != currentControlPointCheckup.ControlPointComment && descriptionEdit != "null" && descriptionEdit != "" && descriptionEdit != " ") {
+                            var obj = {
+                                "ControlPointComment": descriptionEdit
+                            }
+                            try {
+                                var jsdo = dataSource.transport.jsdo;
+                                var jsrow = jsdo.findById(currentControlPointCheckup.id);
+                                var afterUpdateFn;
+                                jsrow.assign(obj);
+                                afterUpdateFn = function (jsdo, record, success, request) {
+                                    jsdo.unsubscribe('afterUpdate', afterUpdateFn);
+                                    if (success === true) {
+                                        //תמונות
+                                        if (app.controlPoint.homeModel.get("capturePhoto1Edit") != null && app.controlPoint.homeModel.get("capturePhoto1Edit") != "null" ||
+                                            app.controlPoint.homeModel.get("capturePhoto2Edit") != null && app.controlPoint.homeModel.get("capturePhoto2Edit") != "null") {
+                                            uploadWorkEdit(currentControlPointCheckup);
+                                        }
+                                        else
+                                            homeModel.saveEdit2();
+                                    }
+                                    else {
+                                        alert("שגיאה");
+                                    }
+                                };
+                                jsdo.subscribe('afterUpdate', afterUpdateFn);
+                                jsdo.saveChanges();
+                            } catch (e) {
+                                alert("התגלתה בעיה בטעינת הנתונים, אנא נסה שוב  מאוחר יותר")
+                            }
+                        }
+                        else {
+                            //תמונות
+                            if (app.controlPoint.homeModel.get("capturePhoto1Edit") != null && app.controlPoint.homeModel.get("capturePhoto1Edit") != "null" ||
+                                app.controlPoint.homeModel.get("capturePhoto2Edit") != null && app.controlPoint.homeModel.get("capturePhoto2Edit") != "null") {
+                                uploadWorkEdit(currentControlPointCheckup);
+                            }
+                            else
+                                homeModel.saveEdit2();
+                        }
+
+
+                    });
+                }
+                else {
+                    homeModel.saveEdit2();
+                }
+
+            },
+            saveEdit2B: function () {
 
                 var dataSource = homeModel.get('dataSourceSectionCheckupEdit');
                 var view = dataSource.view();
@@ -623,28 +842,29 @@ app.controlPoint = kendo.observable({
                         { field: "id", operator: "eq", value: (app.hightGuard.homeModel.get("currentCheck")).id }
                     ]
                 })
-                var pos = {
-                    lat: "",
-                    lng: ""
-                };
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(function (position) {
-                        pos.lat = position.coords.latitude;
-                        pos.lng = position.coords.longitude;
-                    });
-                }
-
+                //var pos = {
+                //    lat: "",
+                //    lng: ""
+                //};
+                //if (navigator.geolocation) {
+                //    navigator.geolocation.getCurrentPosition(function (position) {
+                //        pos.lat = position.coords.latitude;
+                //        pos.lng = position.coords.longitude;
+                //    });
+                //}
+                //homeMode.set("checkItem"
                 dataSource.fetch(function () {
                     var view = dataSource.view();
                     console.log(view);
-                    var obj = {
-                        "DroneURL": document.getElementById("DroneURL").value,//רחפן
-                        "TourParticipants": document.getElementById("TourParticipants").value,//משתתפים בסיור
-                        "AdditionalComments": document.getElementById("AdditionalComments").value,//הערות נוספות
-                        "Latitude": pos.lat,
-                        "Longitude": pos.lng
+                    //var obj = {
+                    //    "DroneURL": document.getElementById("DroneURL").value,//רחפן
+                    //    "TourParticipants": document.getElementById("TourParticipants").value,//משתתפים בסיור
+                    //    "AdditionalComments": document.getElementById("AdditionalComments").value,//הערות נוספות
+                    //    "Latitude": pos.lat,
+                    //    "Longitude": pos.lng
 
-                    }
+                    //}
+                    var obj = homeModel.get("checkItem")
                     try {
                         var jsdo = dataSource.transport.jsdo;
                         var jsrow = jsdo.findById(view[0].id);
@@ -1367,6 +1587,7 @@ app.controlPoint = kendo.observable({
     //till camera
 
     parent.set('homeModel', homeModel);
+    //כניסה ראשונית
     parent.set('onShow', function (e) {
         try {
             var scroller = e.view.scroller;
@@ -1421,31 +1642,68 @@ app.controlPoint = kendo.observable({
             var scroller = e.view.scroller;
             scroller.reset();
 
-            var txt = (app.hightGuard.homeModel.get("currentCheck")).DroneURL;
-            if (txt != null && txt != "null")
-                document.getElementById("DroneURL").value = txt;//רחפן
-            else
-                document.getElementById("DroneURL").value = "";
+            //var txt = (app.hightGuard.homeModel.get("currentCheck")).DroneURL;
+            //if (txt != null && txt != "null")
+            //    document.getElementById("DroneURL").value = txt;//רחפן
+            //else
+            //    document.getElementById("DroneURL").value = "";
 
-            txt = (app.hightGuard.homeModel.get("currentCheck")).TourParticipants;
-            if (txt != null && txt != "null")
-                document.getElementById("TourParticipants").value = txt;//משתתפים בסיור
-            else
-                document.getElementById("TourParticipants").value = "";
+            //txt = (app.hightGuard.homeModel.get("currentCheck")).TourParticipants;
+            //if (txt != null && txt != "null")
+            //    document.getElementById("TourParticipants").value = txt;//משתתפים בסיור
+            //else
+            //    document.getElementById("TourParticipants").value = "";
 
-            txt = (app.hightGuard.homeModel.get("currentCheck")).AdditionalComments;
-            if (txt != null && txt != "null")
-                document.getElementById("AdditionalComments").value = txt;//הערות נוספות
-            else
-                document.getElementById("AdditionalComments").value = "";
+            //txt = (app.hightGuard.homeModel.get("currentCheck")).AdditionalComments;
+            //if (txt != null && txt != "null")
+            //    document.getElementById("AdditionalComments").value = txt;//הערות נוספות
+            //else
+            //    document.getElementById("AdditionalComments").value = "";
+
 
             //דוח
             document.getElementById("CheckupReport_URL").setAttribute("href", (app.hightGuard.homeModel.get("currentCheck")).CheckupReport_URL);
             document.getElementById("CheckupScore").innerHTML = (app.hightGuard.homeModel.get("currentCheck")).CheckupScore;
             NameReviwerAndcreatedAt.innerHTML = (app.hightGuard.homeModel.get("currentCheck")).NameReviwer + " " + kendo.toString((app.hightGuard.homeModel.get("currentCheck")).createdAt, "dd/MM/yyyy HH:mm")
 
-
-
+            var itemModel = app.hightGuard.homeModel.get("currentCheck");
+            //removeNull("DroneURL");
+            //removeNull("TourParticipants");
+            //removeNull("AdditionalComments");
+            //function removeNull(item) {
+            //    if (itemModel[item] == "null") {
+            //        itemModel[item] = "";
+            //    }
+            //}
+            if (app.hightGuard.homeModel.get("itemIs") == true) { 
+                homeModel.set("checkItem", itemModel)
+                if (itemModel.publicBuildings == true) {
+                    document.getElementById("publicBuildingsT1").style.display = "";
+                    document.getElementById("publicBuildingsT1").style.display = "";
+                    document.getElementById("publicBuildings").checked = true;
+                }
+                else {
+                    document.getElementById("publicBuildings").checked = false;
+                    document.getElementById("publicBuildingsT1").style.display = "none";
+                    document.getElementById("publicBuildingsT1").style.display = "none";
+                }
+               
+            } else {
+                var obj = {
+                    "DroneURL": "",
+                    "AdditionalComments": "",
+                    "TourParticipants": itemModel.TourParticipants,
+                    "publicBuildings": false,
+                    "structureNum": "",
+                    "publicBuildingsDetails": "",
+                }
+                homeModel.set("checkItem", obj)
+                document.getElementById("publicBuildings").checked = false;
+                document.getElementById("publicBuildingsT1").style.display = "none";
+                document.getElementById("publicBuildingsT1").style.display = "none";
+            }
+         
+            console.log(homeModel.get("checkItem"))
 
         } catch (e) {
             alert("שגיאה")
@@ -1457,7 +1715,7 @@ app.controlPoint = kendo.observable({
         //var scroller = e.view.scroller;
         //scroller.reset();
         //app.mobileApp.showLoading();
-    
+
 
 
         //סעיפים למבדק זה
@@ -1484,12 +1742,12 @@ app.controlPoint = kendo.observable({
             dataSourceOptions.transport.jsdo = jsdo;
             dataSource = new kendo.data.DataSource(dataSourceOptions)
             homeModel.set('dataSourceCategorySection', dataSource);
-          
+
             homeModel.set('IntScore', jsdo.getPicklist_IntScore().response.picklistData);
 
 
         });
-       // app.mobileApp.hideLoading();
+        // app.mobileApp.hideLoading();
         //} catch (e) {
         //    alert("שגיאה")
         //}
@@ -1497,7 +1755,7 @@ app.controlPoint = kendo.observable({
     parent.set('onShowSection', function (e) {
         //try {
         //projectNameTestSection.innerHTML = (app.project.homeModel.get("dataItem")).LocationName;
-        controlPointLabel.innerHTML =  (app.controlPoint.homeModel.get("itemClickCp")).name;
+        controlPointLabel.innerHTML = (app.controlPoint.homeModel.get("itemClickCp")).name;
         var scroller = e.view.scroller;
         scroller.reset();
         app.mobileApp.showLoading();
@@ -1540,10 +1798,10 @@ app.controlPoint = kendo.observable({
             });
 
             function doTemplatePage() {
-                var arrObjectes=[];
+                var arrObjectes = [];
                 flag = true;
                 for (var j = 0; j < viewMefga.length; j++) {
-                 
+
                     var node1 = document.createElement('div');
                     var string1 = "";
                     string1 += "<div style='width: 100 %;height: 36 %;box - shadow:0 4px 2px - 2px #c7c1c1; '>";
@@ -1556,7 +1814,7 @@ app.controlPoint = kendo.observable({
                         if (viewSeif[i - 10].R408388358 == viewMefga[j].id) {
                             var obj = { "id": viewSeif[i - 10].id, "value": "null" }
                             arrSeif.push(obj);
-                            var  node = document.createElement('div');
+                            var node = document.createElement('div');
                             var string = "";
                             string += '<center style="background-color:#ffffff"><table style="width:95%;background-color:#ffffff;margin-top:20px;margin-bottom:20px;" dir="rtl" >';
                             string += '<tr style= "width:100%" >';
@@ -1587,11 +1845,11 @@ app.controlPoint = kendo.observable({
                                     if (arr[k] == homeModel.get('IntScore')[o].id)
                                         nameTxt = homeModel.get('IntScore')[o].name;
                                 }
-                                string += '<input  type= "checkbox" name="' + viewSeif[i - 10].id + '"  onclick="myChooseSectionStatusN(this,this.name,' + nameTxt+')"/>'
+                                string += '<input  type= "checkbox" name="' + viewSeif[i - 10].id + '"  onclick="myChooseSectionStatusN(this,this.name,' + nameTxt + ')"/>'
                                 string += ' </td > '
                                 string += '<td style= "width:75%;" > '
-                               
-                                string += '<label  style="font-family:Tahoma, Geneva, sans-serif;font-weight: bold;font-size:small;color:black;"> ' + nameTxt+'</label></td>'
+
+                                string += '<label  style="font-family:Tahoma, Geneva, sans-serif;font-weight: bold;font-size:small;color:black;"> ' + nameTxt + '</label></td>'
                                 string += '</tr>';
                                 string += '</table>';
                                 string += ' </td > ';
@@ -1602,7 +1860,7 @@ app.controlPoint = kendo.observable({
                                 }
                             }
 
-                        
+
                             //var obj = { sectionId: viewSeif[i - 10].id };
                             //homeModel.SectionStatusArr.push(obj)
                             string += '</table>';
@@ -1616,7 +1874,7 @@ app.controlPoint = kendo.observable({
                     }
                     var obj = { "id": viewMefga[j].id, "seif": arrSeif }
                     arrObjectes.push(obj)
-                   
+
                 }
                 homeModel.set("arrObjectes", arrObjectes)
                 oneChecked();
@@ -1639,7 +1897,7 @@ app.controlPoint = kendo.observable({
     parent.set('onShowSectionEdit', function (e) {
         //try {
         //projectNameTestSectionEdit.innerHTML = (app.project.homeModel.get("dataItem")).LocationName;
-        controlPointLabelEdit.innerHTML =  (app.controlPoint.homeModel.get("itemClickCp")).name;
+        controlPointLabelEdit.innerHTML = (app.controlPoint.homeModel.get("itemClickCp")).name;
         var scroller = e.view.scroller;
         scroller.reset();
         app.mobileApp.showLoading();
@@ -1708,6 +1966,7 @@ app.controlPoint = kendo.observable({
             function doTemplatePage() {
                 var arrObjectes = [];
                 flag = true;
+                var arrObjectesSelect = homeModel.get("arrObjectesSelect")
                 for (var j = 0; j < viewMefga.length; j++) {
 
                     var node1 = document.createElement('div');
@@ -1718,9 +1977,16 @@ app.controlPoint = kendo.observable({
                     node1.innerHTML = string1;
                     document.getElementById('sectionStatusEditDiv').appendChild(node1);
                     var arrSeif = [];
+                    var objM = { "id": viewMefga[j].id, "seif": arrSeif, "was": false, "mefgaID": "" }
+                    for (var f = 0; f < arrObjectesSelect.length; f++) {
+                        if (arrObjectesSelect[f].idMefga == viewMefga[j].id) {
+                            objM.was = true;
+                            objM.mefgaID = arrObjectesSelect[f].idMefgaID;
+                        }
+                    }
                     for (var i = 10; i < viewSeif.length + 10; i++) {
                         if (viewSeif[i - 10].R408388358 == viewMefga[j].id) {
-                            var obj = { "id": viewSeif[i - 10].id, "value": "null","was":false }
+                            var obj = { "id": viewSeif[i - 10].id, "value": "null", "was": false, "seifID": "" }
                             //arrSeif.push(obj);
                             var node = document.createElement('div');
                             var string = "";
@@ -1755,21 +2021,18 @@ app.controlPoint = kendo.observable({
                                 }
                                 var txtCheckbox = "";
                                 // var obj = { "idMefga": view[i].R408159765, "idSeif": view1[j].R370259173, "id": view1[j].id, "val": view1[j].IntScore }
-                                var arrObjectesSelect = homeModel.get("arrObjectesSelect")
+
                                 for (var f = 0; f < arrObjectesSelect.length; f++) {
-                                    if (arrObjectesSelect[f].idMefga == viewMefga[j].id && arrObjectesSelect[f].idSeif == viewSeif[i - 10].id && nameTxt == arrObjectesSelect[f].val)
-                                    {
-                                       
-                                        txtCheckbox= '<input  type= "checkbox" checked name="' + viewSeif[i - 10].id + '"  onclick="myChooseSectionStatusND(this,this.name,' + nameTxt + ')"/>'
+                                    if (arrObjectesSelect[f].idMefga == viewMefga[j].id && arrObjectesSelect[f].idSeif == viewSeif[i - 10].id && nameTxt == arrObjectesSelect[f].val) {
+
+                                        txtCheckbox = '<input  type= "checkbox" checked name="' + viewSeif[i - 10].id + '"  onclick="myChooseSectionStatusND(this,this.name,' + nameTxt + ')"/>'
                                         obj.value = arrObjectesSelect[f].val;
                                         obj.was = true;
+                                        obj.seifID = arrObjectesSelect[f].id;
                                     }
-                                    
-
-
                                 }
-                                if (txtCheckbox=="")
-                                   txtCheckbox = '<input  type= "checkbox" name="' + viewSeif[i - 10].id + '"  onclick="myChooseSectionStatusND(this,this.name,' + nameTxt + ')"/>'
+                                if (txtCheckbox == "")
+                                    txtCheckbox = '<input  type= "checkbox" name="' + viewSeif[i - 10].id + '"  onclick="myChooseSectionStatusND(this,this.name,' + nameTxt + ')"/>'
 
                                 string += txtCheckbox;
                                 string += ' </td > '
@@ -1801,8 +2064,9 @@ app.controlPoint = kendo.observable({
 
                     }
 
-                    var obj = { "id": viewMefga[j].id, "seif": arrSeif }
-                    arrObjectes.push(obj)
+                    //var objM = { "id": viewMefga[j].id, "seif": arrSeif,"was":false }
+                    objM.seif = arrSeif
+                    arrObjectes.push(objM)
 
                 }
                 homeModel.set("arrObjectes", arrObjectes)
@@ -1823,7 +2087,7 @@ app.controlPoint = kendo.observable({
             }
         });
 
-      
+
     });
     parent.set('onShowTestSectionInit2', function (e) {
         //try {
@@ -1864,7 +2128,7 @@ app.controlPoint = kendo.observable({
     parent.set('onShowTestSection2', function (e) {
         //try {
         //projectNameTestSection.innerHTML = (app.project.homeModel.get("dataItem")).LocationName;
-        controlPointLabel.innerHTML =(app.controlPoint.homeModel.get("itemClickCp")).name;
+        controlPointLabel.innerHTML = (app.controlPoint.homeModel.get("itemClickCp")).name;
         var scroller = e.view.scroller;
         scroller.reset();
         app.mobileApp.showLoading();

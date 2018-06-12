@@ -55,11 +55,11 @@ app.hightGuard = kendo.observable({
 
             //גירסא
             onClickVersion: function () {
-                cordova.getAppVersion.getVersionNumber().then(function (version) {
+                //cordova.getAppVersion.getVersionNumber().then(function (version) {
                     //$('#versionLabel').text(version);
-                    versionLabel.innerHTML = version
-                });
-                //versionLabel.innerHTML = " 1.0.1";
+                 //   versionLabel.innerHTML = version
+              //  });
+                versionLabel.innerHTML = " 1.2.1";
                 $("#popVersion").kendoMobileModalView("open");
             },
             closePopVersion: function () {
@@ -109,15 +109,31 @@ app.hightGuard = kendo.observable({
                     dataSource;
                 dataSourceOptions.transport.jsdo = jsdo;
                 dataSource = new kendo.data.DataSource(dataSourceOptions);
-                
+                 
+            var pos = {
+                "lat": "",
+                "lng":"",
+            }
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    pos.lat = position.coords.latitude;
+                    pos.lng = position.coords.longitude;
+                });
+            }
+          
                 function saveModel(data) {
                    var checkObj= {
                        "TourParticipants": checkParticipants,
-                       "locationId":(app.project.homeModel.get("dataItem")).locationId
+                       "locationId":(app.project.homeModel.get("dataItem")).locationId,
+                       "Latitude":pos.lat,
+                        "Longitude":pos.lng,
+                     
                     }
                     dataSource.add(checkObj);
                     dataSource.one('change', function (e) {
                         var cur = current;
+                          homeModel.set("itemIs",false)
                         homeModel.currentCheck = current;
                         //setTimeout(function () {
                           app.mobileApp.navigate('#components/controlPoint/controlPointView.html');
@@ -133,11 +149,12 @@ app.hightGuard = kendo.observable({
                var item = e.dataItem.uid;
                var dataSource = homeModel.get('dataSource');
                var itemModel = dataSource.getByUid(item);
+               homeModel.set("itemIs",true)
                homeModel.currentCheck = itemModel;
-               setTimeout(function () {
+             //  setTimeout(function () {
                    app.mobileApp.navigate('#components/controlPoint/controlPointView.html');
                    app.mobileApp.hideLoading();
-               }, 300);
+           //    }, 300);
               
            },
 
@@ -250,6 +267,10 @@ app.hightGuard = kendo.observable({
                 dataSource.sort({ field: 'createdAt', dir: 'desc' });
                 homeModel.set('dataSource', dataSource)
                 app.mobileApp.hideLoading();
+            document.getElementById('projectDetailsTab').style.display = "";
+             document.getElementById('machozTab').style.display = "";
+             document.getElementById('VersionTab').style.display = "";
+             document.getElementById('logOutTab').style.display = "";
             });
             app.mobileApp.hideLoading();
         } catch (e) {

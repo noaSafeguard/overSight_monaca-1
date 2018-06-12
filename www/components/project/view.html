@@ -1,9 +1,12 @@
-﻿<div data-role="view" data-model="app.project" data-show="app.project.onShow" data-after-show="app.project.afterShow" id="projectScreen" class="screen" style="background-color:#e9eaeb;">
+<div data-role="view" data-model="app.project" data-show="app.project.onShow" data-after-show="app.project.afterShow" id="projectScreen" class="screen" style="background-color:#e9eaeb;">
     <header data-role="header">
         <div data-role="navbar" class="header" style="background: linear-gradient(5.58deg, #923714 0%, #f7931e 100%);">
             <span>פרויקטים</span>
-            <a class="headerButton" data-role="button" data-align="right" style="color: white;"  href="#:back">
+            <!-- <a class="headerButton" data-role="button" data-align="right" style="color: white;"  href="#:back">
                 <i class="material-icons" style="color:white">navigate_next</i>
+            </a> -->
+               <a data-role="button" href="#appDrawer" data-rel="drawer" data-align="right" class="headerButton">
+                <i class="material-icons" style="color:white">reorder</i>
             </a>
             <a class="headerButton" id="" data-role="button" data-align="left" style="color: white;" href="">
                 <i class="material-icons" style="color:transparent">dashboard</i>

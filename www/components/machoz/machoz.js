@@ -256,6 +256,10 @@ app.machoz = kendo.observable({
             //}
 
             //fetchFilteredData(projectModel.get('paramFilter'), searchFilter);
+             document.getElementById('projectDetailsTab').style.display = "none";
+             document.getElementById('machozTab').style.display = "none";
+             document.getElementById('VersionTab').style.display = "";
+             document.getElementById('logOutTab').style.display = "";
             homeModel.set('dataSource', dataSource);
             app.mobileApp.hideLoading();
         });

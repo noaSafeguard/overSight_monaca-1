@@ -1,4 +1,4 @@
-﻿'use strict';
+'use strict';
 
 app.authenticationView = kendo.observable({
     onShow: function () { },
@@ -185,7 +185,10 @@ app.authenticationView = kendo.observable({
 
     parent.set('homeModel', homeModel);
     parent.set('afterShow', function (e) {
-     
+     document.getElementById('projectDetailsTab').style.display = "none";
+     document.getElementById('machozTab').style.display = "none";
+     document.getElementById('VersionTab').style.display = "";
+     document.getElementById('logOutTab').style.display = "none";
         if (e && e.view && e.view.params && e.view.params.logout) {
             if (localStorage) {
                 localStorage.setItem(rememberKey, null);

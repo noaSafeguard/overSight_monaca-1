@@ -9,21 +9,22 @@
     <!-- <link href="Content/bootstrap/css/bootstrap.css" rel="stylesheet" />
     <link href="Content/bootstrap/css/bootstrap-theme.css" rel="stylesheet" />
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"> -->
-  
+
     <link rel="stylesheet" href="http://kendo.cdn.telerik.com/2017.1.118/styles/kendo.common.min.css" />
     <link rel="stylesheet" href="http://kendo.cdn.telerik.com/2017.1.118/styles/kendo.mobile.all.min.css" />
     <link href="styles/main.css" rel="stylesheet" />
-  
+
     <link href="kendo/styles/kendo.dataviz.mobile.min.css" rel="stylesheet">
     <link href="animate.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    
+  <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css" integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">
+
     <link href="MBsemi.css" rel="stylesheet" />
     <link href="styles/overrides.css" rel="stylesheet" />
-   
+
     <!-- <script src="Scripts/jquery-1.11.3.js"></script> -->
     <!-- <script src="Scripts/bootstrap.js"></script> -->
-    
     <!-- Libraries used -->
     <script src="kendo/js/jquery.min.js"></script>
     <script src="kendo/js/kendo.mobile.min.js"></script>
@@ -37,24 +38,16 @@
     <script src="kendo/js/kendoAll.js"></script>
 </head>
 <body id="kendoUiMobileApp" class="k-rtl" style="font-family:Tahoma, Geneva, sans-serif; font-size: small;">
-   <!--פתיחה-->
+    <!--פתיחה-->
     <script src="components/authenticationView/index.js"></script>
     <!--דף מחוזות-->
     <script src="components/machoz/machoz.js"></script>
     <!--דף פרויקטים-->
     <script src="components/project/project.js"></script>
-
     <!--בית-->
     <script src="components/hightGuard/index.js"></script>
-
-
-
     <!--נקודות בקרה-->
     <script src="components/controlPoint/controlPointIndex.js"></script>
-
-    
-
-
 
     <script src="https://cdn.jsdelivr.net/g/sweetalert2@4.2.7(sweetalert2.min.js+sweetalert2.js)"></script>
     <link href="https://cdn.jsdelivr.net/g/sweetalert2@4.2.7(sweetalert2.min.css+sweetalert2.css)" rel="stylesheet">
@@ -76,6 +69,100 @@
             </div>
         </header>
         <footer data-role="footer"></footer>
+    </div>
+
+
+    <div id="appDrawer" data-position="right" data-role="drawer" style="background: linear-gradient(186.34deg, #17536A 0%, #0B2B38 100%);width:50%;">
+        <header style="width:100%;font-size:3vw;background-color:transparent;" data-role="header">
+            <div data-role="navbar" class="header" style="background: linear-gradient(5.58deg, #923714 0%, #f7931e 100%);">
+                <span data-bind="text:strings.MB.home.myDropdown1.menu" id="menuAppDrawer">תפריט</span>
+                <a class="headerButton" data-role="button" data-align="right" style="color: transparent;">
+                    <i class="material-icons" style="color:transparent">exit_to_app</i>
+                </a>
+                <a class="headerButton" data-role="button" data-align="left" style="color: transparent;">
+                    <i class="material-icons" style="color:transparent">dashboard</i>
+                </a>
+            </div>
+            <center>
+                <div style="width:98%;">
+                    <ul id="navigation-container" data-role="listview">
+                        <li id="projectDetailsTab" style="background-color:rgba(253, 249, 249, 0.62);color: #0B2B38;border-bottom: 2px solid #0B2B38;padding: 7%;">
+                            <a style="background-color:transparent;" onclick="projectDetails()"><span style="font-size: small;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;color:#0B2B38" >פרטי פרויקט</span></a>
+                        </li>
+                        <li id="machozTab" style="background-color:rgba(253, 249, 249, 0.62);color: #0B2B38;border-bottom: 2px solid #0B2B38;padding: 7%;">
+                            <a style="background-color:transparent;" onclick="projectLocation()"><span style="font-size: small;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;color:#0B2B38" >מחוזות</span></a>
+                        </li>
+                 
+                        <li id="VersionTab" style="background-color:rgba(253, 249, 249, 0.62);color: #0B2B38;border-bottom: 2px solid #0B2B38;padding: 7%;">
+                            <a onclick="onClickVersion()" style="background-color:transparent;"><span style="font-size: small;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;color:#0B2B38" >גירסא</span></a>
+                        </li>
+                        <li id="logOutTab" style="background-color:rgba(253, 249, 249, 0.62);color: #0B2B38;border-bottom: 2px solid #0B2B38;padding: 7%;">
+                            <a style="background-color:transparent;" onclick="goToLoginPage()"><span style="font-size: small;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;color:#0B2B38" >התנתק</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </center>
+        </header>
+
+
+        <!--<header data-role="header" name="divAlign" style="height:8%;font-size:3vw;box-shadow:0px 4px 7px rgba(6, 6, 6, 0.69);background:#18556a;">
+            <div class="myHeader" >
+
+            </div>
+            <div style="background:#18556a;color: white;font-weight: bold;left: 37%">
+                <center>
+                    <label>
+                        <span style="font-size: small;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;color:white">תפריט</span>
+                    </label>
+                </center>
+            </div>
+        </header>-->
+    </div>
+
+    <script>
+        function projectDetails() {
+            app.hightGuard.homeModel.detailsProject();
+
+        }
+        function projectLocation() {
+            app.mobileApp.navigate('#components/machoz/view.html');
+        }
+        function onClickVersion() {
+            app.hightGuard.homeModel.onClickVersion();
+        }
+         function onClickVersionClose() {
+            app.hightGuard.homeModel.closePopVersion();
+        }
+        function goToLoginPage() {
+            app.mobileApp.navigate('#components/authenticationView/view.html?logout=true');
+        }
+      
+       
+    </script>
+
+    <!--פופאפ גירסא-->
+    <div data-role="modalview" id="popVersion" style="left:1px;width: 95%; height:18%;">
+        <br />
+        <div style="width:100%;height:36%; background-color:#e9eaeb;box-shadow:0 4px 2px -2px #c7c1c1;">
+            <label style="box-shadow: 0px 2px 3px #A29E9E;background-color:#3685c3;font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 200;text-align:center;padding-left: 6px;padding-top: 2px;padding-right: 12px;padding-bottom: 3px;float: right;">גירסא</label>
+        </div>
+        <br />
+        <br />
+        <center>
+            <div style="text-align:center;" dir="rtl">
+                <center>
+                    <label id="versionLabel" style="font-size:small;font-family:Tahoma, Geneva, sans-serif;color:black;font-weight:200;"></label>
+                </center>
+            </div>
+        </center>
+        <footer data-role="footer">
+            <center>
+                <a data-role="button" onclick="onClickVersionClose()" style=" font-family:Tahoma, Geneva, sans-serif;border-style:none;border-radius: 0;margin-bottom:2%;align-self:center;width:40%;background-color:#7B7878;color: #ffffff;text-align:center;white-space: normal;direction:ltr;">
+                    <span style="font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;">סגור</span>
+
+                </a>
+            </center>
+        </footer>
     </div>
 </body>
 </html>

@@ -1,9 +1,12 @@
-﻿<div data-role="view" data-model="app.machoz" data-show="app.machoz.onShow" data-after-show="app.machoz.afterShow" id="machozScreen" class="screen" style="background-color:#e9eaeb;">
+<div data-role="view" data-model="app.machoz" data-show="app.machoz.onShow" data-after-show="app.machoz.afterShow" id="machozScreen" class="screen" style="background-color:#e9eaeb;">
     <header data-role="header">
         <div data-role="navbar" class="header" style="background: linear-gradient(5.58deg, #923714 0%, #f7931e 100%);">
             <span>מחוזות</span>
-            <a class="headerButton" data-role="button" data-align="right" style="color: white;" data-bind="events:{click:homeModel.logoutClick }">
+            <!-- <a class="headerButton" data-role="button" data-align="right" style="color: white;" data-bind="events:{click:homeModel.logoutClick }">
                 <i class="material-icons" style="color:white">exit_to_app</i>
+            </a> -->
+             <a data-role="button" href="#appDrawer" data-rel="drawer" data-align="right" class="headerButton">
+                <i class="material-icons" style="color:white">reorder</i>
             </a>
             <a class="headerButton" id="" data-role="button" data-align="left" style="color: white;" href="">
                 <i class="material-icons" style="color:transparent">dashboard</i>
