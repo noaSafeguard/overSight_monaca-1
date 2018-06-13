@@ -595,7 +595,10 @@ app.controlPoint = kendo.observable({
                             for (var j = 0; j < view1.length; j++) {//עובר על כל הסעיפים
                                 //אם הסעיף מקושר ל
                                 if (view[i].id == view1[j].R408159700) {//אם מקושר סעיף למפגע
-                                    var obj = { "idMefga": view[i].R408159765, "idMefgaID": view[i].id, "idSeif": view1[j].R370259173, "id": view1[j].id, "val": view1[j].IntScore }
+                                    var url = "";
+                                    if (view1[j].SectionImage1URL != "null")
+                                        url = view1[j].SectionImage1URL;
+                                    var obj = { "idMefga": view[i].R408159765, "idMefgaID": view[i].id, "idSeif": view1[j].R370259173, "id": view1[j].id, "val": view1[j].IntScore,"image":url }
                                     arrObjectesSelect.push(obj);
                                 }
                             }
@@ -661,10 +664,13 @@ app.controlPoint = kendo.observable({
                     imageEdit1.hidden = false;
                     imageEdit2.hidden = false;
                     app.controlPoint.set("flagIsEdit", true)
+                    document.getElementById("changeImageSeifD").style.display = "";
+                    
+
                 }
             },
             //שמירת עריכה
-            saveEdit1: function () {
+            saveEditControlPoint: function () {
                 app.mobileApp.showLoading();
                 var currentControlPointCheckup = homeModel.currentControlPointCheckup;
                 //שמירת יצירת נקודת בקרה למבדק
@@ -733,6 +739,7 @@ app.controlPoint = kendo.observable({
                 var arrNew = [];
                 var arrIsMefga = [];
                 var arrEdit = [];
+                var arrEditImage = [];
                 var arrObjectesSelect = homeModel.get("arrObjectesSelect")
                 for (var i = 0; i < arrObjectes.length; i++) {
                     var flag = false;
@@ -1519,6 +1526,57 @@ app.controlPoint = kendo.observable({
                         });
                 }
             },
+            takePhotoSD: function (e) {
+                if (cordova.platformId == "ios") {
+                    navigator.camera.getPicture(onSuccessUploadPhotoSD, function (message) {
+                        alert("Failed to get a picture. Please select one.");
+                    }, {
+                            quality: 30,
+                            destinationType: Camera.DestinationType.DATA_URL,
+                            targetWidth: 1600,
+                            targetHeight: 1600,
+                            correctOrientation: true,
+                        });
+                }
+                else {
+                    navigator.camera.getPicture(onSuccessUploadPhotoSD, function (message) {
+                        alert("Failed to get a picture. Please select one.");
+                    }, {
+                            quality: 30,
+                            destinationType: Camera.DestinationType.FILE_URI,
+                            EncodingType: Camera.EncodingType.PNG,
+                            targetWidth: 1600,
+                            targetHeight: 1600,
+                            correctOrientation: true,
+                        });
+                }
+            },
+            getPhotoLibrarySD: function (e) {
+                if (cordova.platformId == "ios") {
+                    navigator.camera.getPicture(onSuccessUploadPhotoSD, function (message) {
+                        alert("Failed to get a picture. Please select one.");
+                    }, {
+                            quality: 30,
+                            destinationType: Camera.DestinationType.DATA_URL,
+                            sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY,
+                            targetWidth: 1600,
+                            targetHeight: 1600,
+                            correctOrientation: true,
+                        });
+                }
+                else {
+                    navigator.camera.getPicture(onSuccessUploadPhotoSD, function (message) {
+                        alert("Failed to get a picture. Please select one.");
+                    }, {
+                            quality: 30,
+                            destinationType: Camera.DestinationType.FILE_URI,
+                            sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY,
+                            targetWidth: 1600,
+                            targetHeight: 1600,
+                            correctOrientation: true,
+                        });
+                }
+            },
 
         });
     //מעלה תמונה לוקלי לאחר תצלום או מגלריה או ממצלמה
@@ -1654,6 +1712,31 @@ app.controlPoint = kendo.observable({
      
         //document.getElementById(cameraId).style.color = "green";
         //app.controlPoint.homeModel.set("fileURI", cameraId);
+
+    }
+    function onSuccessUploadPhotoSD(imageData) {
+        $("#picturedropListSeifD").kendoMobileModalView("close");
+        var cameraId = app.controlPoint.homeModel.get("cameraIdSeif");
+        var image = document.getElementById('pictureSeifD');
+        if (cordova.platformId == "ios") {
+            image.src = "data:image/jpeg;base64," + imageData;
+        } else {
+            image.src = imageData;
+        }
+
+        var realId = "";
+        for (var i = 5; i < cameraId.length; i++) {
+            realId += cameraId[i];
+        }
+        var arr = homeModel.get("arrSeifImage");
+        for (var i = 0; i < arr.length; i++) {
+            if (arr[i].id == realId)
+                arr[i].src = document.getElementById("pictureSeifD").src;
+        }
+
+        homeModel.set("arrSeifImage", arr);
+        console.log(homeModel.get("arrSeifImage"))
+        document.getElementById(cameraId).style.color = "red";
 
     }
     //לאחר ההעלה תמונה לוקלי
@@ -2309,7 +2392,7 @@ app.controlPoint = kendo.observable({
         app.mobileApp.showLoading();
         editSection1.hidden = false;
         saveSectionAssign1.hidden = true;
-
+        document.getElementById("changeImageSeifD").style.display = "none";
         app.controlPoint.set("flagIsEdit", false);
         if (homeModel.currentControlPointCheckup.ControlPointComment != "null") {
             document.getElementById("descriptionEdit").value = homeModel.currentControlPointCheckup.ControlPointComment;
@@ -2371,6 +2454,7 @@ app.controlPoint = kendo.observable({
 
             function doTemplatePage() {
                 var arrObjectes = [];
+                var arrSeifImage = [];
                 flag = true;
                 var arrObjectesSelect = homeModel.get("arrObjectesSelect")
                 for (var j = 0; j < viewMefga.length; j++) {
@@ -2427,7 +2511,8 @@ app.controlPoint = kendo.observable({
                                 }
                                 var txtCheckbox = "";
                                 // var obj = { "idMefga": view[i].R408159765, "idSeif": view1[j].R370259173, "id": view1[j].id, "val": view1[j].IntScore }
-
+                                var urlImag = "";
+                                
                                 for (var f = 0; f < arrObjectesSelect.length; f++) {
                                     if (arrObjectesSelect[f].idMefga == viewMefga[j].id && arrObjectesSelect[f].idSeif == viewSeif[i - 10].id && nameTxt == arrObjectesSelect[f].val) {
 
@@ -2436,7 +2521,11 @@ app.controlPoint = kendo.observable({
                                         obj.was = true;
                                         obj.seifID = arrObjectesSelect[f].id;
                                     }
+                                    //image
+                                    if (arrObjectesSelect[f].idMefga == viewMefga[j].id && arrObjectesSelect[f].idSeif == viewSeif[i - 10].id)
+                                        urlImag = arrObjectesSelect[f].image
                                 }
+
                                 if (txtCheckbox == "")
                                     txtCheckbox = '<input  type= "checkbox" name="' + viewSeif[i - 10].id + '"  onclick="myChooseSectionStatusND(this,this.name,' + nameTxt + ')"/>'
 
@@ -2454,7 +2543,19 @@ app.controlPoint = kendo.observable({
                                     string += '</tr>';
                                 }
                             }
+                            string += '<tr style= "width:100%" >';
+                            string += '<td >';
+                            string += '<label  style="font-family:Tahoma, Geneva, sans-serif;font-weight: bold;font-size:small;color:black;"> הוסף תמונה+</label>';
+                            string += '</td>';
 
+                            string += '<td  style= "" >';
+                            if (urlImag != "")
+                                string += '<div><i class="fas fa-camera" style="margin-right: 80%;color:red;font-size:medium;" onclick="takeIdImageSD(this.id)" id="image' + viewSeif[i - 10].id + '"></i></div>';
+                                else
+                            string += '<div><i class="fas fa-camera" style="margin-right: 80%;color:#7B7878;font-size:medium;" onclick="takeIdImageSD(this.id)" id="image' + viewSeif[i - 10].id + '"></i></div>';
+                            string += '</td>';
+                            string += '</tr>';
+                            arrSeifImage.push({ "id": viewSeif[i - 10].id, "src": urlImag })
 
                             //var obj = { sectionId: viewSeif[i - 10].id };
                             //homeModel.SectionStatusArr.push(obj)
@@ -2475,6 +2576,7 @@ app.controlPoint = kendo.observable({
                     arrObjectes.push(objM)
 
                 }
+                homeModel.set("arrSeifImage", arrSeifImage)
                 homeModel.set("arrObjectes", arrObjectes)
                 oneCheckedEdit();
                 $("input:checkbox").attr("disabled", true);
