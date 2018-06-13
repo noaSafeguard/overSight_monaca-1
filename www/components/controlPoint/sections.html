@@ -6,7 +6,7 @@
             <a class="headerButton" data-role="button" data-align="right" style="color: white;" href="components/hightGuard/view.html">
                 <i class="material-icons" style="color:white">home</i>
             </a>
-          <a class="headerButton" id="" data-role="button" data-align="left" style="color: white;" href="#:back">
+            <a class="headerButton" id="" data-role="button" data-align="left" style="color: white;" href="#:back">
                 <i class="material-icons" style="color:white">navigate_next</i>
             </a>
         </div>
@@ -69,13 +69,52 @@
     <footer data-role="footer" style="background-color:#e9eaeb;">
         <center>
             <div>
-                <a data-role="button" data-bind="events: {click:homeModel.save1}" style="font-family: Tahoma, Geneva, sans-serif;border-style:none;border-radius: 0;align-self:center;width:94%;    margin-top: 3%;margin-bottom: 3%;background-color:#1A607C;color: #ffffff;text-align:center;white-space: normal;direction:ltr;">
+                <a data-role="button" data-bind="events: {click:homeModel.saveControlPoint}" style="font-family: Tahoma, Geneva, sans-serif;border-style:none;border-radius: 0;align-self:center;width:94%;    margin-top: 3%;margin-bottom: 3%;background-color:#1A607C;color: #ffffff;text-align:center;white-space: normal;direction:ltr;">
                     <span style="font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 200;">שמור</span>
                 </a>
             </div>
         </center>
     </footer>
     <script>
+
+        function takeIdImageS(id){
+            app.controlPoint.homeModel.set("cameraIdSeif", id)
+            if (document.getElementById(id).style.color == "red") {
+                var realId ="";
+                for (var i = 5; i < id.length; i++) {
+                    realId += id[i];
+                }
+                var arr = app.controlPoint.homeModel.get("arrSeifImage");
+                for (var i = 0; i < arr.length; i++) {
+                    if (arr[i].id == realId)
+                        document.getElementById("pictureSeif").src = arr[i].src;
+                }
+                $("#popImageSeif").kendoMobileModalView("open");
+
+            }
+            else {
+                $("#picturedropListSeif").kendoMobileModalView("open");
+            }
+
+        }
+        function takeFromCameraS() {
+            app.controlPoint.homeModel.takePhotoS();
+        }
+        function takeFromGaleryS() {
+            app.controlPoint.homeModel.getPhotoLibraryS();
+        }
+
+        function changeImageSeif() {
+            $("#popImageSeif").kendoMobileModalView("close");
+            $("#picturedropListSeif").kendoMobileModalView("open");
+        }
+        function closePopImageSeif() {
+            $("#popImageSeif").kendoMobileModalView("close");
+        }
+        function cancelPopS() {
+            $("#picturedropListSeif").kendoMobileModalView("close");
+        }
+
 
         function takeIdImage(id) {
             if (id == "capturePhoto2") {
@@ -147,6 +186,57 @@
             });
         }
     </script>
+    <div data-role="modalview" id="popImageSeif" data-zoom="true" style="left: 1px;width: 98%; height: 100%; background-color:transparent">
+        <header data-role="header" style="background-color: #18556a;">
+            <div data-role="navbar" class="header" style="background-color: #18556a;">
+                <span style="font-family:Tahoma, Geneva, sans-serif;color:white">צילום תמונה</span>
+                <!--<a data-role="button" data-align="right" id="cordova-plugin-sketch-open1" style="color:white;background:#18556a">
+                    <span>סמן</span>
+                </a>
+                <a data-role="button" data-align="left" style="color:transparent;background-color:transparent">
+                    <span style="color:transparent;">סמן</span>
+                </a>-->
+            </div>
+        </header>
+
+        <div data-role="content" style="background-color: transparent; margin-top: 2%;">
+            <center>
+                <img id="pictureSeif" src="" style="width: 100%;" />
+            </center>
+
+        </div>
+        <footer data-role="footer" style="background-color: transparent;">
+            <a data-role="button" style="margin-bottom: 0%;border-radius: 0;width: 100%; background-color:#18556a;color: white;" id="" onclick="changeImageSeif()">
+                <span style="font-family:Tahoma, Geneva, sans-serif;color:white;">החלף תמונה </span>
+            </a>
+            <a data-role="button" style="margin-bottom: 0%;border-radius: 0;width: 100%; background-color:#18556a;color: white;" onclick="closePopImageSeif()">
+                <span style="font-family:Tahoma, Geneva, sans-serif;color:white;">סגור</span>
+            </a>
+        </footer>
+    </div>
+    <!-- פופאפ תמונות חדש -->
+    <div data-role="modalview" id="picturedropListSeif" style="left:1px;width:80%; height:152px;" name="divAlign">
+        <div onclick="takeFromCameraS()" style="width:100%;height:50px;background-color:transparent;padding:1%;border-bottom:1px solid #114A60;">
+            <center style="margin-top: 3%;">
+                <i class="fas fa-camera" style="color:#114A60;font-size:large;"></i>
+                <span tyle="color: black;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;font-size:medium;">מצלמה</span>
+            </center>
+        </div>
+        <div onclick="takeFromGaleryS()" style="width:100%;height:50px;background-color:transparent;padding:1%;border-bottom:1px solid #114A60;">
+            <center style="margin-top: 3%;">
+                <i class="far fa-image" style="color:#114A60;font-size:large;"></i>
+                <span tyle="color: black;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;font-size:medium;">גלריה </span>
+            </center>
+        </div>
+        <div onclick="cancelPopS()" style="width:100%;height:50px;background-color:transparent;padding:1%;border-bottom:none;">
+            <center style="margin-top: 3%;">
+                <i class="far fa-times-circle" style="color:#114A60;font-size:large;"></i>
+                <span tyle="color: black;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;font-size:medium;">סגור </span>
+            </center>
+
+        </div>
+    </div>
+
     <!--פופאפ  הערות-->
     <div data-role="modalview" id="pop_item_description" style="left:1px;width: 95%; height: 33%;">
         <br />

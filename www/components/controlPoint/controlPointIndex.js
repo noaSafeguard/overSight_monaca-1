@@ -244,7 +244,7 @@ app.controlPoint = kendo.observable({
 
             },
             //יצירת נקודת בקרה
-            save1: function () {
+            saveControlPoint: function () {
                 app.mobileApp.showLoading();
                 document.getElementById('sectionStatusDiv').innerHTML = "";
                 //שמירת יצירת נקודת בקרה למבדק
@@ -272,7 +272,7 @@ app.controlPoint = kendo.observable({
                             uploadWork(current);
                         }
                         else {
-                            homeModel.save2();
+                            homeModel.saveSeif();
                         }
                     });
                     dataSource.sync();
@@ -280,9 +280,12 @@ app.controlPoint = kendo.observable({
                 saveModel();
             },
             //יצירת  סעיפים ומפגעים
-            save2: function () {
+            saveSeif: function () {
                 var arrObjectes = homeModel.get('arrObjectes');
-                var arr = []
+                var arr = [];
+                var arrM = [];
+                var arrSeifSaveImage = [];
+             
                 for (var i = 0; i < arrObjectes.length; i++) {
                     var flag = false;
                     for (var j = 0; j < arrObjectes[i].seif.length; j++) {
@@ -296,6 +299,7 @@ app.controlPoint = kendo.observable({
                                 "cb_isActive": true//פעיל
                             };
                             arr.push(obj);
+                           
                         }
                     }
                     if (flag == true) {
@@ -305,10 +309,22 @@ app.controlPoint = kendo.observable({
                             "locationId": (app.project.homeModel.get("dataItem")).locationId,
                             "cb_isActive": true//פעיל
                         };
-                        saveMefga(obj)
+                        arrM.push(obj)
+                        //saveMefga(obj)
                     }
                 }
-
+                if (arrM.length == 0) {
+                    $("input:checkbox").prop("checked", false);
+                    app.mobileApp.hideLoading();
+                    app.mobileApp.navigate('#components/controlPoint/controlPointView.html');
+                }
+                var m = 0;
+                var m1 = 0;
+                for (m; m < arrM.length; m++) {
+                    saveMefga(arrM[m]);
+                }
+                var s = 0;
+                var s1 = 0;
                 function saveMefga(obj) {
                     dataProvider.loadCatalogs().then(function _catalogsLoaded() {
                         var jsdoOptions = homeModel.get('_jsdoOptionsHazhardCPEC'),
@@ -320,15 +336,26 @@ app.controlPoint = kendo.observable({
                         function saveModel() {
                             dataSource.add(obj);
                             dataSource.one('change', function (e) {
+                                m1++;
+                               
                                 for (var k = 0; k < arr.length; k++) {
                                     if (arr[k].R408159700 == current.R408159765) {
                                         arr[k].R408159700 = current.id;
-                                        saveSeif(arr[k])
+                                         // saveSeif(arr[k])
+                                    }
+                                }
+                            
+                                if (m == m1) {
+                                    if (arr.length == 0) {
+                                        $("input:checkbox").prop("checked", false);
+                                        app.mobileApp.hideLoading();
+                                        app.mobileApp.navigate('#components/controlPoint/controlPointView.html');
+                                    }
+                                    for (s; s < arr.length; s++) {
+                                        saveSeif(arr[s])
                                     }
 
                                 }
-
-
                             });
                             dataSource.sync();
                         };
@@ -347,20 +374,72 @@ app.controlPoint = kendo.observable({
                         function saveModel() {
                             dataSource.add(obj);
                             dataSource.one('change', function (e) {
-                                console.log(current.R408159700)
-                                //$("input:checkbox").prop("checked", false);
-                                homeModel.arrObjectes = [];
-                                //app.mobileApp.hideLoading();
-                                //app.mobileApp.navigate('#components/controlPoint/controlPointView.html');
+                                for (var x = 0; x < homeModel.get("arrSeifImage").length; x++) {
+                                    if (homeModel.get("arrSeifImage")[x].id == current.R370259173 && homeModel.get("arrSeifImage")[x].src != "")
+                                        arrSeifSaveImage.push({ "id": current.id, "SectionImage1": current.SectionImage1, "image": homeModel.get("arrSeifImage")[x].src })
+                                }
+                                s1++;
+                                if (s1 == s) {
+                                   
+                                    uploadPhotoSeif(arrSeifSaveImage)
+                                    $("input:checkbox").prop("checked", false);
+                                    app.mobileApp.hideLoading();
+                                    app.mobileApp.navigate('#components/controlPoint/controlPointView.html');
+                                }
+                               // if()
+                              //  console.log(current.R408159700)
+                               // homeModel.arrObjectes = [];
                             });
                             dataSource.sync();
                         };
                         saveModel();
                     });
                 }
-                $("input:checkbox").prop("checked", false);
-                app.mobileApp.hideLoading();
-                app.mobileApp.navigate('#components/controlPoint/controlPointView.html');
+                function uploadPhotoSeif(arr) {
+                    var jsdoOptions = homeModel.get('_jsdoOptionsSectionCheckup'),
+                        jsdo = new progress.data.JSDO(jsdoOptions),
+                        dataSourceOptions = homeModel.get('_dataSourceOptions'),
+                        dataSource;
+                    dataSourceOptions.transport.jsdo = jsdo;
+                    dataSource = new kendo.data.DataSource(dataSourceOptions)
+
+                    var options = new FileUploadOptions();
+                    options.quality = 10;
+                    options.fileKey = "fileContents";
+
+                    options.mimeType = "image/jpeg";
+                    options.params = {};
+                    options.headers = {
+                        Connection: "Close"
+                    };
+                    options.chunkedMode = false;
+                    var ft = new FileTransfer();
+                    var imageObj;
+                    var fileURI;
+                    var urlRB;
+                    for (var i = 0; i < arr.length; i++) {
+                        imageObj = $.parseJSON(arr[i].SectionImage1);
+                        fileURI = arr[i].image;
+                        urlRB = jsdo.url + imageObj.src + "?objName=" + app.controlPoint.homeModel._jsdoOptions.name;
+                        options.fileName = "photo.jpeg";
+                        ft.upload(
+                            fileURI,
+                            encodeURI(urlRB),
+                            onFileUploadSuccess("photo"),
+                            onFileTransferFail,
+                            options,
+                            true);
+                    }
+
+
+                    function onFileUploadSuccess(fieldName) {
+                        //alert("sss")
+                    }
+                    function onFileTransferFail(error) {
+                        alert("Error loading the image");
+                    }
+
+                }
             },
 
             //בלחיצת וי על אחד מסעיפי בדיקה יומית שומר בחירה במערך
@@ -1335,7 +1414,6 @@ app.controlPoint = kendo.observable({
 
                 }
             },
-
             takePhotoF: function (e) {
                 var check1 = app.controlPoint.homeModel.get("cameraIdF");
                 if (cordova.platformId == "ios") {
@@ -1362,7 +1440,6 @@ app.controlPoint = kendo.observable({
                         });
                 }
             },
-
             getPhotoLibraryF: function (e) {
                 var check1 = app.controlPoint.homeModel.get("cameraIdF");
                 if (cordova.platformId == "ios") {
@@ -1379,6 +1456,58 @@ app.controlPoint = kendo.observable({
                 }
                 else {
                     navigator.camera.getPicture(onSuccessUploadPhotoF, function (message) {
+                        alert("Failed to get a picture. Please select one.");
+                    }, {
+                            quality: 30,
+                            destinationType: Camera.DestinationType.FILE_URI,
+                            sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY,
+                            targetWidth: 1600,
+                            targetHeight: 1600,
+                            correctOrientation: true,
+                        });
+                }
+            },
+            //תמונות סעיפים
+            takePhotoS: function (e) {
+                if (cordova.platformId == "ios") {
+                    navigator.camera.getPicture(onSuccessUploadPhotoS, function (message) {
+                        alert("Failed to get a picture. Please select one.");
+                    }, {
+                            quality: 30,
+                            destinationType: Camera.DestinationType.DATA_URL,
+                            targetWidth: 1600,
+                            targetHeight: 1600,
+                            correctOrientation: true,
+                        });
+                }
+                else {
+                    navigator.camera.getPicture(onSuccessUploadPhotoS, function (message) {
+                        alert("Failed to get a picture. Please select one.");
+                    }, {
+                            quality: 30,
+                            destinationType: Camera.DestinationType.FILE_URI,
+                            EncodingType: Camera.EncodingType.PNG,
+                            targetWidth: 1600,
+                            targetHeight: 1600,
+                            correctOrientation: true,
+                        });
+                }
+            },
+            getPhotoLibraryS: function (e) {
+                if (cordova.platformId == "ios") {
+                    navigator.camera.getPicture(onSuccessUploadPhotoS, function (message) {
+                        alert("Failed to get a picture. Please select one.");
+                    }, {
+                            quality: 30,
+                            destinationType: Camera.DestinationType.DATA_URL,
+                            sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY,
+                            targetWidth: 1600,
+                            targetHeight: 1600,
+                            correctOrientation: true,
+                        });
+                }
+                else {
+                    navigator.camera.getPicture(onSuccessUploadPhotoS, function (message) {
                         alert("Failed to get a picture. Please select one.");
                     }, {
                             quality: 30,
@@ -1482,6 +1611,49 @@ app.controlPoint = kendo.observable({
         //   app.controlPoint.set("flagImage", true);
         app.controlPoint.homeModel.set("fileURI", cameraId);
         //talkbubbleStylePicture.hidden = false;
+
+    }
+    function onSuccessUploadPhotoS(imageData) {
+        $("#picturedropListSeif").kendoMobileModalView("close");
+        var cameraId = app.controlPoint.homeModel.get("cameraIdSeif");
+        var image = document.getElementById('pictureSeif');
+            if (cordova.platformId == "ios") {
+                image.src = "data:image/jpeg;base64," + imageData;
+            } else {
+                image.src = imageData;
+        }
+
+            var realId = "";
+            for (var i = 5; i < cameraId.length; i++) {
+                realId += cameraId[i];
+            }
+            var arr = homeModel.get("arrSeifImage");
+            for (var i = 0; i < arr.length; i++) {
+                if (arr[i].id == realId)
+                     arr[i].src = document.getElementById("pictureSeif").src;
+            }
+
+            homeModel.set("arrSeifImage", arr);
+            console.log(homeModel.get("arrSeifImage"))
+            document.getElementById(cameraId).style.color="red";
+
+            //app.controlPoint.homeModel.set("pictureSiteSignageSRC", image.src);
+            //     app.controlPoint.homeModel.set("pictureSiteSignage", cameraId);
+            //  $('#capturePhoto1I').removeClass("material-icons").addClass("fas fa-search-plus");
+            //  capturePhoto1I.innerHTML = ""
+
+
+            //קישקוש עג תמונה
+            //document.getElementById('gibuyImage1').src = document.getElementById('pictureSiteSignage').src;
+
+
+            //$("#cordova-plugin-sketch-open1").show();
+
+            // getSketch1();
+       
+     
+        //document.getElementById(cameraId).style.color = "green";
+        //app.controlPoint.homeModel.set("fileURI", cameraId);
 
     }
     //לאחר ההעלה תמונה לוקלי
@@ -1645,7 +1817,7 @@ app.controlPoint = kendo.observable({
                 app.controlPoint.homeModel.set("fileURI", "null");
                 app.controlPoint.homeModel.set("capturePhoto1", "null");
                 app.controlPoint.homeModel.set("capturePhoto2", "null");
-                homeModel.save2();
+                homeModel.saveSeif();
             }
         }
         function onFileTransferFail(error) {
@@ -1855,7 +2027,7 @@ app.controlPoint = kendo.observable({
 
 
             var itemModel = app.hightGuard.homeModel.get("currentCheck");
-            if (itemModel.cb_isPublish==1){//מבדק סגור
+            if (itemModel.cb_isPublish == 1) {//מבדק סגור
                 CheckupReportDiv.hidden = false;//דוח וציון
                 openCheck.hidden = true;//footer 
                 closeCheck.hidden = false;//footer 
@@ -1948,7 +2120,7 @@ app.controlPoint = kendo.observable({
                 homeModel.set("builtItem", {});
             }
 
-          
+
 
             console.log(homeModel.get("checkItem"))
 
@@ -2022,6 +2194,7 @@ app.controlPoint = kendo.observable({
 
             function doTemplatePage() {
                 var arrObjectes = [];
+                var arrSeifImage = [];
                 flag = true;
                 for (var j = 0; j < viewMefga.length; j++) {
 
@@ -2035,7 +2208,7 @@ app.controlPoint = kendo.observable({
                     var arrSeif = [];
                     for (var i = 10; i < viewSeif.length + 10; i++) {
                         if (viewSeif[i - 10].R408388358 == viewMefga[j].id) {
-                            var obj = { "id": viewSeif[i - 10].id, "value": "null" }
+                            var obj = { "id": viewSeif[i - 10].id, "value": "null","image":"" }
                             arrSeif.push(obj);
                             var node = document.createElement('div');
                             var string = "";
@@ -2045,6 +2218,7 @@ app.controlPoint = kendo.observable({
                             string += '<label id="' + viewSeif[i - 10].id + '" style="font-family:Tahoma, Geneva, sans-serif;font-weight: bold;font-size:small;color:black;"> ' + viewSeif[i - 10].SectionContent + '</label>';
                             string += '</td>';
                             string += '</tr>';
+                            string += '<tr style= "width:100%" >';
                             string += '<td  style= "" >';
                             string += ' <div style="background-color: #fff;height:5px;"></div>';
                             string += '</td>';
@@ -2082,8 +2256,16 @@ app.controlPoint = kendo.observable({
                                     string += '</tr>';
                                 }
                             }
-
-
+                            string += '<tr style= "width:100%" >';
+                            string += '<td >';
+                            string += '<label  style="font-family:Tahoma, Geneva, sans-serif;font-weight: bold;font-size:small;color:black;"> הוסף תמונה+</label>';
+                            string += '</td>';
+                      
+                            string += '<td  style= "" >';
+                            string += '<div><i class="fas fa-camera" style="margin-right: 80%;color:#7B7878;font-size:medium;" onclick="takeIdImageS(this.id)" id="image' + viewSeif[i - 10].id+'"></i></div>';
+                            string += '</td>';
+                            string += '</tr>';
+                            arrSeifImage.push({ "id": viewSeif[i - 10].id,"src":""})
                             //var obj = { sectionId: viewSeif[i - 10].id };
                             //homeModel.SectionStatusArr.push(obj)
                             string += '</table>';
@@ -2099,6 +2281,7 @@ app.controlPoint = kendo.observable({
                     arrObjectes.push(obj)
 
                 }
+                homeModel.set("arrSeifImage", arrSeifImage)
                 homeModel.set("arrObjectes", arrObjectes)
                 oneChecked();
                 app.mobileApp.hideLoading();
@@ -2311,261 +2494,12 @@ app.controlPoint = kendo.observable({
         });
 
 
-     
+
         if (app.hightGuard.homeModel.get("currentCheck").cb_isPublish == 1) //מבדק סגור
             editSection1.hidden = true;
         else
             editSection1.hidden = false;
     });
-    parent.set('onShowTestSectionInit2', function (e) {
-        //try {
 
-        var scroller = e.view.scroller;
-        scroller.reset();
-        app.mobileApp.showLoading();
-        //סעיפים למבדק זה
-        dataProvider.loadCatalogs().then(function _catalogsLoaded() {
-            var jsdoOptions = homeModel.get('_jsdoOptionsSectionCheckup'),
-                jsdo = new progress.data.JSDO(jsdoOptions),
-                dataSourceOptions = homeModel.get('_dataSourceOptions'),
-                dataSource2;
-            dataSourceOptions.transport.jsdo = jsdo;
-            dataSource2 = new kendo.data.DataSource(dataSourceOptions)
-            homeModel.set('sectionStatus', app.controlPoint.homeModel._dataSourceOptions.transport.jsdo.getPicklist_SectionStatus().response.picklistData);
-        });
-
-
-        //שולף טבלה סעיפי בדיקה מהשרת
-        dataProvider.loadCatalogs().then(function _catalogsLoaded() {
-            var jsdoOptions = homeModel.get('_jsdoOptionsCategorySection'),
-                jsdo = new progress.data.JSDO(jsdoOptions),
-                dataSourceOptions = homeModel.get('_dataSourceOptions'),
-                dataSource;
-            dataSourceOptions.transport.jsdo = jsdo;
-            dataSource = new kendo.data.DataSource(dataSourceOptions)
-            homeModel.set('dataSourceCategorySection', dataSource);
-
-
-
-        });
-        app.mobileApp.hideLoading();
-        //} catch (e) {
-        //    alert("שגיאה")
-        //}
-    });
-    parent.set('onShowTestSection2', function (e) {
-        //try {
-        //projectNameTestSection.innerHTML = (app.project.homeModel.get("dataItem")).LocationName;
-        controlPointLabel.innerHTML = (app.controlPoint.homeModel.get("itemClickCp")).name;
-        var scroller = e.view.scroller;
-        scroller.reset();
-        app.mobileApp.showLoading();
-        app.controlPoint.set("flagImage", false);
-        document.getElementById("capturePhoto1").style.color = "black";
-        document.getElementById("capturePhoto2").style.color = "black";
-        document.getElementById("description_all_control_point").style.color = "black";
-        document.getElementById("description_html").value = "";
-        //שולף טבלה מהשרת
-        var dataSource = homeModel.get('dataSourceCategorySection');
-        dataSource.filter({
-            field: "R370259295",
-            operator: "==",
-            value: (app.controlPoint.homeModel.get("itemClickCp")).id
-        });
-        document.getElementById('sectionStatusDiv').innerHTML = "";
-
-        dataSource.fetch(function () {
-            homeModel.set('dataSourceCategorySectionFilter', dataSource);
-            var dataSourceF = homeModel.get('dataSourceCategorySectionFilter');
-            var view = dataSourceF.view();
-            for (var i = 10; i < view.length + 10; i++) {
-                var node = document.createElement('div');
-                var string = "";
-                if (i == 10)
-                    string += ' <div style="background-color: #fff;height:5px;"></div>';
-                string += '<center><table style="width:95%;background-color:#ffffff;margin-top:20px;margin-bottom:20px;" dir="rtl" >';
-                string += '<tr style= "width:100%" >';
-                string += '<td  style= "" >';
-                string += '<label id="' + view[i - 10].id + '" style="font-family:Tahoma, Geneva, sans-serif;font-weight: bold;font-size:small;color:black;"> ' + view[i - 10].SectionContent + '</label>';
-                string += '</td>';
-                string += '</tr>';
-                string += '<td  style= "" >';
-                string += ' <div style="background-color: #fff;height:5px;"></div>';
-                string += '</td>';
-                string += '</tr>';
-
-                string += '<tr style= "width:100%" >';
-                string += '<td  style= "width:100%" >';
-                string += '<table style="width:100%" dir="rtl" >';
-                //for (var j = homeModel.sectionStatus.length-1; j >=0; j++) {
-                for (var j = 0; j < homeModel.sectionStatus.length; j++) {
-                    if (j % 2 == 0) {
-
-                        string += '<tr style= "width:100%;" >';
-                    }
-                    string += '<td  style= "width:50%" >';
-                    string += '<table style="width:100%" dir="rtl" >';
-                    string += '<tr style= "width:100%" >';
-                    string += ' <td style="width:25%;">';
-                    var myname = "";
-                    myname += view[i - 10].SectionContent;
-                    string += '<input id= "' + homeModel.sectionStatus[j].id + i + '"name="' + view[i - 10].id + '"  type= "checkbox"  onclick="myChooseSectionStatus(this.name,this.id)"/>'
-                    string += ' </td > '
-                    string += '<td style= "width:75%;" > '
-                    string += '<label  style="font-family:Tahoma, Geneva, sans-serif;font-weight: 200;font-size:small;color:black;"> ' + homeModel.sectionStatus[j].name + '</label></td>'
-                    string += '</tr>';
-                    string += '</table>';
-                    string += ' </td > ';
-
-
-                    if (j % 2 != 0) {
-                        string += '</tr>';
-                    }
-                }
-                homeModel.default = homeModel.sectionStatus[j - 1].id;
-                var obj = { sectionId: view[i - 10].id, statusId: homeModel.default };
-                homeModel.SectionStatusArr.push(obj)
-                string += '</table>';
-                string += ' </td > '
-                string += '</tr>';
-                string += '</table></center><div style="background-color: #e9eaeb;height:5px;"></div>';
-                node.innerHTML = string;
-                document.getElementById('sectionStatusDiv').appendChild(node);
-            }
-            oneChecked();
-
-            app.mobileApp.hideLoading();
-        });
-
-
-        //} catch (e) {
-        //    alert("שגיאה")
-        //}
-    });
-    parent.set('onShowTestSectionEdit2', function (e) {
-        //try {
-        //projectNameTestSectionEdit.innerHTML = (app.project.homeModel.get("dataItem")).LocationName;
-        controlPointLabelEdit.innerHTML = "תחום נבדק:" + (app.controlPoint.homeModel.get("itemClickCp")).name;
-        var scroller = e.view.scroller;
-        scroller.reset();
-        app.mobileApp.showLoading();
-        editSection1.hidden = false;
-        saveSectionAssign1.hidden = true;
-
-        app.controlPoint.set("flagIsEdit", false);
-        if (homeModel.currentControlPointCheckup.ControlPointComment != "null") {
-            document.getElementById("descriptionEdit").value = homeModel.currentControlPointCheckup.ControlPointComment;
-        }
-        else {
-            document.getElementById("descriptionEdit").value = "";
-        }
-        var imag1 = homeModel.currentControlPointCheckup.URL_Image1;
-        var imag2 = homeModel.currentControlPointCheckup.URL_Image2;
-        //תמונות
-        if (imag1 == "null") {
-            document.getElementById("capturePhoto1Edit").style.color = "black";
-            $("#picture_all_control_point1Edit").attr("src", "");
-        }
-        else {
-            document.getElementById("capturePhoto1Edit").style.color = "red";
-            document.getElementById("picture_all_control_point1Edit").src = imag1;
-        }
-        if (imag2 == "null") {
-            document.getElementById("capturePhoto2Edit").style.color = "black";
-            $("#picture_all_control_point2Edit").attr("src", "");
-        }
-        else {
-            document.getElementById("capturePhoto2Edit").style.color = "red";
-            document.getElementById("picture_all_control_point2Edit").src = imag2;
-        }
-
-
-        //שולף טבלה מהשרת
-
-        var dataSource = homeModel.get('dataSourceCategorySection');
-        dataSource.filter({
-            field: "R370259295",
-            operator: "==",
-            value: (app.controlPoint.homeModel.get("itemClickCp")).id
-        });
-        document.getElementById('sectionStatusEditDiv').innerHTML = "";
-        dataSource.fetch(function () {
-            homeModel.set('dataSourceCategorySectionFilter', dataSource);
-            var dataSourceF = homeModel.get('dataSourceCategorySectionFilter');
-            var view = dataSourceF.view();
-            var IsChecked;
-            var EditSectionItem = homeModel.get('EditSectionItem');
-            for (var i = 10; i < view.length + 10; i++) {
-                for (var x = 0; x < EditSectionItem.length; x++) {
-                    if (view[i - 10].id == EditSectionItem[x].R370259173) {
-                        IsChecked = EditSectionItem[x].SectionStatus;
-                        break;
-                    }
-                }
-                var node = document.createElement('div');
-                var string = "";
-                if (i == 10)
-                    string += ' <div style="background-color: #fff;height:5px;"></div>';
-                string += '<center><table style="width:95%;background-color:#ffffff;margin-top:20px;margin-bottom:20px;" dir="rtl" >';
-                string += '<tr style= "width:100%" >';
-                string += '<td  style= "" >';
-                string += '<label id="' + view[i - 10].id + '" style="font-family:Tahoma, Geneva, sans-serif;font-weight: bold;font-size:small;color:black;"> ' + view[i - 10].SectionContent + '</label>';
-                string += '</td>';
-                string += '</tr>';
-                string += '<td  style= "" >';
-                string += ' <div style="background-color: #fff;height:5px;"></div>';
-                string += '</td>';
-                string += '</tr>';
-
-                string += '<tr style= "width:100%" >';
-                string += '<td  style= "width:100%" >';
-                string += '<table style="width:100%" dir="rtl" >';
-                //for (var j = homeModel.sectionStatus.length-1; j >=0; j++) {
-                for (var j = 0; j < homeModel.sectionStatus.length; j++) {
-                    if (j % 2 == 0) {
-                        string += '<tr style= "width:100%;" >';
-                    }
-                    string += '<td  style= "width:50%" >';
-                    string += '<table style="width:100%" dir="rtl" >';
-                    string += '<tr style= "width:100%" >';
-                    string += ' <td style="width:25%;">';
-                    var myname = "";
-                    myname += view[i - 10].SectionContent;
-                    if (IsChecked == homeModel.sectionStatus[j].id) {
-                        string += '<input id= "' + homeModel.sectionStatus[j].id + i + '"name="' + view[i - 10].id + '"  type= "checkbox" checked onclick="myChooseSectionEditStatus(this.name,this.id)"/>'
-                    }
-                    else
-                        string += '<input id= "' + homeModel.sectionStatus[j].id + i + '"name="' + view[i - 10].id + '"  type= "checkbox"  onclick="myChooseSectionEditStatus(this.name,this.id)"/>'
-                    string += ' </td > '
-                    string += '<td style= "width:75%;" > '
-                    string += '<label  style="font-family:Tahoma, Geneva, sans-serif;font-weight: 200;font-size:small;color:black;"> ' + homeModel.sectionStatus[j].name + '</label></td>'
-                    string += '</tr>';
-                    string += '</table>';
-                    string += ' </td > ';
-
-
-                    if (j % 2 != 0) {
-                        string += '</tr>';
-                    }
-                }
-                homeModel.default = IsChecked;
-                var obj = { sectionId: view[i - 10].id, statusId: homeModel.default };
-                homeModel.SectionStatusArr.push(obj)
-                string += '</table>';
-                string += ' </td > '
-                string += '</tr>';
-                string += '</table></center><div style="background-color: #e9eaeb;height:5px;"></div>';
-                node.innerHTML = string;
-                document.getElementById('sectionStatusEditDiv').appendChild(node);
-            }
-            oneCheckedEdit();
-            $("input:checkbox").attr("disabled", true);
-            $("#descriptionEdit").attr("disabled", true);
-            imageEdit1.hidden = true;
-            imageEdit2.hidden = true;
-
-            app.mobileApp.hideLoading();
-        });
-    });
 })(app.controlPoint);
 
