@@ -52,13 +52,15 @@ app.hightGuard = kendo.observable({
             _jsdoOptionsProjectDashboard: jsdoOptionsProjectDashboard,
             _jsdoOptions: jsdoOptions,
             currentCheck: null,
-
+            projectDetails: {},
+            projectDetailsCheck: {},
+            projectDetailsCheckF:false,
             //גירסא
             onClickVersion: function () {
                 //cordova.getAppVersion.getVersionNumber().then(function (version) {
-                    //$('#versionLabel').text(version);
-                 //   versionLabel.innerHTML = version
-              //  });
+                //$('#versionLabel').text(version);
+                //   versionLabel.innerHTML = version
+                //  });
                 versionLabel.innerHTML = " 1.2.1";
                 $("#popVersion").kendoMobileModalView("open");
             },
@@ -74,175 +76,199 @@ app.hightGuard = kendo.observable({
                 $("#popParticipants").kendoMobileModalView("close");
             },
             //המשך מפופאפ משתתפים בסיור
-           resumePopParticipants: function () {
-               $("#popParticipants").kendoMobileModalView("close");
-               var IfMoreselect = document.getElementById("tourParticipantstext").value;
-               var checkParticipants = "";
-               if (IfMoreselect != " " && IfMoreselect != "" && IfMoreselect != "null") {
-                   checkParticipants = document.getElementById("tourParticipantsLabel").value + ", " + IfMoreselect;
-                   if (checkParticipants[0] == ",") {
-                       var checkParticipants2 = "";
-                       for (var i = 1; i < checkParticipants.length; i++) {
-                           checkParticipants2 += checkParticipants[i]
-                       }
-                       checkParticipants = checkParticipants2;
-                   }
-               }
-               else
-                   checkParticipants = document.getElementById("tourParticipantsLabel").value;
+            resumePopParticipants: function () {
+                $("#popParticipants").kendoMobileModalView("close");
+                var IfMoreselect = document.getElementById("tourParticipantstext").value;
+                var checkParticipants = "";
+                if (IfMoreselect != " " && IfMoreselect != "" && IfMoreselect != "null") {
+                    checkParticipants = document.getElementById("tourParticipantsLabel").value + ", " + IfMoreselect;
+                    if (checkParticipants[0] == ",") {
+                        var checkParticipants2 = "";
+                        for (var i = 1; i < checkParticipants.length; i++) {
+                            checkParticipants2 += checkParticipants[i]
+                        }
+                        checkParticipants = checkParticipants2;
+                    }
+                }
+                else
+                    checkParticipants = document.getElementById("tourParticipantsLabel").value;
 
 
-               if (checkParticipants == " " || checkParticipants == "" || checkParticipants == "null")
-                   checkParticipants = "אין";
+                if (checkParticipants == " " || checkParticipants == "" || checkParticipants == "null")
+                    checkParticipants = "אין";
 
-               document.getElementById("tourParticipantstext").value = "";
-               document.getElementById("tourParticipantsLabel").value = "";
+                document.getElementById("tourParticipantstext").value = "";
+                document.getElementById("tourParticipantsLabel").value = "";
 
-               homeModel.addCheck(checkParticipants);
+                homeModel.addCheck(checkParticipants);
             },
             //פונקציה המייצרת מבדק חדש
-           addCheck: function (checkParticipants) {
-               app.mobileApp.showLoading();
+            addCheck: function (checkParticipants) {
+                app.mobileApp.showLoading();
                 var jsdoOptions = homeModel.get('_jsdoOptions'),
                     jsdo = new progress.data.JSDO(jsdoOptions),
                     dataSourceOptions = homeModel.get('_dataSourceOptions'),
                     dataSource;
                 dataSourceOptions.transport.jsdo = jsdo;
                 dataSource = new kendo.data.DataSource(dataSourceOptions);
-                 
-            var pos = {
-                "lat": "",
-                "lng":"",
-            }
 
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function (position) {
-                    pos.lat = position.coords.latitude;
-                    pos.lng = position.coords.longitude;
-                });
-            }
-          
+                var pos = {
+                    "lat": "",
+                    "lng": "",
+                }
+
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(function (position) {
+                        pos.lat = position.coords.latitude;
+                        pos.lng = position.coords.longitude;
+                    });
+                }
+
                 function saveModel(data) {
-                   var checkObj= {
-                       "TourParticipants": checkParticipants,
-                       "locationId":(app.project.homeModel.get("dataItem")).locationId,
-                       "Latitude":pos.lat,
-                        "Longitude":pos.lng,
-                     
+                    var checkObj = {
+                        "TourParticipants": checkParticipants,
+                        "locationId": (app.project.homeModel.get("dataItem")).locationId,
+                        "Latitude": pos.lat,
+                        "Longitude": pos.lng,
+
                     }
                     dataSource.add(checkObj);
                     dataSource.one('change', function (e) {
                         var cur = current;
-                          homeModel.set("itemIs",false)
+                        homeModel.set("itemIs", false)
                         homeModel.currentCheck = current;
                         //setTimeout(function () {
-                          app.mobileApp.navigate('#components/controlPoint/controlPointView.html');
-                            app.mobileApp.hideLoading();
-                     //   }, 100);
+                        app.mobileApp.navigate('#components/controlPoint/controlPointView.html');
+                        app.mobileApp.hideLoading();
+                        //   }, 100);
                     });
                     dataSource.sync();
                 };
                 saveModel();
-           },
-           itemClick: function (e) {
-               app.mobileApp.showLoading();
-               var item = e.dataItem.uid;
-               var dataSource = homeModel.get('dataSource');
-               var itemModel = dataSource.getByUid(item);
-               homeModel.set("itemIs",true)
-               homeModel.currentCheck = itemModel;
-             //  setTimeout(function () {
-                   app.mobileApp.navigate('#components/controlPoint/controlPointView.html');
-                   app.mobileApp.hideLoading();
-           //    }, 300);
+            },
+            itemClick: function (e) {
+                app.mobileApp.showLoading();
+                var item = e.dataItem.uid;
+                var dataSource = homeModel.get('dataSource');
+                var itemModel = dataSource.getByUid(item);
+                homeModel.set("itemIs", true)
+                homeModel.currentCheck = itemModel;
+                setTimeout(function () {
+                app.mobileApp.navigate('#components/controlPoint/controlPointView.html');
+                app.mobileApp.hideLoading();
+                  }, 300);
+
+            },
+
+            detailsProject: function () {
+                app.mobileApp.showLoading();
               
-           },
+                    var jsdoOptions = homeModel.get('_jsdoOptionsProjectDashboard'),
+                        jsdo = new progress.data.JSDO(jsdoOptions),
+                        dataSourceOptions = homeModel.get('_dataSourceOptions'),
+                        dataSource;
+                    dataSourceOptions.transport.jsdo = jsdo;
+                    dataSource = new kendo.data.DataSource(dataSourceOptions)
+                    dataSource.filter({
+                        field: "locationId",
+                        operator: "==",
+                        value: (app.project.homeModel.get("dataItem")).locationId
+                    });
+                  
 
-           detailsProject: function () {
-               app.mobileApp.showLoading();
-               dataProvider.loadCatalogs().then(function _catalogsLoaded() {
-                   var jsdoOptions = homeModel.get('_jsdoOptionsProjectDashboard'),
-                       jsdo = new progress.data.JSDO(jsdoOptions),
-                       dataSourceOptions = homeModel.get('_dataSourceOptions'),
-                       dataSource;
-                   dataSourceOptions.transport.jsdo = jsdo;
-                   dataSource = new kendo.data.DataSource(dataSourceOptions)
-                   dataSource.filter({
-                       field: "locationId",
-                       operator: "==",
-                       value: (app.project.homeModel.get("dataItem")).locationId
-                   });
-                   dataSource.fetch(function () {
-                       var view = dataSource.view();
-                       if (view.length > 0) {
-                           projectNamePop.innerHTML = (app.project.homeModel.get("dataItem")).LocationName;//שם הפרויקט
-                           if (view[0].ProjectAddress != "null")
-                               document.getElementById('ProjectAddressPop').value = view[0].ProjectAddress;//כתובת
-                           else
-                               document.getElementById('ProjectAddressPop').value = "";
+                      
+                    dataSource.fetch(function () {
+                        projectNamePop.innerHTML = (app.project.homeModel.get("dataItem")).LocationName;
+                        if (homeModel.projectDetailsCheck) {
+                            console.log(homeModel.projectDetailsCheck)
+                            document.getElementById("projectDetailsCheckTable").style.display = "";
+                            if (homeModel.projectDetailsCheck.structureNum == "null")//  מס' מבנים באתר:
+                                homeModel.projectDetailsCheck.set("structureNum", "");
 
-                           if (view[0].Foreman != "null")
-                               document.getElementById('ForemanPop').value = view[0].Foreman;//מנהל עבודה
-                           else
-                               document.getElementById('ForemanPop').value = "";
+                            if (homeModel.projectDetailsCheck.builtUpArea == "null")// הערכת שטח בנוי:
+                                homeModel.projectDetailsCheck.set("builtUpArea", "");
 
-                           if (view[0].ProjectManager != "null")
-                               document.getElementById('ProjectManagerPop').value = view[0].ProjectManager;//מנהל פרויקט
-                           else
-                               document.getElementById('ProjectManagerPop').value = "";
+                            if (homeModel.projectDetailsCheck.FillingStructuresURL != "null")
+                                document.getElementById("FillingStructuresPD").src = homeModel.projectDetailsCheck.FillingStructuresURL;
+                            else
+                                document.getElementById("FillingStructuresPD").src = "";
 
-                           if (view[0].ExecutiveCompanyName != "null")
-                               document.getElementById('ExecutiveCompanyNamePop').value = view[0].ExecutiveCompanyName;//חברה מבצעת
-
-                           else
-                               document.getElementById('ExecutiveCompanyNamePop').value = "";
-                       }
-                       homeModel.set("dataSourceProjectDashboard", dataSource)
-                       $("#popProjectDetails").kendoMobileModalView("open");
-                       app.mobileApp.hideLoading();
-
-                   });
-               });
-               app.mobileApp.hideLoading();
-           },
-           closepopProjectDetails: function () {
-               $("#popProjectDetails").kendoMobileModalView("close");
-
-           },
-           assignDetails: function () {
-               $("#popProjectDetails").kendoMobileModalView("close");
-               var dataSource = homeModel.get("dataSourceProjectDashboard")
-               var view = dataSource.view();
-               if (view.length > 0) {
-                   var obj = {
-                       "ProjectAddress": document.getElementById('ProjectAddressPop').value,//כתובת
-                       "Foreman": document.getElementById('ForemanPop').value,//מנהל עבודה
-                       "ProjectManager": document.getElementById('ProjectManagerPop').value,//מנהל פרויקט
-                       "ExecutiveCompanyName": document.getElementById('ExecutiveCompanyNamePop').value,//חברה מבצעת
-                   }
-                   try {
-                       var jsdo = dataSource.transport.jsdo;
-                       var jsrow = jsdo.findById(view[0].id);
-                       var afterUpdateFn;
-                       jsrow.assign(obj);
-                       afterUpdateFn = function (jsdo, record, success, request) {
-                           jsdo.unsubscribe('afterUpdate', afterUpdateFn);
-                           if (success === true) {
-                               app.mobileApp.hideLoading();
-                               app.mobileApp.navigate('#components/hightGuard/view.html');
-                           }
-                           else {
-                               alert("שגיאה");
-                           }
-                       };
-                       jsdo.subscribe('afterUpdate', afterUpdateFn);
-                       jsdo.saveChanges();
-                   } catch (e) {
-                       alert("התגלתה בעיה בטעינת הנתונים, אנא נסה שוב  מאוחר יותר")
-                   }
-               }
+                            if (homeModel.projectDetailsCheck.siteSignageURL != "null")
+                                document.getElementById("siteSignagePD").src = homeModel.projectDetailsCheck.siteSignageURL;
+                            else
+                                document.getElementById("siteSignagePD").src = "";
+                              //FillingStructuresURL
+                        //siteSignageURL
+                        }
+                        else {
+                            document.getElementById("projectDetailsCheckTable").style.display = "none";
+                        }
+                        var view = dataSource.view();
+                        if (view.length > 0) {
+                            var itemModel = view[0];
+                            removeNULL("ProjectAddress");
+                            removeNULL("Longitude");
+                            removeNULL("Latitude");
+                            removeNULL("initiateName");
+                            removeNULL("initiateNum");
+                            removeNULL("ExecutiveCompanyName");
+                            removeNULL("operatorNum");
+                            removeNULL("settlement");
+                            removeNULL("lot");
+                            removeNULL("constructionType");
+                            removeNULL("ProjectManager");
+                            homeModel.set("projectDetails", itemModel)
+                            function removeNULL(item) {
+                                if (itemModel[item] == "null")
+                                    itemModel[item] = "";
+                            }
+                        }
+                        homeModel.set("dataSourceProjectDashboard", dataSource)
+                        $("#popProjectDetails").kendoMobileModalView("open");
+                        app.mobileApp.hideLoading();
+                    });
+              
                
-           },
+            },
+            closepopProjectDetails: function () {
+                $("#popProjectDetails").kendoMobileModalView("close");
+
+            },
+            assignDetails: function () {
+                $("#popProjectDetails").kendoMobileModalView("close");
+                var dataSource = homeModel.get("dataSourceProjectDashboard")
+                var view = dataSource.view();
+                if (view.length > 0) {
+                    //var obj = {
+                    //    "ProjectAddress": document.getElementById('ProjectAddressPop').value,//כתובת
+                    //    "Foreman": document.getElementById('ForemanPop').value,//מנהל עבודה
+                    //    "ProjectManager": document.getElementById('ProjectManagerPop').value,//מנהל פרויקט
+                    //    "ExecutiveCompanyName": document.getElementById('ExecutiveCompanyNamePop').value,//חברה מבצעת
+                    //}
+                    var obj = homeModel.get("projectDetails");
+                    try {
+                        var jsdo = dataSource.transport.jsdo;
+                        var jsrow = jsdo.findById(view[0].id);
+                        var afterUpdateFn;
+                        jsrow.assign(obj);
+                        afterUpdateFn = function (jsdo, record, success, request) {
+                            jsdo.unsubscribe('afterUpdate', afterUpdateFn);
+                            if (success === true) {
+                                app.mobileApp.hideLoading();
+                                app.mobileApp.navigate('#components/hightGuard/view.html');
+                            }
+                            else {
+                                alert("שגיאה");
+                            }
+                        };
+                        jsdo.subscribe('afterUpdate', afterUpdateFn);
+                        jsdo.saveChanges();
+                    } catch (e) {
+                        alert("התגלתה בעיה בטעינת הנתונים, אנא נסה שוב  מאוחר יותר")
+                    }
+                }
+
+            },
         });
 
     parent.set('homeModel', homeModel);
@@ -265,18 +291,20 @@ app.hightGuard = kendo.observable({
                     value: (app.project.homeModel.get("dataItem")).locationId
                 });
                 dataSource.sort({ field: 'createdAt', dir: 'desc' });
+                homeModel.set('projectDetailsCheck', {})
+                homeModel.set('projectDetailsCheckF', false)
                 homeModel.set('dataSource', dataSource)
                 app.mobileApp.hideLoading();
-            document.getElementById('projectDetailsTab').style.display = "";
-             document.getElementById('machozTab').style.display = "";
-             document.getElementById('VersionTab').style.display = "";
-             document.getElementById('logOutTab').style.display = "";
+                document.getElementById('projectDetailsTab').style.display = "";
+                document.getElementById('machozTab').style.display = "";
+                document.getElementById('VersionTab').style.display = "";
+                document.getElementById('logOutTab').style.display = "";
             });
             app.mobileApp.hideLoading();
         } catch (e) {
             alert("שגיאה")
         }
     });
-    
+
 })(app.hightGuard);
 

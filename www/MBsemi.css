@@ -1,4 +1,4 @@
-﻿
+
 /*פנקס כללי*/
 
 .km-nova .km-collapsible-header {
@@ -468,7 +468,7 @@ input[type=range] {
 /*ממצאים */
 #listviewLikuy > li, #listviewActionOpenVDC > li, #listviewActionOpenVRL > li,
 #listviewActionOpenVCT > li, #listviewActionOpenVGN > li, #listviewActionOpenVSE > li,
-#listviewActionOpenVPW > li, #listviewActionOpenVCD > li, #listviewActionOpenVCM > li {
+#listviewActionOpenVPW > li, #listviewActionOpenVCD > li, #listviewActionOpenVCM > li ,#listviewChecks>li{
     padding: 0.25em;
     border-style: none;
 }
@@ -480,7 +480,7 @@ input[type=range] {
 /*כפתור פלוס*/
 
 .circle {
-    position: absolute;
+   position: absolute;
     width: 70px;
     height: 70px;
     background: #f7931e;

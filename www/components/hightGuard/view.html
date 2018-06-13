@@ -8,7 +8,7 @@
             <a class="headerButton" data-role="button" data-align="left" style="color: transparent;">
                 <i class="material-icons" style="color:transparent">home</i>
             </a> -->
-               <a data-role="button" href="#appDrawer" data-rel="drawer" data-align="left" class="headerButton">
+            <a data-role="button" href="#appDrawer" data-rel="drawer" data-align="left" class="headerButton">
                 <i class="material-icons" style="color:white">reorder</i>
             </a>
             <a class="headerButton" id="" data-role="button" data-align="right" style="color: white;" href="">
@@ -16,55 +16,75 @@
             </a>
         </div>
     </header>
-    <div id="myDropdown1" class="dropdown-content1" style="z-index: 2;">
+    <!--<div id="myDropdown1" class="dropdown-content1" style="z-index: 2;">
         <a onclick="projectDetails()" style="font-size: small;font-family:Tahoma,Geneva, sans-serif;border-top:none;font-weight:200;">פרטי פרויקט</a>
         <a onclick="projectLocation()" style="font-size: small;font-family:Tahoma,Geneva, sans-serif;border-top:1px solid;font-weight:200;">מחוזות</a>
         <a onclick="onClickVersion()" style="font-size: small;font-family:Tahoma, Geneva, sans-serif;border-top:1px solid;font-weight:200;">גירסא</a>
         <a onclick="goToLoginPage()" style="font-size: small;font-family:Tahoma, Geneva, sans-serif;border-top:1px solid;font-weight:200;">יציאה</a>
-    </div>
+    </div>-->
     <div style="background-color: transparent;height:3px;"> </div>
     <div>
         <center>
             <ul data-role="listview" id="listviewChecks" data-style="inset" data-template="templateChecks" style="background-color:#e9eaeb" data-bind="{ source: homeModel.dataSource, events: {click:  homeModel.itemClick}}" data-pull-to-refresh="false"></ul>
             <script type="text/x-kendo-template" id="templateChecks">
+                #if(app.hightGuard.homeModel.projectDetailsCheckF==false && data['cb_isPublish']=="1"){#
+                #app.hightGuard.homeModel.set('projectDetailsCheck', data)#
+                #console.log(app.hightGuard.homeModel.get('projectDetailsCheck'))#
+                #app.hightGuard.homeModel.set('projectDetailsCheckF', true)#
+                #}#
                 <div class="rectangle3" style="width:96.25%;">
                     <div style="width:95%;">
-                        <table dir="rtl" style="width:95%;">
+                        <table style="width:98%;margin-right:0%;" border="0">
                             <tr>
-                                <td style="width:93%">
-                                    <p style="font-family:Tahoma, Geneva, sans-serif;font-weight: 200;font-size:small;">
-                                        <span style="color:black;font-family: Tahoma, Geneva, sans-serif;">נוצר ע"י:</span>
-                                        <span style="color:black;font-family: Tahoma, Geneva, sans-serif;">  #:data['NameReviwer']#</span>
-                                    </p>
+                                <td style="width:90%">
+                                    <table style="width:100%;margin-right:0%;" border="0">
+                                        <tr>
+                                            <td colspan="2">
+                                                <label style="color: black;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;font-size:small;">
+                                                    #=kendo.toString(data['createdAt'], "dd/MM/yyyy HH:mm")#
+                                                    #:data['NameReviwer']#
+                                                </label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <label style="color: black;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;font-size:small;">
+                                                  סטטוס:#if(data['cb_isPublish']=="1"){#מבדק סגור#} else{#מבדק פתוח#}#
+                                                </label>
+                                            </td>
+                                        </tr>
+                                        #if(data['cb_isPublish']=="1"){#
+                                        <tr>
+                                            <td colspan="2">
+                                                <label style="color: black;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;font-size:small;"> <span style="font-family: Tahoma, Geneva, sans-serif;color: black;">ציון:</span> #:data['CheckupScore']#</label>
+                                            </td>
+                                        </tr>
+                                        #}#
+
+                                    </table>
                                 </td>
-                                <td rowspan="2">
-                                    <i class="glyphicon glyphicon-menu-left" style="color: rgba(0, 0, 0, 0.74);margin-right:1%;width: 20px;"> </i>
-                                </td>
-                            </tr>
-                            <tr>
                                 <td>
-                                    <p style="font-family:Tahoma, Geneva, sans-serif;font-weight: 200;font-size:small;">
-                                        #=kendo.toString(data['createdAt'], "dd/MM/yyyy HH:mm")#
-                                    </p>
+                                    <span style="">
+                                        <i class="fas fa-angle-left" style="color:black;font-size:large;"></i>
+                                    </span>
                                 </td>
                             </tr>
+
+
                         </table>
                     </div>
                 </div>
             </script>
+
+            
         </center>
     </div>
 
     <footer data-role="footer" style="background-color:#e9eaeb;">
-
         <div id="myFooter" onclick="addCheck()" style="background-color:transparent;">
-            <label class="circle" style="position: absolute;bottom: 2em;left: 1em;z-index: 999;background-repeat:no-repeat;background-size:75%; background-position: center; ">
-                <br />
-                <center style="color: white; margin: -2%;margin-left: -1%;font-size: xx-large;">
-                    +
-                </center>
-            </label>
+            <label class="circle"  style=" left: 1em;position: absolute;bottom: 2em;z-index: 999;background-repeat:no-repeat;background-size:75%; background-position: center; "><br /><center style="color: white; margin: -2%;margin-left: -1%;  font-size: xx-large;">+</center></label>
         </div>
+        
     </footer>
 
     <script>
@@ -131,7 +151,7 @@
         }
     </script>
 
-    <div data-role="modalview" id="popProjectDetails" style="left:1px;width: 95%; height: 50%;direction: rtl;text-align: right;">
+    <div data-role="modalview" id="popProjectDetails" style="left:1px;width: 95%; height:95%;direction: rtl;text-align: right;">
         <br />
         <div style="width:100%;height:36%; background-color:#e9eaeb;box-shadow:0 4px 2px -2px #c7c1c1;">
             <label style="float: right;box-shadow: 0px 2px 3px #A29E9E;background-color:#1A607C;font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 400;text-align:center;padding-left: 6px;padding-top: 2px;padding-right: 12px;padding-bottom: 3px;">
@@ -159,27 +179,47 @@
                         </label>
                     </td>
                     <td style="padding: 2%;">
-                        <input type="text" id="ProjectAddressPop" style="font-family:Tahoma, Geneva, sans-serif;color:black;font-size:small;font-weight: 400;" />
+                        <input type="text" data-bind="value:homeModel.projectDetails.ProjectAddress"  style="height: 27px;padding: 2%;border: none;font-family:Tahoma, Geneva, sans-serif;color:black;font-size:small;font-weight: 400;" />
                     </td>
                 </tr>
                 <tr>
                     <td style="padding: 2%;">
                         <label style="font-family:Tahoma, Geneva, sans-serif;color:black;font-size:small;font-weight: 400;">
-                            מנהל עבודה:
+                          קו אורך:
                         </label>
                     </td>
                     <td style="padding: 2%;">
-                        <input type="text" id="ForemanPop" style="font-family:Tahoma, Geneva, sans-serif;color:black;font-size:small;font-weight: 400;" />
+                        <input type="number" data-bind="value:homeModel.projectDetails.Longitude"  style="height: 27px;padding: 2%;border: none;font-family:Tahoma, Geneva, sans-serif;color:black;font-size:small;font-weight: 400;" />
                     </td>
                 </tr>
                 <tr>
                     <td style="padding: 2%;">
                         <label style="font-family:Tahoma, Geneva, sans-serif;color:black;font-size:small;font-weight: 400;">
-                            מנהל פרויקט:
+                            קו רוחב:
                         </label>
                     </td>
                     <td style="padding: 2%;">
-                        <input type="text" id="ProjectManagerPop" style="font-family:Tahoma, Geneva, sans-serif;color:black;font-size:small;font-weight: 400;" />
+                        <input type="number" data-bind="value:homeModel.projectDetails.Latitude" style="height: 27px;padding: 2%;border: none;font-family:Tahoma, Geneva, sans-serif;color:black;font-size:small;font-weight: 400;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 2%;">
+                        <label style="font-family:Tahoma, Geneva, sans-serif;color:black;font-size:small;font-weight: 400;">
+                           שם היזם:
+                        </label>
+                    </td>
+                    <td style="padding: 2%;">
+                        <input type="text" data-bind="value:homeModel.projectDetails.initiateName"  style="height: 27px;padding: 2%;border: none;font-family:Tahoma, Geneva, sans-serif;color:black;font-size:small;font-weight: 400;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 2%;">
+                        <label style="font-family:Tahoma, Geneva, sans-serif;color:black;font-size:small;font-weight: 400;">
+                            מס' ח.פ יזם:
+                        </label>
+                    </td>
+                    <td style="padding: 2%;">
+                        <input type="text" data-bind="value:homeModel.projectDetails.initiateNum" style="height: 27px;padding: 2%;border: none;font-family:Tahoma, Geneva, sans-serif;color:black;font-size:small;font-weight: 400;" />
                     </td>
                 </tr>
                 <tr>
@@ -189,11 +229,108 @@
                         </label>
                     </td>
                     <td style="padding: 2%;">
-                        <input type="text" id="ExecutiveCompanyNamePop" style="font-family:Tahoma, Geneva, sans-serif;color:black;font-size:small;font-weight: 400;" />
+                        <input type="text" data-bind="value:homeModel.projectDetails.ExecutiveCompanyName"  style="height: 27px;padding: 2%;border: none;font-family:Tahoma, Geneva, sans-serif;color:black;font-size:small;font-weight: 400;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 2%;">
+                        <label style="font-family:Tahoma, Geneva, sans-serif;color:black;font-size:small;font-weight: 400;">
+                            מס' ח.פ מבצע:
+                        </label>
+                    </td>
+                    <td style="padding: 2%;">
+                        <input type="text" data-bind="value:homeModel.projectDetails.operatorNum" style="height: 27px;padding: 2%;border: none;font-family:Tahoma, Geneva, sans-serif;color:black;font-size:small;font-weight: 400;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 2%;">
+                        <label style="font-family:Tahoma, Geneva, sans-serif;color:black;font-size:small;font-weight: 400;">
+                           יישוב:
+                        </label>
+                    </td>
+                    <td style="padding: 2%;">
+                        <input type="text" data-bind="value:homeModel.projectDetails.settlement" style="height: 27px;padding: 2%;border: none;font-family:Tahoma, Geneva, sans-serif;color:black;font-size:small;font-weight: 400;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 2%;">
+                        <label style="font-family:Tahoma, Geneva, sans-serif;color:black;font-size:small;font-weight: 400;">
+                           גוש/חלקה:
+                        </label>
+                    </td>
+                    <td style="padding: 2%;">
+                        <input type="text" data-bind="value:homeModel.projectDetails.lot" style="height: 27px;padding: 2%;border: none;font-family:Tahoma, Geneva, sans-serif;color:black;font-size:small;font-weight: 400;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 2%;">
+                        <label style="font-family:Tahoma, Geneva, sans-serif;color:black;font-size:small;font-weight: 400;">
+                            סוג הבנייה באתר:
+                        </label>
+                    </td>
+                    <td style="padding: 2%;">
+                        <input type="text" data-bind="value:homeModel.projectDetails.constructionType" style="height: 27px;padding: 2%;border: none;font-family:Tahoma, Geneva, sans-serif;color:black;font-size:small;font-weight: 400;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 2%;">
+                        <label style="font-family:Tahoma, Geneva, sans-serif;color:black;font-size:small;font-weight: 400;">
+                            מנהל עבודה:
+                        </label>
+                    </td>
+                    <td style="padding: 2%;">
+                        <input type="text"  data-bind="value:homeModel.projectDetails.ProjectManager"  style="height: 27px;padding: 2%;border: none;font-family:Tahoma, Geneva, sans-serif;color:black;font-size:small;font-weight: 400;" />
                     </td>
                 </tr>
             </table>
+            <table style="width:98%;" dir="rtl" id="projectDetailsCheckTable">
+                <tr>
+                    <td style="padding: 2%;">
+                        <label style="font-family:Tahoma, Geneva, sans-serif;color:black;font-size:small;font-weight: 400;">
+                            מס' מבנים באתר:
+                        </label>
+                    </td>
+                    <td style="padding: 2%;">
+                        <input type="number" data-bind="value:homeModel.projectDetailsCheck.structureNum" disabled style="height: 27px;padding: 2%;border: none;font-family:Tahoma, Geneva, sans-serif;color:black;font-size:small;font-weight: 400;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 2%;">
+                        <label style="font-family:Tahoma, Geneva, sans-serif;color:black;font-size:small;font-weight: 400;">
+                           הערכת שטח בנוי:
+                        </label>
+                    </td>
+                    <td style="padding: 2%;">
+                        <input type="number" data-bind="value:homeModel.projectDetailsCheck.builtUpArea" disabled style="height: 27px;padding: 2%;border: none;font-family:Tahoma, Geneva, sans-serif;color:black;font-size:small;font-weight: 400;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div style="width:100%;">
+                            <div style="  display: inline-block;padding: 0.5em;font-weight:200;width:49%;text-align: center;border-bottom:2px solid #F7931E;font-size:small;font-family: Tahoma, Geneva, sans-serif;">
+                                <span style="font-family:Tahoma, Geneva, sans-serif;color: #000;">צילום שלט באתר</span>
+                            </div>
 
+                            <div  style="float: left;display: inline-block;padding: 0.5em;font-weight:200;width:49%;text-align: center;border-bottom:2px solid #F7931E;font-size:small;font-family: Tahoma, Geneva, sans-serif;">
+                                <span style="font-family:Tahoma, Geneva, sans-serif;color: #000;">תמונת בניין</span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div style="width:100%;">
+                            <div style="display:inline-block;font-weight:200;width:49%;text-align: center;font-size:small;font-family: Tahoma, Geneva, sans-serif;">
+                          <img src="" id="siteSignagePD" style="width:95%"/>
+                            </div>
+
+                            <div style="float:left;display:inline-block;font-weight:200;width:49%;text-align: center;font-size:small;font-family: Tahoma, Geneva, sans-serif;">
+                                <img src=""  id="FillingStructuresPD" style="width:95%"/>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
         </center>
         <footer data-role="footer" style="background-color:#e9eaeb;">
             <center>
@@ -261,7 +398,7 @@
             </center>
         </footer>
     </div>
- 
+
 
 </div>
 

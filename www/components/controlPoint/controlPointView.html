@@ -9,11 +9,43 @@
                 <i class="material-icons" style="color:white">navigate_next</i>
             </a>
         </div>
+        <div style="background-color: #0B3546;padding:2%;height: 34px;" id="CheckupReportDiv">
+            <!--<a class="headerButton km-widget km-button" onclick="openReport()" style="display:inline-block;margin-right:70%">
+                <i class="material-icons" style="color:white;font-size:small;">insert_drive_file</i>
+                <span style="color:white;font-size:small;font-family:Tahoma, Geneva, sans-serif;">צפה בדו"ח</span>
+            </a>-->
+            <div style="display:inline-block;float:left;" onclick="openReport()">
+                <i class="material-icons" style="color:white;font-size:small;">insert_drive_file</i>
+                <span style="color:white;font-size:small;font-family:Tahoma, Geneva, sans-serif;">צפה בדו"ח</span>
+            </div>
+            <div style="display:inline-block;float:right">
+                <span style="color:white;font-size:small;font-family:Tahoma, Geneva, sans-serif;">ציון:</span>
+                <span style="color:white;font-size:small;font-family:Tahoma, Geneva, sans-serif;" id="CheckupScore"></span>
+            </div>
+
+
+
+        </div>
+
+        <!--<a class="headerButton km-widget km-button" name="headerReport" id="checkReportVDC">
+            <i class="material-icons" style="color:white;font-size:small;">insert_drive_file</i>
+            <span style="color:white;font-size:small;font-family:Tahoma, Geneva, sans-serif;">צפה בדו"ח</span>
+        </a>-->
     </header>
 
 
     <div style="background-color: transparent;height:3px;"></div>
     <script>
+        function openReport() {
+            if (app.controlPoint.homeModel.get("URL_report") != "null" && app.controlPoint.homeModel.get("URL_report")) {
+                var windowTarget = device.platform.toLowerCase() === "ios" ? "_system" : "_system";
+                window.open(app.controlPoint.homeModel.get("URL_report"), windowTarget, 'location=no,hidden=yes,closebuttoncaption=Done,toolbar=no');
+            }
+            else {
+                alert("לא נימצא קובץ")
+
+            }
+        }
         function itemclick(num) {
             app.controlPoint.homeModel.itemClick(num);
         }
@@ -59,7 +91,7 @@
                 </div>
 
                 <br />
-                <div class="divFinding" dir="rtl" style="border:none;">
+                <!--<div class="divFinding" dir="rtl" style="border:none;">
                     <table border="0" style="width:100%">
                         <tr style="width:100%">
                             <td style="width:90%">
@@ -72,8 +104,8 @@
                             </td>
                         </tr>
                     </table>
-                </div>
-                <div class="divFinding" dir="rtl" style="border:none;">
+                </div>-->
+                <!--<div class="divFinding" dir="rtl" style="border:none;">
                     <table border="0" style="width:100%">
                         <tr style="width:100%">
                             <td style="width:90%">
@@ -84,7 +116,7 @@
                             </td>
                         </tr>
                     </table>
-                </div>
+                </div>-->
             </div>
         </center>
 
@@ -93,9 +125,14 @@
     <!--פוטר -->
     <footer data-role="footer" style="background-color:#0B2B38;">
         <center>
-            <div>
+            <div id="openCheck">
                 <a data-role="button" data-bind="events: {click:homeModel.endCheck1}" style="font-family: Tahoma, Geneva, sans-serif;border-style:none;border-radius: 0;align-self:center;width:94%;    margin-top: 3%;margin-bottom: 3%;background-color:#1A607C;color: #ffffff;text-align:center;white-space: normal;direction:ltr;">
                     <span style="font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 200;">סגור מבדק</span>
+                </a>
+            </div>
+            <div id="closeCheck">
+                <a data-role="button" data-bind="events: {click:homeModel.endCheck1}" style="font-family: Tahoma, Geneva, sans-serif;border-style:none;border-radius: 0;align-self:center;width:94%;    margin-top: 3%;margin-bottom: 3%;background-color:#1A607C;color: #ffffff;text-align:center;white-space: normal;direction:ltr;">
+                    <span style="font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 200;">פרטים נוספים</span>
                 </a>
             </div>
         </center>
@@ -159,8 +196,8 @@
                             </td>
                         </tr>
                     </table>
-                   
-                  
+
+
                 </div>
             </div>
         </center>
@@ -206,7 +243,7 @@
                             </td>
                             <td>
                                 <center>
-                                    <input type="text"  data-bind="value:homeModel.builtItem.buildingNum" placeholder="מספר בניין" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;" />
+                                    <input type="text" data-bind="value:homeModel.builtItem.buildingNum" placeholder="מספר בניין" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;" />
                                 </center>
                             </td>
                         </tr>
@@ -217,7 +254,7 @@
                         </tr>
                         <tr>
                             <td style="width:9%;">
-                               
+
                                 <i class="fas fa-pencil-alt" style="color:#7B7878;font-size:large;"></i>
                             </td>
                             <td>
@@ -280,111 +317,96 @@
                 <div style="padding-left: 1.5%; padding-right: 0.1%; padding-top: 1.5%;">
                     <table style="width:98%;">
                         <tr>
-                            <td colspan="2">
-                                <div style="height:4px;background-color:transparent;"></div>
-                            </td>
-                        </tr>
-                        <tr>
                             <td style="width:9%;">
+                                <div style="height:4px;background-color:transparent;"></div>
                                 <img src="images/drone.png" style="width:87%;" />
                             </td>
                             <td>
+                                <div style="height:4px;background-color:transparent;"></div>
                                 <center>
-                                    <input type="text" data-bind="value:homeModel.checkItem.DroneURL"  placeholder="הכנס קישור רחפן" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;" />
+                                    <input type="text" data-bind="value:homeModel.checkItem.DroneURL" placeholder="הכנס קישור רחפן" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;" />
                                 </center>
                             </td>
                         </tr>
-                        <tr>
-                            <td colspan="2">
-                                <div style="height:4px;background-color:transparent;"></div>
-                            </td>
-                        </tr>
+                     
                         <tr>
                             <td style="width:9%;">
+                                <div style="height:4px;background-color:transparent;"></div>
                                 <i class="fas fa-users" style="color:#7B7878;font-size:large;"></i>
                             </td>
                             <td>
+                                <div style="height:4px;background-color:transparent;"></div>
                                 <center>
                                     <input type="text" data-bind="value:homeModel.checkItem.TourParticipants" placeholder="משתתפים בסיור" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;" />
                                 </center>
                             </td>
                         </tr>
-                        <tr>
-                            <td colspan="2">
-                                <div style="height:4px;background-color:transparent;"></div>
-                            </td>
-                        </tr>
+                       
                         <tr>
                             <td style="width:9%;">
+                                <div style="height:4px;background-color:transparent;"></div>
                                 <i class="fas fa-pencil-alt" style="color:#7B7878;font-size:large;"></i>
                             </td>
                             <td>
+                                <div style="height:4px;background-color:transparent;"></div>
                                 <center>
                                     <input type="text" data-bind="value:homeModel.checkItem.AdditionalComments" placeholder="הערות נוספות" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;" />
                                 </center>
                             </td>
                         </tr>
-                        <tr>
-                            <td colspan="2">
-                                <div style="height:4px;background-color:transparent;"></div>
-                            </td>
-                        </tr>
+                    
                         <tr>
                             <td style="width:9%;">
+                                <div style="height:4px;background-color:transparent;"></div>
                                 <i class="fas fa-building" style="color:#7B7878;font-size:large;"></i>
                             </td>
                             <td>
+                                <div style="height:4px;background-color:transparent;"></div>
                                 <center>
-                                    <input type="number"  data-bind="value:homeModel.checkItem.structureNum" id="" placeholder="מס מבנים באתר" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;" />
+                                    <input type="number" data-bind="value:homeModel.checkItem.structureNum" id="" placeholder="מס מבנים באתר" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;" />
                                 </center>
                             </td>
                         </tr>
-                        <tr>
-                            <td colspan="2">
-                                <div style="height:4px;background-color:transparent;"></div>
-                            </td>
-                        </tr>
+                  
                         <tr>
                             <td style="width:9%;">
+                                <div style="height:4px;background-color:transparent;"></div>
                                 <i class="fas fa-check-square" style="color:#7B7878;font-size:large;"></i>
                             </td>
                             <td>
+                                <div style="height:4px;background-color:transparent;"></div>
                                 <center>
                                     <div style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);">
                                         <label style="float: right;text-align: right;font-size:small;font-family: Tahoma, Geneva, sans-serif;">האם קיימים מבנים ציבוריים צמודים לאתר</label>
-                                        <input type="checkbox" style="float: left;" onclick="publicBuildingsC()" id="publicBuildings"/>
+                                        <input type="checkbox" style="float: left;" onclick="publicBuildingsC()" id="publicBuildings" />
                                     </div>
                                 </center>
                             </td>
                         </tr>
-                        <tr id="publicBuildingsT1">
-                            <td colspan="2">
-                                <div style="height:4px;background-color:transparent;"></div>
-                            </td>
-                        </tr>
+                      
                         <tr id="publicBuildingsT2">
                             <td style="width:9%;">
+                                <div style="height:4px;background-color:transparent;"></div>
                                 <i class="fas fa-pencil-alt" style="color:#7B7878;font-size:large;"></i>
                             </td>
                             <td>
+                                <div style="height:4px;background-color:transparent;"></div>
                                 <center>
                                     <input type="text" data-bind="value:homeModel.checkItem.publicBuildingsDetails" id="" placeholder="פרוט" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;" />
                                 </center>
                             </td>
                         </tr>
-                        <tr>
-                            <td colspan="2">
-                                <div style="height:4px;background-color:transparent;"></div>
-                            </td>
-                        </tr>
+                       
                         <tr>
                             <td style="width:9%;">
+                                <div style="height:4px;background-color:transparent;"></div>
                                 <i class="fas fa-camera" style="color:#7B7878;font-size:large;"></i>
                             </td>
                             <td>
+                                <div style="height:4px;background-color:transparent;"></div>
                                 <div style="width:100%;">
                                     <i class="fas fa-check-circle" id="siteSignage" style="position: absolute;color:transparent;font-size:large;"></i>
-                                    <div onclick="takeIdImageF('siteSignage')"  style="  display: inline-block;padding: 0.5em;font-weight:200;width:49%;text-align: center;height: 40px;border:2px solid #F7931E;font-size:small;font-family: Tahoma, Geneva, sans-serif;background-color:#F7931E;">
+                                    <div onclick="takeIdImageF('siteSignage')" style="  display: inline-block;padding: 0.5em;font-weight:200;width:49%;text-align: center;height: 40px;border:2px solid #F7931E;font-size:small;font-family: Tahoma, Geneva, sans-serif;background-color:#F7931E;">
                                         <span style="font-family:Tahoma, Geneva, sans-serif;color: #ffffff;">צילום שלט באתר</span>
                                     </div>
 
@@ -397,18 +419,16 @@
 
                             </td>
                         </tr>
-                        <tr>
-                            <td colspan="2">
-                                <div style="height:4px;background-color:transparent;"></div>
-                            </td>
-                        </tr>
-                        <tr>
+                       
+                        <tr id="adduildAndTool">
                             <td style="width:9%;">
+                                <div style="height:4px;background-color:transparent;"></div>
                                 <i class="fas fa-plus" style="color:#7B7878;font-size:large;"></i>
                             </td>
                             <td>
-                                <div style="width:100%;" >
-                                    <div  onclick="openPopTool()" style="display: inline-block;padding: 0.5em;font-weight:200;width:49%;text-align: center;height: 40px;border:2px solid #F7931E;font-size:small;font-family: Tahoma, Geneva, sans-serif;background-color:#F7931E;">
+                                <div style="height:4px;background-color:transparent;"></div>
+                                <div style="width:100%;">
+                                    <div onclick="openPopTool()" style="display: inline-block;padding: 0.5em;font-weight:200;width:49%;text-align: center;height: 40px;border:2px solid #F7931E;font-size:small;font-family: Tahoma, Geneva, sans-serif;background-color:#F7931E;">
                                         <span style="font-family:Tahoma, Geneva, sans-serif;color: #ffffff;">הוספת כלי טעון בדיקה</span>
                                     </div>
 
@@ -417,28 +437,26 @@
                                         <span style="font-family:Tahoma, Geneva, sans-serif;color: #ffffff;">הוסף בניין</span>
                                     </div>
                                 </div>
-                            
-                              
+
+
                             </td>
                         </tr>
-                        <tr>
-                            <td colspan="2">
-                                <div style="height:4px;background-color:transparent;"></div>
-                            </td>
-                        </tr>
+                       
                         <tr>
 
                             <td style="width:9%;">
+                                <div style="height:4px;background-color:transparent;"></div>
                                 <i class="fas fa-check-square" style="color:#7B7878;font-size:large;"></i>
                             </td>
                             <td>
+                                <div style="height:4px;background-color:transparent;"></div>
                                 <center>
                                     <div style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);">
                                         <label style="float: right;text-align: right;font-size:small;font-family: Tahoma, Geneva, sans-serif;">הפצה לאנשי קשר לפי מחוז</label>
-                                        <input type="checkbox" style="float: left;" id="publishToContact"/>
+                                        <input type="checkbox" style="float: left;" id="publishToContact" />
                                     </div>
                                 </center>
-                              
+
                             </td>
                         </tr>
                     </table>
@@ -448,7 +466,7 @@
             </div>
         </center>
         <footer data-role="footer" style="background-color:#e9eaeb;">
-            <center>
+            <div id="popEndCheckOpen">
                 <table style="width:100%">
                     <tr>
                         <td style="width:50%">
@@ -464,7 +482,19 @@
                         </td>
                     </tr>
                 </table>
-            </center>
+            </div>
+            <div id="popEndCheckClose">
+                <table style="width:100%">
+                    <tr>
+                        <td style="width:100%">
+                            <a data-role="button" data-bind="events: {click:homeModel.closePopEndCheck }" style=" font-family:Tahoma, Geneva, sans-serif;border-style:none;border-radius: 0;margin-bottom:2%;align-self:center;width:98%;background-color:#1A607C;color: #ffffff;text-align:center;white-space: normal;direction:ltr;">
+                                <span style="font-family:Tahoma, Geneva, sans-serif;">סגור</span>
+                            </a>
+
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </footer>
     </div>
 
@@ -475,7 +505,7 @@
         function openPopBuild() {
             $("#popEndCheck").kendoMobileModalView("close");
             $("#popBuild").kendoMobileModalView("open");
-          
+
             app.controlPoint.homeModel.doSelect();
             //document.getElementById("executionStepSelect").options.length = 0;
             //var list = homeModel.get('executionStep');
@@ -495,7 +525,7 @@
         function closePopBuild() {
             $("#popEndCheck").kendoMobileModalView("open");
             $("#popBuild").kendoMobileModalView("close");
-          
+
 
         }
         function closePopTool() {
@@ -504,11 +534,11 @@
         }
         function publicBuildingsC() {
             if (document.getElementById("publicBuildings").checked == false) {
-                document.getElementById("publicBuildingsT1").style.display = "none";
+                //document.getElementById("publicBuildingsT1").style.display = "none";
                 document.getElementById("publicBuildingsT2").style.display = "none";
             }
             else {
-                document.getElementById("publicBuildingsT1").style.display = "";
+                //document.getElementById("publicBuildingsT1").style.display = "";
                 document.getElementById("publicBuildingsT2").style.display = "";
 
 
@@ -521,19 +551,19 @@
         <div onclick="takeFromCameraF()" style="width:100%;height:50px;background-color:transparent;padding:1%;border-bottom:1px solid #114A60;">
             <center style="margin-top: 3%;">
                 <i class="fas fa-camera" style="color:#114A60;font-size:large;"></i>
-                <span tyle="color: black;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;font-size:medium;" >מצלמה</span>
+                <span tyle="color: black;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;font-size:medium;">מצלמה</span>
             </center>
         </div>
         <div onclick="takeFromGaleryF()" style="width:100%;height:50px;background-color:transparent;padding:1%;border-bottom:1px solid #114A60;">
             <center style="margin-top: 3%;">
                 <i class="far fa-image" style="color:#114A60;font-size:large;"></i>
-                <span tyle="color: black;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;font-size:medium;" >גלריה </span>
+                <span tyle="color: black;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;font-size:medium;">גלריה </span>
             </center>
         </div>
         <div onclick="cancelPopF()" style="width:100%;height:50px;background-color:transparent;padding:1%;border-bottom:none;">
             <center style="margin-top: 3%;">
                 <i class="far fa-times-circle" style="color:#114A60;font-size:large;"></i>
-                <span tyle="color: black;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;font-size:medium;" >סגור </span>
+                <span tyle="color: black;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;font-size:medium;">סגור </span>
             </center>
 
         </div>
@@ -544,7 +574,7 @@
 
         function takeIdImageF(id) {
             app.controlPoint.homeModel.set("cameraIdF", id)
-            app.controlPoint.homeModel.ifOpenPictureFromF();
+               app.controlPoint.homeModel.ifOpenPictureFromF();
         }
 
         function takeFromCameraF() {
@@ -558,7 +588,7 @@
             $("#popImageSiteSignage").kendoMobileModalView("close");
             $("#picturedropList1Pop").kendoMobileModalView("open");
         }
-            
+
         function openPopF2() {
             app.controlPoint.homeModel.set("cameraIdF", 'FillingStructures')
             $("#popImageFillingStructures").kendoMobileModalView("close");
@@ -581,12 +611,12 @@
     <div data-role="modalview" id="popImageSiteSignage" data-zoom="true" style="left: 1px;width: 98%; height: 100%; background-color:transparent">
         <header data-role="header" style="background-color: #18556a;">
             <div data-role="navbar" class="header" style="background-color: #18556a;">
-                <span style="font-family:Tahoma, Geneva, sans-serif;color:white" >צילום שלט באתר</span>
+                <span style="font-family:Tahoma, Geneva, sans-serif;color:white">צילום שלט באתר</span>
                 <a data-role="button" data-align="right" id="cordova-plugin-sketch-open1" style="color:white;background:#18556a">
-                    <span >סמן</span>
+                    <span>סמן</span>
                 </a>
                 <a data-role="button" data-align="left" style="color:transparent;background-color:transparent">
-                    <span style="color:transparent;" >סמן</span>
+                    <span style="color:transparent;">סמן</span>
                 </a>
             </div>
         </header>
@@ -598,7 +628,7 @@
 
         </div>
         <footer data-role="footer" style="background-color: transparent;">
-            <a data-role="button" style="margin-bottom: 0%;border-radius: 0;width: 100%; background-color:#18556a;color: white;" onclick="openPopF1()">
+            <a data-role="button" style="margin-bottom: 0%;border-radius: 0;width: 100%; background-color:#18556a;color: white;" id="changeImageF1" onclick="openPopF1()">
                 <span style="font-family:Tahoma, Geneva, sans-serif;color:white;">החלף תמונה </span>
             </a>
             <a data-role="button" style="margin-bottom: 0%;border-radius: 0;width: 100%; background-color:#18556a;color: white;" onclick="closePopImage1()">
@@ -612,10 +642,10 @@
             <div data-role="navbar" class="header" style="background-color: #18556a;">
                 <span style="font-family:Tahoma, Geneva, sans-serif;color:white">תמונת בניין</span>
                 <a data-role="button" data-align="right" id="cordova-plugin-sketch-open2" style="color:white;background:#18556a">
-                    <span >סמן</span>
+                    <span>סמן</span>
                 </a>
                 <a data-role="button" data-align="left" style="color:transparent;background-color:transparent">
-                    <span style="color:transparent;" >סמן</span>
+                    <span style="color:transparent;">סמן</span>
                 </a>
             </div>
         </header>
@@ -625,11 +655,11 @@
             </center>
         </div>
         <footer data-role="footer" style="background-color: transparent;">
-            <a data-role="button" style="margin-bottom: 0%;border-radius: 0;width: 100%; background-color:#18556a;color: white;" onclick="openPopF2()">
+            <a data-role="button" style="margin-bottom: 0%;border-radius: 0;width: 100%; background-color:#18556a;color: white;"  id="changeImageF2" onclick="openPopF2()">
                 <span style="font-family:Tahoma, Geneva, sans-serif;color:white;">החלף תמונה </span>
             </a>
-            <a data-role="button" style="margin-bottom: 0%;border-radius: 0;width: 100%; background-color:#18556a;color: white;"  onclick="closePopImage2()">
-                <span style="font-family:Tahoma, Geneva, sans-serif;color:white;" >סגור</span>
+            <a data-role="button" style="margin-bottom: 0%;border-radius: 0;width: 100%; background-color:#18556a;color: white;" onclick="closePopImage2()">
+                <span style="font-family:Tahoma, Geneva, sans-serif;color:white;">סגור</span>
             </a>
         </footer>
     </div>

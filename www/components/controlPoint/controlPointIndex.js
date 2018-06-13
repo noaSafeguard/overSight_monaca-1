@@ -155,7 +155,7 @@ app.controlPoint = kendo.observable({
                 saveModel();
             },
             addBuild: function () {
-                
+
                 app.mobileApp.showLoading();
                 var jsdoOptions = homeModel.get('_jsdoOptionsbuildingsSite'),
                     jsdo = new progress.data.JSDO(jsdoOptions),
@@ -166,22 +166,22 @@ app.controlPoint = kendo.observable({
 
                 homeModel.builtItem.set("locationId", (app.project.homeModel.get("dataItem")).locationId);
                 homeModel.builtItem.set("R408159712", (app.hightGuard.homeModel.get("currentCheck")).id);
-             
-               
+
+
                 var e = document.getElementById("executionStepSelect");
                 var executionStep = e.options[e.selectedIndex].value;
 
                 homeModel.builtItem.set("executionStep", executionStep);
 
                 function saveModel(data) {
-                 
+
                     dataSource.add(homeModel.get("builtItem"));
                     dataSource.one('change', function (e) {
                         homeModel.set("builtItem", {});
                         $("#popEndCheck").kendoMobileModalView("open");
                         $("#popBuild").kendoMobileModalView("close");
                         app.mobileApp.hideLoading();
-                  
+
                     });
                     dataSource.sync();
                 };
@@ -189,7 +189,7 @@ app.controlPoint = kendo.observable({
             },
 
             doSelect: function () {
-          
+
                 document.getElementById("executionStepSelect").options.length = 0;
                 var list = homeModel.get('executionStep');
                 var select = document.getElementById("executionStepSelect");
@@ -197,7 +197,7 @@ app.controlPoint = kendo.observable({
                 option.text = "שלב ביצוע";
                 option.value = -1;
                 select.add(option);
-               
+
                 for (var i = 0; i < list.length; i++) {
                     var option = document.createElement("option");
                     option.text = list[i].name;
@@ -457,7 +457,8 @@ app.controlPoint = kendo.observable({
                             }
                             else {
                                 // setTimeout(function () {
-                                app.mobileApp.navigate('#components/controlPoint/sections.html');
+                                if (app.hightGuard.homeModel.get("currentCheck").cb_isPublish != 1) //מבדק פתוח
+                                    app.mobileApp.navigate('#components/controlPoint/sections.html');
                                 app.mobileApp.hideLoading();
                                 // }, 100);
                             }
@@ -573,13 +574,15 @@ app.controlPoint = kendo.observable({
             //},
             //בלחיצה על כפתור ערוך
             startEdit: function () {
-                editSection1.hidden = true;
-                saveSectionAssign1.hidden = false;
-                $("input:checkbox").attr("disabled", false);
-                $("#descriptionEdit").attr("disabled", false);
-                imageEdit1.hidden = false;
-                imageEdit2.hidden = false;
-                app.controlPoint.set("flagIsEdit", true)
+                if (app.hightGuard.homeModel.get("currentCheck").cb_isPublish != 1) {//מבדק סגור
+                    editSection1.hidden = true;
+                    saveSectionAssign1.hidden = false;
+                    $("input:checkbox").attr("disabled", false);
+                    $("#descriptionEdit").attr("disabled", false);
+                    imageEdit1.hidden = false;
+                    imageEdit2.hidden = false;
+                    app.controlPoint.set("flagIsEdit", true)
+                }
             },
             //שמירת עריכה
             saveEdit1: function () {
@@ -913,6 +916,9 @@ app.controlPoint = kendo.observable({
             //סיום מבדק
             endCheck1: function () {
                 $("#popEndCheck").kendoMobileModalView("open");
+                //if (app.hightGuard.homeModel.get("currentCheck").cb_isPublish == 1) {//מבדק סגור
+
+                //}
             },
             closePopEndCheck: function () {
                 $("#popEndCheck").kendoMobileModalView("close");
@@ -933,7 +939,7 @@ app.controlPoint = kendo.observable({
                         { field: "id", operator: "eq", value: (app.hightGuard.homeModel.get("currentCheck")).id }
                     ]
                 })
-            
+
                 dataSource.fetch(function () {
                     var view = dataSource.view();
                     console.log(view);
@@ -945,13 +951,15 @@ app.controlPoint = kendo.observable({
                     //    "Longitude": pos.lng
 
                     //}
-                
+
                     if (document.getElementById("publicBuildings").checked == false) {
                         homeModel.checkItem.set("publicBuildingsDetails", "");
                     }
 
                     homeModel.checkItem.set("publicBuildings", document.getElementById("publicBuildings").checked);//קיימים מבנים ציבוריים
-                    //homeModel.checkItem.set("publicBuildings", document.getElementById("publishToContact").checked);//הפצה לאנשי קשר לפי מחוז
+                    homeModel.checkItem.set("cb_Share", document.getElementById("publishToContact").checked);//הפצה לאנשי קשר לפי מחוז
+                    homeModel.checkItem.set("cb_isPublish", true);//הפצה לאנשי קשר לפי מחוז
+
 
                     var obj = homeModel.get("checkItem")
                     try {
@@ -962,11 +970,10 @@ app.controlPoint = kendo.observable({
                         afterUpdateFn = function (jsdo, record, success, request) {
                             jsdo.unsubscribe('afterUpdate', afterUpdateFn);
                             if (success === true) {
-                                debugger;
                                 if (document.getElementById("siteSignage").style.color == "green" || document.getElementById("FillingStructures").style.color == "green") {
                                     uploadPictureToServer(view[0]);
                                 }
-                             
+
                                 app.mobileApp.hideLoading();
                                 app.mobileApp.navigate('#components/hightGuard/view.html');
                             }
@@ -979,7 +986,7 @@ app.controlPoint = kendo.observable({
 
 
                         function uploadPictureToServer(cur) {
-                          
+
                             var options = new FileUploadOptions();
                             options.quality = 10;
                             options.fileKey = "fileContents";
@@ -1022,7 +1029,7 @@ app.controlPoint = kendo.observable({
                                     true);
                             }
                             function onFileUploadSuccess(fieldName) {
-                                alert("sss");
+                                //alert("sss");
                             }
                             function onFileTransferFail(error) {
                                 alert("Error loading the image");
@@ -1034,7 +1041,7 @@ app.controlPoint = kendo.observable({
                         alert("התגלתה בעיה בטעינת הנתונים, אנא נסה שוב  מאוחר יותר")
                     }
                 });
-             
+
             },
 
             open_pop_item_description: function () {
@@ -1320,8 +1327,13 @@ app.controlPoint = kendo.observable({
                         $("#popImageFillingStructures").kendoMobileModalView("open");
                     $("#picturedropList1Pop").kendoMobileModalView("close");
                 }
-                else 
-                    $("#picturedropList1Pop").kendoMobileModalView("open");
+                else {
+                    if (app.hightGuard.homeModel.get("currentCheck").cb_isPublish != 1) {//מבדק סגור
+                        $("#picturedropList1Pop").kendoMobileModalView("open");
+
+                    }
+
+                }
             },
 
             takePhotoF: function (e) {
@@ -1754,7 +1766,7 @@ app.controlPoint = kendo.observable({
 
 
     }
- 
+
     //till camera
 
     parent.set('homeModel', homeModel);
@@ -1802,9 +1814,9 @@ app.controlPoint = kendo.observable({
                 app.mobileApp.hideLoading();
 
             });
-            
-         
-         
+
+
+
 
             dataProvider.loadCatalogs().then(function _catalogsLoaded() {
                 var jsdoOptions = homeModel.get('_jsdoOptionsbuildingsSite'),
@@ -1823,44 +1835,100 @@ app.controlPoint = kendo.observable({
     //בכל כניסה
     parent.set('onShow2', function (e) {
         try {
-            
+
             var scroller = e.view.scroller;
             scroller.reset();
 
             //דוח
-            document.getElementById("CheckupReport_URL").setAttribute("href", (app.hightGuard.homeModel.get("currentCheck")).CheckupReport_URL);
+            //document.getElementById("CheckupReport_URL").setAttribute("href", (app.hightGuard.homeModel.get("currentCheck")).CheckupReport_URL);
+            homeModel.set("URL_report", (app.hightGuard.homeModel.get("currentCheck")).CheckupReport_URL)
             document.getElementById("CheckupScore").innerHTML = (app.hightGuard.homeModel.get("currentCheck")).CheckupScore;
             NameReviwerAndcreatedAt.innerHTML = (app.hightGuard.homeModel.get("currentCheck")).NameReviwer + " " + kendo.toString((app.hightGuard.homeModel.get("currentCheck")).createdAt, "dd/MM/yyyy HH:mm")
+            document.getElementById('pictureSiteSignage').src = "";
+            document.getElementById('gibuyImage1').src = "";
+
+            document.getElementById('pictureFillingStructures').src = "";
+            document.getElementById('gibuyImage2').src = "";
+
+            document.getElementById("siteSignage").style.color = "transparent";
+            document.getElementById("FillingStructures").style.color = "transparent";
+
 
             var itemModel = app.hightGuard.homeModel.get("currentCheck");
-            //removeNull("DroneURL");
-            //removeNull("TourParticipants");
-            //removeNull("AdditionalComments");
-            //function removeNull(item) {
-            //    if (itemModel[item] == "null") {
-            //        itemModel[item] = "";
-            //    }
-            //}
-            if (app.hightGuard.homeModel.get("itemIs") == true) { 
+            if (itemModel.cb_isPublish==1){//מבדק סגור
+                CheckupReportDiv.hidden = false;//דוח וציון
+                openCheck.hidden = true;//footer 
+                closeCheck.hidden = false;//footer 
+
+                popEndCheckOpen.hidden = true;//footer popup
+                popEndCheckClose.hidden = false;//footer popup
+
+                document.getElementById("adduildAndTool").style.display = "none";//adduildAndTool
+
+                document.getElementById("changeImageF1").style.display = "none"; //החלף תמונה
+                document.getElementById("changeImageF2").style.display = "none"; //החלף תמונה
+
                 homeModel.set("checkItem", itemModel)
-                if (itemModel.publicBuildings == 1) {
-                    document.getElementById("publicBuildingsT1").style.display = "";
+                if (itemModel.publicBuildings == 1) {//פרוט בהתאם לצק בוקס
+                    //document.getElementById("publicBuildingsT1").style.display = "";
                     document.getElementById("publicBuildingsT2").style.display = "";
                     document.getElementById("publicBuildings").checked = true;
                 }
                 else {
                     document.getElementById("publicBuildings").checked = false;
-                    document.getElementById("publicBuildingsT1").style.display = "none";
+                    //document.getElementById("publicBuildingsT1").style.display = "none";
                     document.getElementById("publicBuildingsT2").style.display = "none";
                 }
-                //if (itemModel.publicBuildings == 1) {//הפצה לאנשי קשר
-                //    document.getElementById("publishToContact").checked = true;
-                //}
-                //else {
-                //    document.getElementById("publishToContact").checked = false;
-                //}
-               
-            } else {
+                if (itemModel.cb_Share == 1) {//הפצה לאנשי קשר
+                    document.getElementById("publishToContact").checked = true;
+                }
+                else {
+                    document.getElementById("publishToContact").checked = false;
+                }
+                //תמונות
+                if (itemModel.FillingStructuresURL != "null") {
+                    document.getElementById("FillingStructuresPD").src = itemModel.FillingStructuresURL;
+                    document.getElementById("pictureFillingStructures").style.color = "green";
+                }
+                else {
+                    document.getElementById("FillingStructuresPD").src = "";
+                }
+
+                if (itemModel.siteSignageURL != "null") {
+                    document.getElementById("pictureSiteSignage").src = itemModel.siteSignageURL;
+                    document.getElementById("siteSignage").style.color = "green";
+
+                }
+                else {
+                    document.getElementById("siteSignagePD").src = "";
+                }
+
+                if (itemModel.DroneURL == "null")
+                    homeModel.checkItem.set("DroneURL", "");
+                if (itemModel.AdditionalComments == "null")
+                    homeModel.checkItem.set("AdditionalComments", "");
+                if (itemModel.structureNum == "null")
+                    homeModel.checkItem.set("structureNum", "");
+                if (itemModel.publicBuildingsDetails == "null")
+                    homeModel.checkItem.set("publicBuildingsDetails", "");
+                $("#popEndCheck :input").attr("disabled", true);
+
+
+            }
+            else {//מבדק פתוח
+                $("#popEndCheck :input").attr("disabled", false);
+                CheckupReportDiv.hidden = true;//דוח וציון
+                openCheck.hidden = false;//footer 
+                closeCheck.hidden = true;//footer 
+
+                popEndCheckOpen.hidden = false;//footer popup
+                popEndCheckClose.hidden = true;//footer popup
+
+                document.getElementById("adduildAndTool").style.display = "";//adduildAndTool
+
+                document.getElementById("changeImageF1").style.display = ""; //החלף תמונה
+                document.getElementById("changeImageF2").style.display = ""; //החלף תמונה
+
                 var obj = {
                     "DroneURL": "",
                     "AdditionalComments": "",
@@ -1872,13 +1940,16 @@ app.controlPoint = kendo.observable({
                 homeModel.set("checkItem", obj)
                 document.getElementById("publicBuildings").checked = false;
                 document.getElementById("publishToContact").checked = false;
-                document.getElementById("publicBuildingsT1").style.display = "none";
+                //document.getElementById("publicBuildingsT1").style.display = "none";
                 document.getElementById("publicBuildingsT2").style.display = "none";
                 document.getElementById("siteSignage").style.color = "transparent";
                 document.getElementById("FillingStructures").style.color = "transparent";
                 homeModel.set("toolItem", {});
+                homeModel.set("builtItem", {});
             }
-         
+
+          
+
             console.log(homeModel.get("checkItem"))
 
         } catch (e) {
@@ -1886,7 +1957,7 @@ app.controlPoint = kendo.observable({
         }
     });
     parent.set('onShowSectionInit', function (e) {
-    
+
 
         //שולף טבלה סעיפי בדיקה מהשרת
         dataProvider.loadCatalogs().then(function _catalogsLoaded() {
@@ -1902,7 +1973,7 @@ app.controlPoint = kendo.observable({
 
 
         });
-     
+
     });
     parent.set('onShowSection', function (e) {
         //try {
@@ -2240,6 +2311,11 @@ app.controlPoint = kendo.observable({
         });
 
 
+     
+        if (app.hightGuard.homeModel.get("currentCheck").cb_isPublish == 1) //מבדק סגור
+            editSection1.hidden = true;
+        else
+            editSection1.hidden = false;
     });
     parent.set('onShowTestSectionInit2', function (e) {
         //try {
