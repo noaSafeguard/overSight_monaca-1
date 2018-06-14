@@ -1,4 +1,4 @@
-﻿<div data-role="view" data-model="app.authenticationView" data-show="app.authenticationView.onShow" data-after-show="app.authenticationView.afterShow" id="authenticationScreen" class="screen" style="overflow-y: hidden;overflow-x: hidden;">
+<div data-role="view" data-model="app.authenticationView" data-show="app.authenticationView.onShow" data-after-show="app.authenticationView.afterShow" id="authenticationScreen" class="screen" style="overflow-y: hidden;overflow-x: hidden;">
     <div data-role="content" data-responsive style="overflow-y: hidden;overflow-x: hidden; ">
         <div style="transform-origin: left top 0px;overflow-y: hidden;overflow-x: hidden;">
             <center style="margin-top:20%;overflow-y: hidden;overflow-x: hidden;">
@@ -42,9 +42,19 @@
                         <tr>
                             <td style="text-align:center">
                                 <center>
-                                    <button class="bttnbkg" type='button' data-bind="events: {click:homeModel.signin}" style=" color: #ffffff; font-weight: 200;font-size: small;font-family: Tahoma, Geneva, sans-serif;">
+                                    <!-- <button class="bttnbkg" type='button' data-bind="events: {click:homeModel.signin}" style=" color: #ffffff; font-weight: 200;font-size: small;font-family: Tahoma, Geneva, sans-serif;">
                                         <span class="bttnbkgSpan" style="font-size: medium;font-family: Tahoma, Geneva, sans-serif;">התחבר</span>
-                                    </button>
+                                    </button> -->
+                                         <div data-bind="events: {click:homeModel.signin}" style="height: 43px;width: 124px;">
+                                        <div style="height: 22px;width: 124px;opacity: 0.61;border-radius: 6px 6px 0 0;border: 1px solid #0D1A20;border-bottom:none;background-color: #66A2BD;position:absolute;">
+
+                                        </div>
+                                        <span  style="color:white;font-size: medium;font-family: Tahoma, Geneva, sans-serif;position: absolute;margin: 10px 0 0 -21px;">התחבר</span>
+
+                                        <div style="height: 43px;width: 124px;border: 1px solid #0D1A20;border-radius: 6px;background-color:#33687D;">
+                                        </div>
+                                     
+                                    </div>
                                 </center>
                                 <div style="height:8px;background-color:transparent"></div>
 
