@@ -816,8 +816,9 @@ element.style {
 }
 
 #ulProjectViewModel > li, #ulMachozViewModel > li {
-    background: transparent;
-    height: 130px;
+      background: transparent;
+    /* height: 130px; */
+    height: 137px;
     color: #fff;
     border: none !important;
     box-shadow: unset;

@@ -185,6 +185,7 @@ app.authenticationView = kendo.observable({
 
     parent.set('homeModel', homeModel);
     parent.set('afterShow', function (e) {
+      popVersion.hidden=false;
      document.getElementById('projectDetailsTab').style.display = "none";
      document.getElementById('machozTab').style.display = "none";
      document.getElementById('VersionTab').style.display = "";

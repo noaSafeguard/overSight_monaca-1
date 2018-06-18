@@ -51,7 +51,6 @@
     <!--#if(data['check']==true){#-->
     <!--<i class="fas fa-check-circle" style="margin-right: 39%;margin-top: -3%;position: absolute;color:green;font-size:large;"></i>-->
     <!--#}#-->
-
     <!--#if(data['check']==true){#
     <i class="fas fa-check-circle" style="margin-right: 39%;margin-top: -1%;position: absolute;color:green;font-size:large;"></i>
     #} else {#
@@ -78,40 +77,40 @@
                     <div class="controlPoint" style="width:100%;">
                         <center>
                             <div class="product" style="direction: rtl;font-weight:bold;color:black;width:100%;">
-                               <table style="width:100%">
-                                   <tr>
-                                       #if(data['check']==true){#
-                                       <td style="width:1.8%;background-color:rgb(57,169,53)"></td>
-                                       #} else {#
-                                       <td style="width:1.8%;background-color:rgba(255, 3, 3, 0.98)"></td>
-                                       #}#
-                                       <td>
-                                           <table border="0" style="width:100%;">
-                                               <tr>
-                                                   <td style="width:35%;">
+                                <table style="width:100%">
+                                    <tr>
+                                        #if(data['check']==true){#
+                                        <td style="width:1.8%;background-color:rgb(57,169,53)"></td>
+                                        #} else {#
+                                        <td style="width:1.8%;background-color:rgba(255, 3, 3, 0.98)"></td>
+                                        #}#
+                                        <td>
+                                            <table border="0" style="width:100%;">
+                                                <tr>
+                                                    <td style="width:35%;">
 
-                                                       <img src="#=data['ControlPointIcon_URL'] #" style="height:35px;" />
+                                                        <img src="#=data['ControlPointIcon_URL'] #" style="height:35px;" />
 
-                                                   </td>
-                                                   <td style="width:65%;">
+                                                    </td>
+                                                    <td style="width:65%;">
 
-                                                       <label style="font-family:Tahoma, Geneva, sans-serif;font-weight: 200;font-size:small;color:white;">
-                                                           #:data['name'] #
-                                                       </label>
+                                                        <label style="font-family:Tahoma, Geneva, sans-serif;font-weight: 200;font-size:small;color:white;">
+                                                            #:data['name'] #
+                                                        </label>
 
-                                                   </td>
+                                                    </td>
 
 
-                                               </tr>
+                                                </tr>
 
-                                               <tr>
-                                                   <td style="width:30%;"></td>
-                                               </tr>
-                                           </table>
-                                       </td>
-                                   </tr>
-                               </table>
-                                
+                                                <tr>
+                                                    <td style="width:30%;"></td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+
                             </div>
                         </center>
                     </div>
@@ -477,7 +476,7 @@
                         </td>
                         <td style="width:50%">
                             <a data-role="button" data-bind="events: {click:homeModel.closePopEndCheck }" style=" font-family:Tahoma, Geneva, sans-serif;border-style:none;border-radius: 0;margin-bottom:2%;align-self:center;width:98%;background-color:#1A607C;color: #ffffff;text-align:center;white-space: normal;direction:ltr;">
-                                <span style="font-family:Tahoma, Geneva, sans-serif;">סגור</span>
+                                <span style="font-family:Tahoma, Geneva, sans-serif;">חזור</span>
                             </a>
 
                         </td>
@@ -605,6 +604,24 @@
         function cancelPopF() {
             $("#picturedropList1Pop").kendoMobileModalView("close");
         }
+        function getSketchCP1() {
+            if (app.hightGuard.homeModel.get("currentCheck").cb_isPublish != 1) {
+                $("#popImageSiteSignage").kendoMobileModalView("close");
+                app.controlPoint.homeModel.set("cameraIdSrcCP", document.getElementById("gibuyImage1").src);
+                app.controlPoint.homeModel.set("cameraIdSrcCPgibuy", document.getElementById("gibuyImage1").src);
+                app.controlPoint.homeModel.set("cameraIdCPImage", "pictureSiteSignage");
+                getSketchCP();
+            }
+        }
+        function getSketchCP2() {
+            if (app.hightGuard.homeModel.get("currentCheck").cb_isPublish != 1) {
+                $("#popImageFillingStructures").kendoMobileModalView("close");
+                app.controlPoint.homeModel.set("cameraIdSrcCP", document.getElementById("gibuyImage2").src);
+                app.controlPoint.homeModel.set("cameraIdSrcCPgibuy", document.getElementById("gibuyImage2").src);
+                app.controlPoint.homeModel.set("cameraIdCPImage", "pictureFillingStructures");
+                getSketchCP();
+            }
+        }
     </script>
     <img id="gibuyImage1" hidden src="" style="width: 100%;" />
     <img id="gibuyImage2" hidden src="" style="width: 100%;" />
@@ -613,10 +630,10 @@
         <header data-role="header" style="background-color: #18556a;">
             <div data-role="navbar" class="header" style="background-color: #18556a;">
                 <span style="font-family:Tahoma, Geneva, sans-serif;color:white">צילום שלט באתר</span>
-                <a data-role="button" data-align="right" id="cordova-plugin-sketch-open1" style="color:white;background:#18556a">
+                <a data-role="button" data-align="right" onclick="getSketchCP1();" name="sketch"  style="color:white;background:#18556a">
                     <span>סמן</span>
                 </a>
-                <a data-role="button" data-align="left" style="color:transparent;background-color:transparent">
+                <a data-role="button" data-align="left" name="sketch" style="color:transparent;background-color:transparent">
                     <span style="color:transparent;">סמן</span>
                 </a>
             </div>
@@ -642,7 +659,7 @@
         <header data-role="header" style="background-color: #18556a;">
             <div data-role="navbar" class="header" style="background-color: #18556a;">
                 <span style="font-family:Tahoma, Geneva, sans-serif;color:white">תמונת בניין</span>
-                <a data-role="button" data-align="right" id="cordova-plugin-sketch-open2" style="color:white;background:#18556a">
+                <a data-role="button" data-align="right" onclick="getSketchCP2();" style="color:white;background:#18556a">
                     <span>סמן</span>
                 </a>
                 <a data-role="button" data-align="left" style="color:transparent;background-color:transparent">
@@ -664,137 +681,7 @@
             </a>
         </footer>
     </div>
-    <script>
-        function getSketch1() {
-
-            var image = document.getElementById('picture_all_control_point1');
-
-            if (cordova.platformId == "ios") {
-
-                navigator.sketch.getSketch(onSuccessD1, onFailD1, {
-                    destinationType: navigator.sketch.DestinationType.DATA_URL,
-                    encodingType: navigator.sketch.EncodingType.JPEG,
-                    inputType: navigator.sketch.InputType.DATA_URL,
-                    inputData: image.src
-                });
-            }
-            else {
-
-                var tempSrc = app.controlPoint.homeModel.get("capturePhoto1SRC");//image.src;
-                tempSrc = tempSrc.toString()
-                navigator.sketch.getSketch(onSuccessD1, onFailD1, {
-                    destinationType: navigator.sketch.DestinationType.DATA_URL,
-                    encodingType: navigator.sketch.EncodingType.PNG,
-                    inputType: navigator.sketch.InputType.FILE_URI,
-                    inputData: tempSrc
-                });
-            }
-
-            // alert("sketch1")
-            // onSuccessD1();
-
-            //if (app.controlPoint.homeModel.get("capturePhoto2") == "null") {
-            //    app.controlPoint.homeModel.set("cameraId", "capturePhoto2")
-            //    $("#picturedropList1").data("kendoMobileActionSheet").open();
-            //}
-        }
-        function onSuccessD1(imageData) {
-            $("#pop_image_all_control_point_1").kendoMobileModalView("close");
-            app.mobileApp.showLoading();
-            if (imageData == null) { return; }
-            setTimeout(function () {
-                var image = document.getElementById('picture_all_control_point1');
-                if (imageData.indexOf("data:image") >= 0) {
-                    image.src = imageData;
-                } else {
-                    image.src = "data:image/png;base64," + imageData;
-                }
-                $("#picture_all_control_point1").show();
-                $("#cordova-plugin-sketch-open1").show();
-                if (document.getElementById('picture_all_control_point1').src == "data:image/png;base64,") {
-                    document.getElementById('picture_all_control_point1').src = document.getElementById('gibuyImage1').src;
-                }
-                else {
-                    document.getElementById('gibuyImage1').src = document.getElementById('picture_all_control_point1').src;
-                }
-                document.getElementById('showImage1').src = document.getElementById('picture_all_control_point1').src;
-                app.mobileApp.hideLoading();
-            }, 0);
-            if (app.controlPoint.homeModel.get("capturePhoto2") == "null") {
-                app.controlPoint.homeModel.set("cameraId", "capturePhoto2")
-                // $("#picturedropList1").data("kendoMobileActionSheet").open();
-                $("#picturedropList1Pop").kendoMobileModalView("open");
-            }
-
-            //$("#popPictureFrom3").kendoMobileModalView("open");
-        }
-        function onFailD1(message) {
-            $("#picture_all_control_point1").show();
-            $("#cordova-plugin-sketch-open1").show();
-            setTimeout(function () {
-                alert('plugin message: ' + message);
-            }, 0);
-        }
-        function getSketch2() {
-            var image = document.getElementById('picture_all_control_point2');
-
-            if (cordova.platformId == "ios") {
-
-                navigator.sketch.getSketch(onSuccessD2, onFailD2, {
-                    destinationType: navigator.sketch.DestinationType.DATA_URL,
-                    encodingType: navigator.sketch.EncodingType.JPEG,
-                    inputType: navigator.sketch.InputType.DATA_URL,
-                    inputData: image.src
-                });
-            }
-            else {
-
-                var tempSrc = app.controlPoint.homeModel.get("capturePhoto2SRC");//image.src;
-                tempSrc = tempSrc.toString()
-                navigator.sketch.getSketch(onSuccessD2, onFailD2, {
-                    destinationType: navigator.sketch.DestinationType.DATA_URL,
-                    encodingType: navigator.sketch.EncodingType.PNG,
-                    inputType: navigator.sketch.InputType.FILE_URI,
-                    inputData: tempSrc
-                });
-            }
-            // // alert("sketch2")
-            // // onSuccessD2();
-        }
-        function onSuccessD2(imageData) {
-            $("#pop_image_all_control_point_2").kendoMobileModalView("close");
-            app.mobileApp.showLoading();
-            if (imageData == null) { return; }
-            setTimeout(function () {
-                var image = document.getElementById('picture_all_control_point2');
-                if (imageData.indexOf("data:image") >= 0) {
-                    image.src = imageData;
-                } else {
-                    image.src = "data:image/png;base64," + imageData;
-                }
-                $("#picture_all_control_point1").show();
-                $("#cordova-plugin-sketch-open2").show();
-                if (document.getElementById('picture_all_control_point2').src == "data:image/png;base64,") {
-                    document.getElementById('picture_all_control_point2').src = document.getElementById('gibuyImage2').src;
-                    //alert("3")
-                }
-                else {
-                    document.getElementById('gibuyImage2').src = document.getElementById('picture_all_control_point2').src;
-                    //alert("4")
-                }
-                document.getElementById('showImage2').src = document.getElementById('picture_all_control_point2').src;
-                app.mobileApp.hideLoading();
-            }, 0);
-            //$("#popPictureFrom3").kendoMobileModalView("close");
-        }
-        function onFailD2(message) {
-            $("#picture_all_control_point2").show();
-            $("#cordova-plugin-sketch-open2").show();
-            setTimeout(function () {
-                alert('plugin message: ' + message);
-            }, 0);
-        }
-    </script>
+    
 </div>
 
 
