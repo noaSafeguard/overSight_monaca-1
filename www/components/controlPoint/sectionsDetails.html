@@ -9,9 +9,7 @@
                 <i class="material-icons" style="color:white">navigate_next</i>
             </a>
         </div>
-
     </header>
-
 
     <div style="background-color: transparent;height:3px;"></div>
     <center>
@@ -30,7 +28,6 @@
                         </td>
                     </tr>
                 </table>
-
             </div>
             <!-- תמונה 2 -->
             <div class="divFinding" dir="rtl" style="border:none;">
@@ -44,7 +41,6 @@
                         </td>
                     </tr>
                 </table>
-
             </div>
             <!--הערות נוספות-->
             <div class="divFinding" dir="rtl" style="border-bottom-color:transparent;">
@@ -53,12 +49,10 @@
                         <td style="width:100%">
                             <label style="color:rgba(0, 0, 0, 0.82); font-family:Tahoma, Geneva, sans-serif;font-weight: 200;font-size:small;">הערות נוספות</label>
                         </td>
-
                     </tr>
                     <tr>
                         <td>
                             <textarea id="descriptionEdit" style="padding: 1em;font-weight:200;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;height:7em;"></textarea>
-
                         </td>
                     </tr>
                 </table>
@@ -72,7 +66,6 @@
         <center>
             <table style="width:100%">
                 <tr>
-
                     <td style="width:50%">
                         <div style="width:100%" id="editSection1">
                             <center>
@@ -89,7 +82,6 @@
                             </center>
                         </div>
                     </td>
-
                     <td style="width:50%">
                         <center>
                             <a data-role="button" data-bind="events: {click:homeModel.closeEdit1  }" style=" font-family:Tahoma, Geneva, sans-serif;border-style:none;border-radius: 0;margin-bottom:2%;align-self:center;width:96%;background-color:#1A607C;color: #ffffff;text-align:center;white-space: normal;direction:ltr;">
@@ -186,7 +178,7 @@
                         document.getElementById("pictureSeifD").src = arr[i].src;
                         app.controlPoint.homeModel.set("cameraIdSeifSrc", arr[i].src2);
                         app.controlPoint.homeModel.set("cameraIdSeifSrcGibuy", arr[i].src2);
-                        
+
                     }
                 }
                 $("#popImageSeifD").kendoMobileModalView("open");
@@ -217,14 +209,44 @@
         }
 
         function getSketchSeifBD() {
-            if(app.hightGuard.homeModel.get("currentCheck").cb_isPublish != 1){
-            $("#popImageSeifD").kendoMobileModalView("close");
+            if (app.hightGuard.homeModel.get("currentCheck").cb_isPublish != 1) {
+                $("#popImageSeifD").kendoMobileModalView("close");
 
-            getSketchSeif();
+                getSketchSeif();
             }
         }
 
     </script>
+    <script>
+          function openPopAdditionalCommentsD(id) {
+              app.controlPoint.homeModel.openPopAdditionalCommentsD(id);
+          }
+    </script>
+    <!--פופאפ  הערות-->
+    <div data-role="modalview" id="popAdditionalCommentsD" style="left:1px;width: 95%; height: 43%;">
+        <br />
+        <div style="width:100%;height:36%; background-color:#e9eaeb;box-shadow:0 4px 2px -2px #c7c1c1;">
+            <label style="max-width: 90%;box-shadow: 0px 2px 3px #A29E9E;background-color:#1A607C;font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 200;text-align:right;padding-left: 6px;padding-top: 2px;padding-right: 12px;padding-bottom: 3px;float: right;" id="AdditionalCommentsSubD">הערות נוספות</label>
+        </div>
+        <br />
+        <br />
+        <br />
+        <div style="text-align:center;" dir="rtl">
+            <center>
+                <textarea id="AdditionalCommentsTxtD" name="textFloat" style="padding: 1em;font-weight:200;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;width:25em;height:7em;"></textarea>
+            </center>
+
+        </div>
+        <footer data-role="footer">
+            <center>
+                <a data-role="button" data-bind="events: {click:homeModel.closePopAdditionalCommentsD }" style=" font-family:Tahoma, Geneva, sans-serif;border-style:none;border-radius: 0;margin-bottom:2%;align-self:center;width:40%;background-color:#1A607C;color: #ffffff;text-align:center;white-space: normal;direction:ltr;">
+                    <span style="font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;">אישור</span>
+
+                </a>
+            </center>
+        </footer>
+    </div>
+
     <div data-role="modalview" id="popImageSeifD" data-zoom="true" style="left: 1px;width: 98%; height: 100%; background-color:transparent">
         <header data-role="header" style="background-color: #18556a;">
             <div data-role="navbar" class="header" style="background-color: #18556a;">
@@ -237,12 +259,10 @@
                 </a>
             </div>
         </header>
-
         <div data-role="content" style="background-color: transparent; margin-top: 2%;">
             <center>
                 <img id="pictureSeifD" src="" style="width: 100%;" />
             </center>
-
         </div>
         <footer data-role="footer" style="background-color: transparent;">
             <a data-role="button" style="margin-bottom: 0%;border-radius: 0;width: 100%; background-color:#18556a;color: white;" id="changeImageSeifD" onclick="changeImageSeifD()">
@@ -272,10 +292,8 @@
                 <i class="far fa-times-circle" style="color:#114A60;font-size:large;"></i>
                 <span tyle="color: black;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;font-size:medium;">סגור </span>
             </center>
-
         </div>
     </div>
-
     <!--פופאפ מצלמה או גלריה-->
     <div data-role="modalview" id="popPictureFromEdit" style="left:1px;width: 90%; height: 20%;">
         <div style="text-align:center;background-color:transparent;" dir="rtl">
@@ -295,12 +313,10 @@
             </center>
         </div>
         <br />
-
         <footer data-role="footer">
             <center>
                 <a data-role="button" data-bind="events: {click:homeModel.closePopPictureFromEdit}" style=" font-family:Tahoma, Geneva, sans-serif;border-style:none;border-radius: 0;margin-bottom:2%;align-self:center;width:30%;background-color:#1A607C;color: #ffffff;text-align:center;white-space: normal;direction:ltr;">
                     <span style="font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;">סגור</span>
-
                 </a>
             </center>
         </footer>
@@ -316,7 +332,6 @@
                         </a>
                     </li>
                     <li dir="ltr" style=" border: 1.5px;border-color:black; color: black;background-color: #e9eaeb;">
-
                         <a onclick="takeFromGalery1Edit()" data-role="button" data-icon="galeryNew" style="width:98%;border-style: solid;background-color: #e9eaeb;border-color:black; color: black;font-family:Tahoma, Geneva, sans-serif;font-weight:200">
                             <span style="color:black; font-size:small; height:5rem;font-family:Tahoma, Geneva, sans-serif;"> גלריה/רחפן</span>
                         </a>
@@ -353,14 +368,12 @@
                     <span style="font-family:Tahoma, Geneva, sans-serif;color:white;">החלף תמונה</span>
                 </a>
             </div>
-
             <a data-role="button" class="km-primary" style="margin-bottom: 0%;border-radius: 0;width: 99%;
                background-color: #1A607C; color: white;"
                data-bind="events: { click:homeModel.image_all_control_point_1_ClosePopEdit }">
                 <span style="font-family:Tahoma, Geneva, sans-serif;color:white;">סגור</span>
             </a>
         </footer>
-
     </div>
     <!--פופאפ תמונה 2-->
     <div data-role="modalview" id="pop_image_all_control_point_2Edit" data-zoom="true" dir="rtl" style="left: 1px;width:100%; height:100%; background-color:transparent">
@@ -384,7 +397,6 @@
                     <span style="font-family:Tahoma, Geneva, sans-serif;color:white;">החלף תמונה </span>
                 </a>
             </div>
-
             <a data-role="button" class="km-primary" style="margin-bottom: 0%;
                 border-radius: 0;
                 width: 99%;

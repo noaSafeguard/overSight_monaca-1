@@ -291,12 +291,18 @@ app.controlPoint = kendo.observable({
                     for (var j = 0; j < arrObjectes[i].seif.length; j++) {
                         if (arrObjectes[i].seif[j].value != "null") {
                             flag = true;
+                            var Remarks = "";
+                            for (var x = 0; x < homeModel.get("arrSeifComments").length; x++) {
+                                if (homeModel.get("arrSeifComments")[x].id == arrObjectes[i].seif[j].id)
+                                    Remarks = homeModel.get("arrSeifComments")[x].Comments;
+                            }
                             var obj = {
                                 "R408159700": arrObjectes[i].id,//מקשרת למפגע שניבחר
                                 "R370259173": arrObjectes[i].seif[j].id,//מקשרת לסעיף בנק
                                 "IntScore": arrObjectes[i].seif[j].value,//ערך
                                 "locationId": (app.project.homeModel.get("dataItem")).locationId,
-                                "cb_isActive": true//פעיל
+                                "cb_isActive": true,//פעיל
+                                "Remarks": Remarks
                             };
                             arr.push(obj);
 
@@ -573,7 +579,8 @@ app.controlPoint = kendo.observable({
                                     var url = "";
                                     if (view1[j].SectionImage1URL != "null")
                                         url = view1[j].SectionImage1URL;
-                                    var obj = { "idMefga": view[i].R408159765, "idMefgaID": view[i].id, "idSeif": view1[j].R370259173, "id": view1[j].id, "val": view1[j].IntScore, "image": url, "SectionImage1": view1[j].SectionImage1 }
+                                    var obj = {
+                                        "idMefga": view[i].R408159765, "idMefgaID": view[i].id, "idSeif": view1[j].R370259173, "id": view1[j].id, "val": view1[j].IntScore, "image": url, "SectionImage1": view1[j].SectionImage1, "Remarks": view1[j].Remarks}
                                     arrObjectesSelect.push(obj);
                                 }
                             }
@@ -1082,6 +1089,63 @@ app.controlPoint = kendo.observable({
                 else
                     document.getElementById("description_all_control_point").style.color = "black";
 
+            },
+
+            //הערות 
+            openPopAdditionalComments: function (id) {
+                //arrSeifComments.push({ "id": viewSeif[i - 10].id, "name": viewSeif[i - 10].SectionContent, "Comments": "", "Comments2": "" })
+                var arr = homeModel.get("arrSeifComments");
+                for (var i = 0; i < arr.length; i++) {
+                    if (arr[i].id == id) {
+                        AdditionalCommentsSub.innerHTML = "הערות " + arr[i].name;
+                        homeModel.set("lastIdIndex", i);
+                        document.getElementById("AdditionalCommentsTxt").value = arr[i].Comments;
+                        $("#popAdditionalComments").kendoMobileModalView("open");
+                    }
+
+                }
+
+            
+            },
+            closePopAdditionalComments: function () {
+                var i = homeModel.get("lastIdIndex");
+                var arr = homeModel.get("arrSeifComments");
+                if (document.getElementById("AdditionalCommentsTxt").value != "" && document.getElementById("AdditionalCommentsTxt").value != "null")
+                    document.getElementById("comments" + arr[i].id).style.color = "red";
+                else
+                    document.getElementById("comments" + arr[i].id).style.color = "#7B7878";
+
+                arr[i].Comments = document.getElementById("AdditionalCommentsTxt").value;
+                homeModel.set("arrSeifComments", arr)
+                $("#popAdditionalComments").kendoMobileModalView("close");
+            },
+
+            openPopAdditionalCommentsD: function (id) {
+                //arrSeifComments.push({ "id": viewSeif[i - 10].id, "name": viewSeif[i - 10].SectionContent, "Comments": "", "Comments2": "" })
+                var arr = homeModel.get("arrSeifComments");
+                for (var i = 0; i < arr.length; i++) {
+                    if (arr[i].id == id) {
+                        AdditionalCommentsSubD.innerHTML = "הערות " + arr[i].name;
+                        homeModel.set("lastIdIndex", i);
+                        document.getElementById("AdditionalCommentsTxtD").value = arr[i].Comments;
+                        $("#popAdditionalCommentsD").kendoMobileModalView("open");
+                    }
+
+                }
+
+
+            },
+            closePopAdditionalCommentsD: function () {
+                var i = homeModel.get("lastIdIndex");
+                var arr = homeModel.get("arrSeifComments");
+                if (document.getElementById("AdditionalCommentsTxtD").value != "" && document.getElementById("AdditionalCommentsTxtD").value != "null")
+                    document.getElementById("comments" + arr[i].id).style.color = "red";
+                else
+                    document.getElementById("comments" + arr[i].id).style.color = "#7B7878";
+
+                arr[i].Comments = document.getElementById("AdditionalCommentsTxtD").value;
+                homeModel.set("arrSeifCommentsD", arr)
+                $("#popAdditionalCommentsD").kendoMobileModalView("close");
             },
 
             //camera
@@ -2272,6 +2336,7 @@ app.controlPoint = kendo.observable({
             function doTemplatePage() {
                 var arrObjectes = [];
                 var arrSeifImage = [];
+                var arrSeifComments = [];
                 flag = true;
                 for (var j = 0; j < viewMefga.length; j++) {
 
@@ -2339,12 +2404,30 @@ app.controlPoint = kendo.observable({
                             string += '<td >';
                             string += '<label  style="font-family:Tahoma, Geneva, sans-serif;font-weight: 200;font-size:small;color:black;"> הוסף תמונה</label>';
                             string += '</td>';
-
                             string += '<td  style= "" >';
                             string += '<div><i class="fas fa-camera" style="margin-right: 80%;color:#7B7878;font-size:medium;" onclick="takeIdImageS(this.id)" id="image' + viewSeif[i - 10].id + '"></i></div>';
                             string += '</td>';
                             string += '</tr>';
+
+                            string += '<tr style= "width:100%" >';
+                            string += '<td >';
+                            string += '<div style="background-color: #fff;height:8px;"></div>';
+                            string += '</td>';
+                            string += '<td  style= "" >';
+                            string += '<div style="background-color: #fff;height:8px;"></div>';
+                            string += '</td>';
+                            string += '</tr>';
+
+                            string += '<tr style= "width:100%" >';
+                            string += '<td >';
+                            string += '<label  style="font-family:Tahoma, Geneva, sans-serif;font-weight: 200;font-size:small;color:black;"> הערות נוספות</label>';
+                            string += '</td>';
+                            string += '<td  style= "" >';
+                            string += '<div><i class="fas fa-pencil-alt" style="margin-right: 80%;color:#7B7878;font-size:medium;" onclick="openPopAdditionalComments(' + viewSeif[i - 10].id + ')" id="comments' + viewSeif[i - 10].id + '"></i></div>';
+                            string += '</td>';
+                            string += '</tr>';
                             arrSeifImage.push({ "id": viewSeif[i - 10].id, "src": "", "src2": "" })
+                            arrSeifComments.push({ "id": viewSeif[i - 10].id, "name": viewSeif[i - 10].SectionContent , "Comments": "", "Comments2": "" })
                             //var obj = { sectionId: viewSeif[i - 10].id };
                             //homeModel.SectionStatusArr.push(obj)
                             string += '</table>';
@@ -2360,7 +2443,8 @@ app.controlPoint = kendo.observable({
                     arrObjectes.push(obj)
 
                 }
-                homeModel.set("arrSeifImage", arrSeifImage)
+                homeModel.set("arrSeifImage", arrSeifImage);
+                homeModel.set("arrSeifComments", arrSeifComments);
                 homeModel.set("arrObjectes", arrObjectes)
                 oneChecked();
                 app.mobileApp.hideLoading();
@@ -2451,6 +2535,7 @@ app.controlPoint = kendo.observable({
             function doTemplatePage() {
                 var arrObjectes = [];
                 var arrSeifImage = [];
+                var arrSeifComments = [];
                 flag = true;
                 var arrObjectesSelect = homeModel.get("arrObjectesSelect")
                 for (var j = 0; j < viewMefga.length; j++) {
@@ -2497,6 +2582,7 @@ app.controlPoint = kendo.observable({
                             string += '<tr style= "width:100%" >';
                             string += '<td  style= "width:100%" >';
                             string += '<table style="width:100%" dir="rtl" >';
+                            console.log(viewSeif[0])
                             var arr = getList(viewSeif[i - 10].IntScore);
                             for (var k = 0; k < arr.length; k++) {
                                 if (k % 2 == 0) {
@@ -2515,7 +2601,7 @@ app.controlPoint = kendo.observable({
                                 var txtCheckbox = "";
                                 // var obj = { "idMefga": view[i].R408159765, "idSeif": view1[j].R370259173, "id": view1[j].id, "val": view1[j].IntScore }
                                 var urlImag = "";
-
+                                var Remarks = "";
                                 for (var f = 0; f < arrObjectesSelect.length; f++) {
                                     if (arrObjectesSelect[f].idMefga == viewMefga[j].id && arrObjectesSelect[f].idSeif == viewSeif[i - 10].id && nameTxt == arrObjectesSelect[f].val) {
 
@@ -2526,8 +2612,11 @@ app.controlPoint = kendo.observable({
                                         obj.SectionImage1 = arrObjectesSelect[f].SectionImage1
                                     }
                                     //image
-                                    if (arrObjectesSelect[f].idMefga == viewMefga[j].id && arrObjectesSelect[f].idSeif == viewSeif[i - 10].id)
+                                    if (arrObjectesSelect[f].idMefga == viewMefga[j].id && arrObjectesSelect[f].idSeif == viewSeif[i - 10].id) {
                                         urlImag = arrObjectesSelect[f].image
+                                        Remarks = arrObjectesSelect[f].Remarks
+                                    }
+                                      
                                 }
 
                                 if (txtCheckbox == "")
@@ -2559,7 +2648,34 @@ app.controlPoint = kendo.observable({
                                 string += '<div><i class="fas fa-camera" style="margin-right: 80%;color:#7B7878;font-size:medium;" onclick="takeIdImageSD(this.id)" id="image' + viewSeif[i - 10].id + '"></i></div>';
                             string += '</td>';
                             string += '</tr>';
-                            arrSeifImage.push({ "id": viewSeif[i - 10].id, "src": urlImag, "srcTemp": urlImag, "src2": urlImag })
+                            arrSeifImage.push({ "id": viewSeif[i - 10].id, "src": urlImag, "srcTemp": urlImag, "src2": urlImag})
+
+                            string += '<tr style= "width:100%" >';
+                            string += '<td >';
+                            string += '<div style="background-color: #fff;height:8px;"></div>';
+                            string += '</td>';
+                            string += '<td  style= "" >';
+                            string += '<div style="background-color: #fff;height:8px;"></div>';
+                            string += '</td>';
+                            string += '</tr>';
+
+                            string += '<tr style= "width:100%" >';
+                            string += '<td >';
+                            string += '<label  style="font-family:Tahoma, Geneva, sans-serif;font-weight: 200;font-size:small;color:black;"> הערות נוספות</label>';
+                            string += '</td>';
+                            string += '<td  style= "" >';
+                            if (Remarks != "null" && Remarks != "")
+                                string += '<div><i class="fas fa-pencil-alt" style="margin-right: 80%;color:red;font-size:medium;" onclick="openPopAdditionalCommentsD(' + viewSeif[i - 10].id + ')" id="comments' + viewSeif[i - 10].id + '"></i></div>';
+                            else {
+                                string += '<div><i class="fas fa-pencil-alt" style="margin-right: 80%;color:#7B7878;font-size:medium;" onclick="openPopAdditionalCommentsD(' + viewSeif[i - 10].id + ')" id="comments' + viewSeif[i - 10].id + '"></i></div>';
+                                Remarks = "";
+                            }
+                            arrSeifComments.push({ "id": viewSeif[i - 10].id, "name": viewSeif[i - 10].SectionContent, "Comments": Remarks, "Comments2": Remarks })
+                             //obj.Remarks = viewSeif[i - 10].Remarks;
+                             //obj.RemarksT = viewSeif[i - 10].Remarks;
+                            //string += '<div><i class="fas fa-pencil-alt" style="margin-right: 80%;color:#7B7878;font-size:medium;" onclick="openPopAdditionalComments(' + viewSeif[i - 10].id + ')" id="comments' + viewSeif[i - 10].id + '"></i></div>';
+                            string += '</td>';
+                            string += '</tr>';
 
                             //var obj = { sectionId: viewSeif[i - 10].id };
                             //homeModel.SectionStatusArr.push(obj)
@@ -2580,6 +2696,7 @@ app.controlPoint = kendo.observable({
                     arrObjectes.push(objM)
 
                 }
+                homeModel.set("arrSeifComments", arrSeifComments)
                 homeModel.set("arrSeifImage", arrSeifImage)
                 homeModel.set("arrObjectes", arrObjectes)
                 oneCheckedEdit();

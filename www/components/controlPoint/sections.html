@@ -77,10 +77,10 @@
     </footer>
     <script>
 
-        function takeIdImageS(id){
+        function takeIdImageS(id) {
             app.controlPoint.homeModel.set("cameraIdSeif", id)
             if (document.getElementById(id).style.color == "red") {
-                var realId ="";
+                var realId = "";
                 for (var i = 5; i < id.length; i++) {
                     realId += id[i];
                 }
@@ -92,11 +92,11 @@
                         app.controlPoint.homeModel.set("cameraIdSeifSrcGibuy", arr[i].src2);
                     }
                 }
-               
+
                 $("#popImageSeif").kendoMobileModalView("open");
             }
             else {
-            
+
                 $("#picturedropListSeif").kendoMobileModalView("open");
             }
 
@@ -120,10 +120,10 @@
         }
 
         function getSketchSeifB() {
-            if(app.hightGuard.homeModel.get("currentCheck").cb_isPublish != 1){
-            $("#popImageSeif").kendoMobileModalView("close");
-            //getSketchSeif();
-            getSketchSeif();
+            if (app.hightGuard.homeModel.get("currentCheck").cb_isPublish != 1) {
+                $("#popImageSeif").kendoMobileModalView("close");
+                //getSketchSeif();
+                getSketchSeif();
             }
         }
 
@@ -169,8 +169,8 @@
         }
 
 
-        function myChooseSectionStatusN(this1,seif, val) {
-            app.controlPoint.homeModel.myChooseSectionStatusN(this1,seif, val);
+        function myChooseSectionStatusN(this1, seif, val) {
+            app.controlPoint.homeModel.myChooseSectionStatusN(this1, seif, val);
             //var arrObjectes = app.controlPoint.homeModel.get('arrObjectes');
             //for (var i = 0; i < arrObjectes.length; i++) {
             //    for (var j = 0; j < arrObjectes[i].arrSeif.length; j++) {
@@ -199,9 +199,35 @@
         }
     </script>
     <script>
-   
+        function openPopAdditionalComments(id) {
+            app.controlPoint.homeModel.openPopAdditionalComments(id);
+        }
     </script>
-   <!--תמונת סעיף-->
+    <!--פופאפ  הערות-->
+    <div data-role="modalview" id="popAdditionalComments" style="left:1px;width: 95%; height: 43%;">
+        <br />
+        <div style="width:100%;height:36%; background-color:#e9eaeb;box-shadow:0 4px 2px -2px #c7c1c1;">
+            <label style="max-width: 90%;box-shadow: 0px 2px 3px #A29E9E;background-color:#1A607C;font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 200;text-align:right;padding-left: 6px;padding-top: 2px;padding-right: 12px;padding-bottom: 3px;float: right;" id="AdditionalCommentsSub">הערות נוספות</label>
+        </div>
+        <br />
+        <br />
+        <br />
+        <div style="text-align:center;" dir="rtl">
+            <center>
+                <textarea id="AdditionalCommentsTxt" name="textFloat" style="padding: 1em;font-weight:200;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;width:25em;height:7em;"></textarea>
+            </center>
+
+        </div>
+        <footer data-role="footer">
+            <center>
+                <a data-role="button" data-bind="events: {click:homeModel.closePopAdditionalComments }" style=" font-family:Tahoma, Geneva, sans-serif;border-style:none;border-radius: 0;margin-bottom:2%;align-self:center;width:40%;background-color:#1A607C;color: #ffffff;text-align:center;white-space: normal;direction:ltr;">
+                    <span style="font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;">אישור</span>
+
+                </a>
+            </center>
+        </footer>
+    </div>
+    <!--תמונת סעיף-->
     <div data-role="modalview" id="popImageSeif" data-zoom="true" style="left: 1px;width: 98%; height: 100%; background-color:transparent">
         <header data-role="header" style="background-color: #18556a;">
             <div data-role="navbar" class="header" style="background-color: #18556a;">
