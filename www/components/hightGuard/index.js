@@ -54,7 +54,7 @@ app.hightGuard = kendo.observable({
             currentCheck: null,
             projectDetails: {},
             projectDetailsCheck: {},
-            projectDetailsCheckF:false,
+            projectDetailsCheckF: false,
             //גירסא
             onClickVersion: function () {
                 //cordova.getAppVersion.getVersionNumber().then(function (version) {
@@ -154,31 +154,64 @@ app.hightGuard = kendo.observable({
                 homeModel.set("itemIs", true)
                 homeModel.currentCheck = itemModel;
                 setTimeout(function () {
-                app.mobileApp.navigate('#components/controlPoint/controlPointView.html');
-                app.mobileApp.hideLoading();
-                  }, 300);
+                    app.mobileApp.navigate('#components/controlPoint/controlPointView.html');
+                    app.mobileApp.hideLoading();
+                }, 300);
 
             },
 
             detailsProject: function () {
                 app.mobileApp.showLoading();
-              
+                var flag1 = false;
+                var flag2 = false;
+                if (homeModel.get('projectDetailsCheckF') == true)
                     var jsdoOptions = homeModel.get('_jsdoOptionsProjectDashboard'),
                         jsdo = new progress.data.JSDO(jsdoOptions),
                         dataSourceOptions = homeModel.get('_dataSourceOptions'),
                         dataSource;
-                    dataSourceOptions.transport.jsdo = jsdo;
-                    dataSource = new kendo.data.DataSource(dataSourceOptions)
-                    dataSource.filter({
-                        field: "locationId",
-                        operator: "==",
-                        value: (app.project.homeModel.get("dataItem")).locationId
-                    });
-                  
+                dataSourceOptions.transport.jsdo = jsdo;
+                dataSource = new kendo.data.DataSource(dataSourceOptions)
+                dataSource.filter({
+                    field: "locationId",
+                    operator: "==",
+                    value: (app.project.homeModel.get("dataItem")).locationId
+                });
+                dataSource.fetch(function () {
+                    flag1 = true;
+                    if (flag1 == true && flag2 == true) {
+                        popDetailes()
+                    }
+                })
+                var jsdoOptions = homeModel.get('_jsdoOptions'),
+                    jsdo = new progress.data.JSDO(jsdoOptions),
+                    dataSourceOptions = homeModel.get('_dataSourceOptions'),
+                    dataSource1;
+                dataSourceOptions.transport.jsdo = jsdo;
+                dataSource1 = new kendo.data.DataSource(dataSourceOptions)
+                dataSource1.filter({
+                    logic: "and",
+                    filters: [
+                        { field: "locationId", operator: "==", value: app.project.homeModel.get("dataItem").locationId },
+                        { field: "cb_isPublish", operator: "==", value: 1 },
+                    ]
+                });
 
-                      
-                    dataSource.fetch(function () {
-                        projectNamePop.innerHTML = (app.project.homeModel.get("dataItem")).LocationName;
+                dataSource1.sort({ field: 'createdAt', dir: 'desc' });
+                dataSource1.fetch(function () {
+                    flag2 = true;
+                    if (flag1 == true && flag2 == true) {
+                        popDetailes()
+                    }
+                })
+                //homeModel.set('projectDetailsCheck', {})
+                //homeModel.set('projectDetailsCheckF', false)
+                //homeModel.set('dataSource', dataSource)
+                function popDetailes() {
+                    var view = dataSource.view();
+                    var view2 = dataSource1.view();
+                    projectNamePop.innerHTML = (app.project.homeModel.get("dataItem")).LocationName;
+                    if (view2.length > 0) {
+                        homeModel.set('projectDetailsCheck', view2[0]);
                         if (homeModel.projectDetailsCheck) {
                             console.log(homeModel.projectDetailsCheck)
                             document.getElementById("projectDetailsCheckTable").style.display = "";
@@ -197,38 +230,108 @@ app.hightGuard = kendo.observable({
                                 document.getElementById("siteSignagePD").src = homeModel.projectDetailsCheck.siteSignageURL;
                             else
                                 document.getElementById("siteSignagePD").src = "";
-                              //FillingStructuresURL
-                        //siteSignageURL
+                            //FillingStructuresURL
+                            //siteSignageURL
                         }
                         else {
                             document.getElementById("projectDetailsCheckTable").style.display = "none";
                         }
-                        var view = dataSource.view();
-                        if (view.length > 0) {
-                            var itemModel = view[0];
-                            removeNULL("ProjectAddress");
-                            removeNULL("Longitude");
-                            removeNULL("Latitude");
-                            removeNULL("initiateName");
-                            removeNULL("initiateNum");
-                            removeNULL("ExecutiveCompanyName");
-                            removeNULL("operatorNum");
-                            removeNULL("settlement");
-                            removeNULL("lot");
-                            removeNULL("constructionType");
-                            removeNULL("ProjectManager");
-                            homeModel.set("projectDetails", itemModel)
-                            function removeNULL(item) {
-                                if (itemModel[item] == "null")
-                                    itemModel[item] = "";
-                            }
+                    }
+                    if (view.length > 0) {
+                        var itemModel = view[0];
+                        removeNULL("ProjectAddress");
+                        removeNULL("Longitude");
+                        removeNULL("Latitude");
+                        removeNULL("initiateName");
+                        removeNULL("initiateNum");
+                        removeNULL("ExecutiveCompanyName");
+                        removeNULL("operatorNum");
+                        removeNULL("settlement");
+                        removeNULL("lot");
+                        removeNULL("constructionType");
+                        removeNULL("ProjectManager");
+                        homeModel.set("projectDetails", itemModel)
+                        function removeNULL(item) {
+                            if (itemModel[item] == "null")
+                                itemModel[item] = "";
                         }
-                        homeModel.set("dataSourceProjectDashboard", dataSource)
-                        $("#popProjectDetails").kendoMobileModalView("open");
-                        app.mobileApp.hideLoading();
-                    });
-              
-               
+                    }
+                    homeModel.set("dataSourceProjectDashboard", dataSource)
+                    $("#popProjectDetails").kendoMobileModalView("open");
+                    app.mobileApp.hideLoading();
+
+                }
+
+            },
+            detailsProject1: function () {
+                app.mobileApp.showLoading();
+
+                var jsdoOptions = homeModel.get('_jsdoOptionsProjectDashboard'),
+                    jsdo = new progress.data.JSDO(jsdoOptions),
+                    dataSourceOptions = homeModel.get('_dataSourceOptions'),
+                    dataSource;
+                dataSourceOptions.transport.jsdo = jsdo;
+                dataSource = new kendo.data.DataSource(dataSourceOptions)
+                dataSource.filter({
+                    field: "locationId",
+                    operator: "==",
+                    value: (app.project.homeModel.get("dataItem")).locationId
+                });
+
+
+
+                dataSource.fetch(function () {
+                    projectNamePop.innerHTML = (app.project.homeModel.get("dataItem")).LocationName;
+                    if (homeModel.projectDetailsCheck) {
+                        console.log(homeModel.projectDetailsCheck)
+                        document.getElementById("projectDetailsCheckTable").style.display = "";
+                        if (homeModel.projectDetailsCheck.structureNum == "null")//  מס' מבנים באתר:
+                            homeModel.projectDetailsCheck.set("structureNum", "");
+
+                        if (homeModel.projectDetailsCheck.builtUpArea == "null")// הערכת שטח בנוי:
+                            homeModel.projectDetailsCheck.set("builtUpArea", "");
+
+                        if (homeModel.projectDetailsCheck.FillingStructuresURL != "null")
+                            document.getElementById("FillingStructuresPD").src = homeModel.projectDetailsCheck.FillingStructuresURL;
+                        else
+                            document.getElementById("FillingStructuresPD").src = "";
+
+                        if (homeModel.projectDetailsCheck.siteSignageURL != "null")
+                            document.getElementById("siteSignagePD").src = homeModel.projectDetailsCheck.siteSignageURL;
+                        else
+                            document.getElementById("siteSignagePD").src = "";
+                        //FillingStructuresURL
+                        //siteSignageURL
+                    }
+                    else {
+                        document.getElementById("projectDetailsCheckTable").style.display = "none";
+                    }
+                    var view = dataSource.view();
+                    if (view.length > 0) {
+                        var itemModel = view[0];
+                        removeNULL("ProjectAddress");
+                        removeNULL("Longitude");
+                        removeNULL("Latitude");
+                        removeNULL("initiateName");
+                        removeNULL("initiateNum");
+                        removeNULL("ExecutiveCompanyName");
+                        removeNULL("operatorNum");
+                        removeNULL("settlement");
+                        removeNULL("lot");
+                        removeNULL("constructionType");
+                        removeNULL("ProjectManager");
+                        homeModel.set("projectDetails", itemModel)
+                        function removeNULL(item) {
+                            if (itemModel[item] == "null")
+                                itemModel[item] = "";
+                        }
+                    }
+                    homeModel.set("dataSourceProjectDashboard", dataSource)
+                    $("#popProjectDetails").kendoMobileModalView("open");
+                    app.mobileApp.hideLoading();
+                });
+
+
             },
             closepopProjectDetails: function () {
                 $("#popProjectDetails").kendoMobileModalView("close");

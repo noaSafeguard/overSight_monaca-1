@@ -10,7 +10,7 @@
             </a>
         </div>
         <div style="background-color: #0B3546;padding:2%;height: 34px;" id="CheckupReportDiv">
-         
+
             <div style="display:inline-block;float:left;" onclick="openReport()">
                 <i class="material-icons" style="color:white;font-size:small;">insert_drive_file</i>
                 <span style="color:white;font-size:small;font-family:Tahoma, Geneva, sans-serif;">צפה בדו"ח</span>
@@ -456,6 +456,18 @@
 
                             </td>
                         </tr>
+                        <tr>
+                            <td style="width:9%;">
+                                <div style="height:4px;background-color:transparent;"></div>
+                                <i class="fas fa-pencil-alt" style="color:#7B7878;font-size:large;"></i>
+                            </td>
+                            <td>
+                                <div style="height:4px;background-color:transparent;"></div>
+                                <center>
+                                    <input type="number" data-bind="value:homeModel.checkItem.builtUpArea" placeholder="הערכת שטח בנוי" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;" />
+                                </center>
+                            </td>
+                        </tr>
                     </table>
                     <br />
                     <br />
@@ -627,7 +639,7 @@
         <header data-role="header" style="background-color: #18556a;">
             <div data-role="navbar" class="header" style="background-color: #18556a;">
                 <span style="font-family:Tahoma, Geneva, sans-serif;color:white">צילום שלט באתר</span>
-                <a data-role="button" data-align="right" onclick="getSketchCP1();" name="sketch"  style="color:white;background:#18556a">
+                <a data-role="button" data-align="right" onclick="getSketchCP1();" name="sketch" style="color:white;background:#18556a">
                     <span>סמן</span>
                 </a>
                 <a data-role="button" data-align="left" name="sketch" style="color:transparent;background-color:transparent">
@@ -678,7 +690,7 @@
             </a>
         </footer>
     </div>
-    
+
 </div>
 
 
