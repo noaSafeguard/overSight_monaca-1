@@ -687,7 +687,7 @@ app.controlPoint = kendo.observable({
                 var arrEdit = [];//סעיפים קיימים
                 var arrM = [];//מפגעים חדשים
                 var arrEditImage = [];//תמונות
-            
+
                 var arrObjectesSelect = homeModel.get("arrObjectesSelect")
                 for (var i = 0; i < arrObjectes.length; i++) {
                     var flag = false;
@@ -751,7 +751,7 @@ app.controlPoint = kendo.observable({
                                     Remarks2 = arrObjectesSelect[k].Remarks;
                                 }
                             }
-                          
+
                             if (arrObjectes[i].seif[j].value != val || Remarks2 != Remarks) {//אם השתנה הערך
                                 var obj = {
                                     "id": arrObjectes[i].seif[j].seifID,
@@ -855,7 +855,7 @@ app.controlPoint = kendo.observable({
                                         arrEditImage.push({ "id": current.id, "SectionImage1": current.SectionImage1, "image": homeModel.get("arrSeifImage")[x].src });
                                 }
                                 //console.log("יצירה")
-                               // console.log(current)
+                                // console.log(current)
                                 if (s1 == s) {
                                     uploadPhotoSeifD();
                                 }
@@ -1025,7 +1025,9 @@ app.controlPoint = kendo.observable({
                         afterUpdateFn = function (jsdo, record, success, request) {
                             jsdo.unsubscribe('afterUpdate', afterUpdateFn);
                             if (success === true) {
-                                if (document.getElementById("siteSignage").style.color == "green" || document.getElementById("FillingStructures").style.color == "green") {
+                                //var image = document.getElementById('imageSignCheck');
+                                //document.getElementById('singnCheck1').style.color = "red";
+                                if (document.getElementById("siteSignage").style.color == "green" || document.getElementById("FillingStructures").style.color == "green" || document.getElementById('singnCheck1').style.color == "red") {
                                     uploadPictureToServer(view[0]);
                                 }
 
@@ -1053,9 +1055,9 @@ app.controlPoint = kendo.observable({
                             };
                             options.chunkedMode = false;
                             var ft = new FileTransfer();
-                            var imageObj1, imageObj2;
-                            var fileURI1, fileURI2;
-                            var urlRB1, urlRB2;
+                            var imageObj1, imageObj2, imageObj3;
+                            var fileURI1, fileURI2, fileURI3;
+                            var urlRB1, urlRB2, urlRB3;
 
                             if (document.getElementById("siteSignage").style.color == "green") {
                                 imageObj1 = $.parseJSON(cur.siteSignage);
@@ -1083,6 +1085,22 @@ app.controlPoint = kendo.observable({
                                     options,
                                     true);
                             }
+                            //var image = document.getElementById('imageSignCheck');
+                            //if (image.src == "" || image.src == "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAArIAAAEsCAYAAAA//VAuAAAACXBIWXMAAAsSAAALEgHS3X78AAAF0klEQVR4Xu3WMQ0AMAzAsPIn3ULYu0j2HQCZBQCAoHkFAADwIyMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIOkAMrh6a5dIy8oAAAAASUVORK5CYII=") {
+                            if (document.getElementById('singnCheck1').style.color == "red"){
+                                imageObj3 = $.parseJSON(cur.signature);
+                                fileURI3 = document.getElementById('imageSignCheck').src;
+                                urlRB3 = jsdo.url + imageObj3.src + "?objName=" + app.controlPoint.homeModel._jsdoOptions.name;
+                                options.fileName = "photo3.jpeg";
+                                ft.upload(
+                                    fileURI3,
+                                    encodeURI(urlRB3),
+                                    onFileUploadSuccess("photo3"),
+                                    onFileTransferFail,
+                                    options,
+                                    true);
+                            }
+
                             function onFileUploadSuccess(fieldName) {
                                 //alert("sss");
                             }
@@ -2127,6 +2145,9 @@ app.controlPoint = kendo.observable({
         document.getElementById("siteSignage").style.color = "transparent";
         document.getElementById("FillingStructures").style.color = "transparent";
 
+        var image = document.getElementById('imageSignCheck');
+        image.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAArIAAAEsCAYAAAA//VAuAAAACXBIWXMAAAsSAAALEgHS3X78AAAF0klEQVR4Xu3WMQ0AMAzAsPIn3ULYu0j2HQCZBQCAoHkFAADwIyMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIOkAMrh6a5dIy8oAAAAASUVORK5CYII=";
+        document.getElementById('singnCheck1').style.color = "#7B7878";
 
         var itemModel = app.hightGuard.homeModel.get("currentCheck");
         if (itemModel.cb_isPublish == 1) {//מבדק סגור
@@ -2187,7 +2208,7 @@ app.controlPoint = kendo.observable({
             if (itemModel.publicBuildingsDetails == "null")
                 homeModel.checkItem.set("publicBuildingsDetails", "");
             $("#popEndCheck :input").attr("disabled", true);
-
+            document.getElementById("imageSignCheckTR").style.display = "none";
 
         }
         else {//מבדק פתוח
@@ -2222,6 +2243,7 @@ app.controlPoint = kendo.observable({
             document.getElementById("FillingStructures").style.color = "transparent";
             homeModel.set("toolItem", {});
             homeModel.set("builtItem", {});
+            document.getElementById("imageSignCheckTR").style.display = "";
         }
 
         //כיבוי
@@ -2633,7 +2655,7 @@ app.controlPoint = kendo.observable({
                                         obj.was = true;
                                         obj.seifID = arrObjectesSelect[f].id;
                                         obj.SectionImage1 = arrObjectesSelect[f].SectionImage1;
-                                   //     obj.Remarks = arrObjectesSelect[f].Remarks;
+                                        //     obj.Remarks = arrObjectesSelect[f].Remarks;
                                     }
                                     //image
                                     if (arrObjectesSelect[f].idMefga == viewMefga[j].id && arrObjectesSelect[f].idSeif == viewSeif[i - 10].id) {
@@ -2852,5 +2874,33 @@ function onSuccessCP(imageData) {
 }
 function onFailCP(message) {
     alert("לא ניתן לסמן על תמונה זו")
+    console.log('plugin message: ' + message);
+}
+
+function getSketchSignature() {
+    var image = document.getElementById('imageSignCheck');
+    image.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAArIAAAEsCAYAAAA//VAuAAAACXBIWXMAAAsSAAALEgHS3X78AAAF0klEQVR4Xu3WMQ0AMAzAsPIn3ULYu0j2HQCZBQCAoHkFAADwIyMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIOkAMrh6a5dIy8oAAAAASUVORK5CYII=";
+
+    navigator.sketch.getSketch(onSuccessSignature, onFailSignature, {
+        destinationType: navigator.sketch.DestinationType.DATA_URL,
+        encodingType: navigator.sketch.EncodingType.PNG,
+        inputType: navigator.sketch.InputType.DATA_URL,
+        inputData: image.src
+    });
+}
+function onSuccessSignature(imageData) {
+    if (imageData == null) { return; }
+    var image = document.getElementById('imageSignCheck');
+        if (imageData.indexOf("data:image") >= 0) {
+            image.src = imageData;
+        } else {
+            image.src = "data:image/png;base64," + imageData;
+    }
+    document.getElementById('singnCheck1').style.color="red";
+        
+    
+}
+function onFailSignature(message) {
+    document.getElementById('singnCheck1').style.color = "#7B7878";
     console.log('plugin message: ' + message);
 }
