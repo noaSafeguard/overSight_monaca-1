@@ -1012,7 +1012,7 @@ app.controlPoint = kendo.observable({
                     }
 
                     homeModel.checkItem.set("publicBuildings", document.getElementById("publicBuildings").checked);//קיימים מבנים ציבוריים
-                  //  homeModel.checkItem.set("cb_Share", document.getElementById("publishToContact").checked);//הפצה לאנשי קשר לפי מחוז
+                    homeModel.checkItem.set("cb_Share", document.getElementById("publishToContact").checked);//הפצה לאנשי קשר לפי מחוז
                     homeModel.checkItem.set("cb_isPublish", true);//סיום מבדק
                     //הפצה לאנשי קשר לפי מחוז
 
@@ -1151,7 +1151,7 @@ app.controlPoint = kendo.observable({
                     }
 
                     homeModel.checkItem.set("publicBuildings", document.getElementById("publicBuildings").checked);//קיימים מבנים ציבוריים
-                    homeModel.checkItem.set("cb_Share", document.getElementById("publishToContact").checked);//הפצה לאנשי קשר לפי מחוז
+                 //   homeModel.checkItem.set("cb_Share", document.getElementById("publishToContact").checked);//הפצה לאנשי קשר לפי מחוז
                   
                     //הפצה לאנשי קשר לפי מחוז
 
