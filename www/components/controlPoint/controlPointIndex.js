@@ -1107,7 +1107,7 @@ app.controlPoint = kendo.observable({
                                     options,
                                     true);
                             }
-                            if (flagSignature == true) {
+                            if (flagFillingStructures == true) {
                                 mone1++;
                                 imageObj2 = $.parseJSON(cur.FillingStructures);
                                 fileURI2 = document.getElementById('pictureFillingStructures').src; 
@@ -1121,7 +1121,7 @@ app.controlPoint = kendo.observable({
                                     options,
                                     true);
                             }
-                            if (flagFillingStructures == true) {
+                            if (flagSignature == true) {
                                 mone1++;
                                 imageObj3 = $.parseJSON(cur.signature);
                                 fileURI3 = document.getElementById('imageSignCheck').src;

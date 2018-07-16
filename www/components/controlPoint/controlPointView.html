@@ -675,13 +675,22 @@
         function getSketchSignatureB() {
             if (document.getElementById("singnCheck1").style.color == "red")
                 $("#popimageSignCheck").kendoMobileModalView("open");
-            else
-                getSketchSignature();
+            else {
+                if (app.hightGuard.homeModel.get("currentCheck").cb_isPublish != 1) {
+                    getSketchSignature();
+                }
+            }
+               
         }
         
         function closePopSignCheck1() {
             $("#popimageSignCheck").kendoMobileModalView("close");
         }
+        function getSketchSignatureB1() {
+            $("#popimageSignCheck").kendoMobileModalView("close");
+            getSketchSignature();
+        }
+
         
     </script>
     <!--פופאפ חתימה-->
@@ -700,7 +709,7 @@
 
         </div>
         <footer data-role="footer" style="background-color: transparent;">
-            <a data-role="button" style="margin-bottom: 0%;border-radius: 0;width: 100%; background-color:#18556a;color: white;" id="changeSignCheck1" onclick="getSketchSignature()">
+            <a data-role="button" style="margin-bottom: 0%;border-radius: 0;width: 100%; background-color:#18556a;color: white;" id="changeSignCheck1" onclick="getSketchSignatureB1()">
                 <span style="font-family:Tahoma, Geneva, sans-serif;color:white;">החלף חתימה </span>
             </a>
             <a data-role="button" style="margin-bottom: 0%;border-radius: 0;width: 100%; background-color:#18556a;color: white;" onclick="closePopSignCheck1()">
