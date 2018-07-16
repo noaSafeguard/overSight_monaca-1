@@ -164,51 +164,57 @@ app.hightGuard = kendo.observable({
                 app.mobileApp.showLoading();
                 var flag1 = false;
                 var flag2 = false;
-                if (homeModel.get('projectDetailsCheckF') == true)
+                var view = [];
+                var view2 = [];
                     var jsdoOptions = homeModel.get('_jsdoOptionsProjectDashboard'),
                         jsdo = new progress.data.JSDO(jsdoOptions),
                         dataSourceOptions = homeModel.get('_dataSourceOptions'),
                         dataSource;
-                dataSourceOptions.transport.jsdo = jsdo;
-                dataSource = new kendo.data.DataSource(dataSourceOptions)
-                dataSource.filter({
-                    field: "locationId",
-                    operator: "==",
-                    value: (app.project.homeModel.get("dataItem")).locationId
-                });
-                dataSource.fetch(function () {
-                    flag1 = true;
-                    if (flag1 == true && flag2 == true) {
-                        popDetailes()
-                    }
-                })
-                var jsdoOptions = homeModel.get('_jsdoOptions'),
-                    jsdo = new progress.data.JSDO(jsdoOptions),
-                    dataSourceOptions = homeModel.get('_dataSourceOptions'),
-                    dataSource1;
-                dataSourceOptions.transport.jsdo = jsdo;
-                dataSource1 = new kendo.data.DataSource(dataSourceOptions)
-                dataSource1.filter({
-                    logic: "and",
-                    filters: [
-                        { field: "locationId", operator: "==", value: app.project.homeModel.get("dataItem").locationId },
-                        { field: "cb_isPublish", operator: "==", value: 1 },
-                    ]
-                });
+                    dataSourceOptions.transport.jsdo = jsdo;
+                    dataSource = new kendo.data.DataSource(dataSourceOptions)
+                    dataSource.filter({
+                        field: "locationId",
+                        operator: "==",
+                        value: (app.project.homeModel.get("dataItem")).locationId
+                    });
+                    dataSource.fetch(function () {
+                        view = dataSource.view();
+                        flag1 = true;
+                        if (flag1 == true && flag2 == true) {
+                            popDetailes()
+                        }
+                    });
+                    if (homeModel.get('projectDetailsCheckF') == true) {//אם קיים מבדק סגור
+                        //אז תשלוף מבדק אחרון סגור
+                        var jsdoOptions = homeModel.get('_jsdoOptions'),
+                            jsdo = new progress.data.JSDO(jsdoOptions),
+                            dataSourceOptions = homeModel.get('_dataSourceOptions'),
+                            dataSource1;
+                        dataSourceOptions.transport.jsdo = jsdo;
+                        dataSource1 = new kendo.data.DataSource(dataSourceOptions)
+                        dataSource1.filter({
+                            logic: "and",
+                            filters: [
+                                { field: "locationId", operator: "==", value: app.project.homeModel.get("dataItem").locationId },
+                                { field: "cb_isPublish", operator: "==", value: 1 },
+                            ]
+                        });
 
-                dataSource1.sort({ field: 'createdAt', dir: 'desc' });
-                dataSource1.fetch(function () {
-                    flag2 = true;
-                    if (flag1 == true && flag2 == true) {
-                        popDetailes()
+                        dataSource1.sort({ field: 'createdAt', dir: 'desc' });
+                        dataSource1.fetch(function () {
+                            view2 = dataSource1.view();
+                            flag2 = true;
+                            if (flag1 == true && flag2 == true) {
+                                popDetailes()
+                            }
+                        });
                     }
-                })
-                //homeModel.set('projectDetailsCheck', {})
-                //homeModel.set('projectDetailsCheckF', false)
-                //homeModel.set('dataSource', dataSource)
+                    else {
+                        flag2 = true;
+                    }
                 function popDetailes() {
-                    var view = dataSource.view();
-                    var view2 = dataSource1.view();
+                    //var view = dataSource.view();
+                    //var view2 = dataSource1.view();
                     projectNamePop.innerHTML = (app.project.homeModel.get("dataItem")).LocationName;
                     if (view2.length > 0) {
                         homeModel.set('projectDetailsCheck', view2[0]);

@@ -276,6 +276,19 @@
                                 </center>
                             </td>
                         </tr>
+
+                        <tr>
+                            <td style="width:9%;">
+                                <div style="height:4px;background-color:transparent;"></div>
+                                <i class="fas fa-pencil-alt" style="color:#7B7878;font-size:large;"></i>
+                            </td>
+                            <td>
+                                <div style="height:4px;background-color:transparent;"></div>
+                                <center>
+                                    <input type="number" data-bind="value:homeModel.builtItem.builtUpArea" placeholder="הערכת שטח בנוי" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;" />
+                                </center>
+                            </td>
+                        </tr>
                     </table>
 
 
@@ -480,8 +493,10 @@
                                 <center>
                                     <div style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);">
                                         <label style="float: right;text-align: right;font-size:small;font-family: Tahoma, Geneva, sans-serif;">הוסף חתימה</label>
-                                        <i class="fas fa-edit" id="singnCheck1" onclick="getSketchSignature()" style="color:#7B7878;font-size:medium;float:left;"></i>
-                                        <img id="imageSignCheck" hidden src="" style="width: 100%;" />
+                                        <i class="fas fa-edit" id="singnCheck1" onclick="getSketchSignatureB()" style="color:#7B7878;font-size:medium;float:left;"></i>
+                                      
+                                        <!--<i class="fas fa-edit" id="singnCheck1" onclick="getSketchSignature()" style="color:#7B7878;font-size:medium;float:left;"></i>-->
+                                        <!--<img id="imageSignCheck" hidden src="" style="width: 100%;" />-->
                                     </div>
                                 </center>
 
@@ -657,7 +672,42 @@
                 getSketchCP();
             }
         }
+        function getSketchSignatureB() {
+            if (document.getElementById("singnCheck1").style.color == "red")
+                $("#popimageSignCheck").kendoMobileModalView("open");
+            else
+                getSketchSignature();
+        }
+        
+        function closePopSignCheck1() {
+            $("#popimageSignCheck").kendoMobileModalView("close");
+        }
+        
     </script>
+    <!--פופאפ חתימה-->
+    <div data-role="modalview" id="popimageSignCheck" data-zoom="true" style="left: 1px;width: 98%; height: 100%; background-color:transparent">
+        <header data-role="header" style="background-color: #18556a;">
+            <div data-role="navbar" class="header" style="background-color: #18556a;">
+                <span style="font-family:Tahoma, Geneva, sans-serif;color:white">חתימה</span>
+              
+            </div>
+        </header>
+
+        <div data-role="content" style="background-color: transparent; margin-top: 2%;">
+            <center>
+                <img id="imageSignCheck" src="" style="width: 100%;" />
+            </center>
+
+        </div>
+        <footer data-role="footer" style="background-color: transparent;">
+            <a data-role="button" style="margin-bottom: 0%;border-radius: 0;width: 100%; background-color:#18556a;color: white;" id="changeSignCheck1" onclick="getSketchSignature()">
+                <span style="font-family:Tahoma, Geneva, sans-serif;color:white;">החלף חתימה </span>
+            </a>
+            <a data-role="button" style="margin-bottom: 0%;border-radius: 0;width: 100%; background-color:#18556a;color: white;" onclick="closePopSignCheck1()">
+                <span style="font-family:Tahoma, Geneva, sans-serif;color:white;">סגור</span>
+            </a>
+        </footer>
+    </div>
     <img id="gibuyImage1" hidden src="" style="width: 100%;" />
     <img id="gibuyImage2" hidden src="" style="width: 100%;" />
     <!--פופאפ תמונה 1-->

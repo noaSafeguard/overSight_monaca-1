@@ -4,6 +4,8 @@
     var app = {
         data: {}
     };
+
+       document.addEventListener('backbutton', function (e) {});
     var bootstrap = function() {
         $(function() {
             app.mobileApp = new kendo.mobile.Application(document.body, {

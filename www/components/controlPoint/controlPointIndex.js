@@ -1,4 +1,3 @@
-
 'use strict';
 app.controlPoint = kendo.observable({
     onShow: function () { },
@@ -1029,12 +1028,44 @@ app.controlPoint = kendo.observable({
                             if (success === true) {
                                 //var image = document.getElementById('imageSignCheck');
                                 //document.getElementById('singnCheck1').style.color = "red";
-                                if (document.getElementById("siteSignage").style.color == "green" || document.getElementById("FillingStructures").style.color == "green" || document.getElementById('singnCheck1').style.color == "red") {
-                                    uploadPictureToServer(view[0]);
-                                }
 
-                                app.mobileApp.hideLoading();
-                                app.mobileApp.navigate('#components/hightGuard/view.html');
+                                var siteSignageURL1 = homeModel.get("siteSignageURL1");
+                                var FillingStructuresURL1 = homeModel.get("FillingStructuresURL1");
+                                var signatureURL1 = homeModel.get("signatureURL1");
+
+                                var siteSignage1 = document.getElementById("pictureSiteSignage").src;
+                                var FillingStructures1 = document.getElementById("pictureFillingStructures").src;
+                                var signature1 = document.getElementById("imageSignCheck").src;
+
+                                var siteSignageClr = document.getElementById("siteSignage").style.color;
+                                var FillingStructuresClr = document.getElementById("FillingStructures").style.color;
+                                var signatureClr = document.getElementById("singnCheck1").style.color;
+
+                                var flagSiteSignage = false;
+                                var flagFillingStructures = false;
+                                var flagSignature = false;
+
+                                if (siteSignageClr == "green" && siteSignageURL1 != siteSignage1)
+                                    flagSiteSignage = true;
+
+                                if (FillingStructuresClr == "green" && FillingStructuresURL1 != FillingStructures1)
+                                    flagFillingStructures = true;
+
+                                if (signatureClr == "red" && signatureURL1 != signature1)
+                                    flagSignature = true;
+
+                                if (flagSiteSignage == true || flagFillingStructures == true || flagSignature == true )
+                                    uploadPictureToServer(flagSiteSignage, flagFillingStructures, flagSignature, view[0]);
+                                else
+                                {
+                                    app.mobileApp.hideLoading();
+                                    app.mobileApp.navigate('#components/hightGuard/view.html');
+                                }
+                                //if (document.getElementById("siteSignage").style.color == "green" || document.getElementById("FillingStructures").style.color == "green" || document.getElementById('singnCheck1').style.color == "red") {
+                                //    uploadPictureToServer(view[0]);
+                                //}
+
+                             
                             }
                             else {
                                 alert("שגיאה");
@@ -1044,8 +1075,9 @@ app.controlPoint = kendo.observable({
                         jsdo.saveChanges();
 
 
-                        function uploadPictureToServer(cur) {
-
+                        function uploadPictureToServer(flagSiteSignage, flagFillingStructures, flagSignature,cur) {
+                            var mone1 = 0;
+                            var mone2 = 0;
                             var options = new FileUploadOptions();
                             options.quality = 10;
                             options.fileKey = "fileContents";
@@ -1061,7 +1093,8 @@ app.controlPoint = kendo.observable({
                             var fileURI1, fileURI2, fileURI3;
                             var urlRB1, urlRB2, urlRB3;
 
-                            if (document.getElementById("siteSignage").style.color == "green") {
+                            if (flagSiteSignage == true) {
+                                mone1++;
                                 imageObj1 = $.parseJSON(cur.siteSignage);
                                 fileURI1 = document.getElementById('pictureSiteSignage').src;
                                 urlRB1 = jsdo.url + imageObj1.src + "?objName=" + app.controlPoint.homeModel._jsdoOptions.name;
@@ -1074,9 +1107,10 @@ app.controlPoint = kendo.observable({
                                     options,
                                     true);
                             }
-                            if (document.getElementById("FillingStructures").style.color == "green") {
+                            if (flagSignature == true) {
+                                mone1++;
                                 imageObj2 = $.parseJSON(cur.FillingStructures);
-                                fileURI2 = document.getElementById('pictureFillingStructures').src;
+                                fileURI2 = document.getElementById('pictureFillingStructures').src; 
                                 urlRB2 = jsdo.url + imageObj2.src + "?objName=" + app.controlPoint.homeModel._jsdoOptions.name;
                                 options.fileName = "photo2.jpeg";
                                 ft.upload(
@@ -1087,9 +1121,8 @@ app.controlPoint = kendo.observable({
                                     options,
                                     true);
                             }
-                            //var image = document.getElementById('imageSignCheck');
-                            //if (image.src == "" || image.src == "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAArIAAAEsCAYAAAA//VAuAAAACXBIWXMAAAsSAAALEgHS3X78AAAF0klEQVR4Xu3WMQ0AMAzAsPIn3ULYu0j2HQCZBQCAoHkFAADwIyMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIOkAMrh6a5dIy8oAAAAASUVORK5CYII=") {
-                            if (document.getElementById('singnCheck1').style.color == "red") {
+                            if (flagFillingStructures == true) {
+                                mone1++;
                                 imageObj3 = $.parseJSON(cur.signature);
                                 fileURI3 = document.getElementById('imageSignCheck').src;
                                 urlRB3 = jsdo.url + imageObj3.src + "?objName=" + app.controlPoint.homeModel._jsdoOptions.name;
@@ -1104,7 +1137,13 @@ app.controlPoint = kendo.observable({
                             }
 
                             function onFileUploadSuccess(fieldName) {
-                                //alert("sss");
+                                mone2++;
+                                if (mone1 == mone2) {
+                                    setTimeout(function () {
+                                        app.mobileApp.hideLoading();
+                                        app.mobileApp.navigate('#components/hightGuard/view.html');
+                                    }, 100);
+                                }
                             }
                             function onFileTransferFail(error) {
                                 alert("Error loading the image");
@@ -1151,8 +1190,8 @@ app.controlPoint = kendo.observable({
                     }
 
                     homeModel.checkItem.set("publicBuildings", document.getElementById("publicBuildings").checked);//קיימים מבנים ציבוריים
-                 //   homeModel.checkItem.set("cb_Share", document.getElementById("publishToContact").checked);//הפצה לאנשי קשר לפי מחוז
-                  
+                    //   homeModel.checkItem.set("cb_Share", document.getElementById("publishToContact").checked);//הפצה לאנשי קשר לפי מחוז
+
                     //הפצה לאנשי קשר לפי מחוז
 
 
@@ -1167,12 +1206,42 @@ app.controlPoint = kendo.observable({
                             if (success === true) {
                                 //var image = document.getElementById('imageSignCheck');
                                 //document.getElementById('singnCheck1').style.color = "red";
-                                if (document.getElementById("siteSignage").style.color == "green" || document.getElementById("FillingStructures").style.color == "green" || document.getElementById('singnCheck1').style.color == "red") {
-                                    uploadPictureToServer(view[0]);
-                                }
+                                var siteSignageURL1 = homeModel.get("siteSignageURL1");
+                                var FillingStructuresURL1 = homeModel.get("FillingStructuresURL1");
+                                var signatureURL1 = homeModel.get("signatureURL1");
 
-                                app.mobileApp.hideLoading();
-                                app.mobileApp.navigate('#components/hightGuard/view.html');
+                                var siteSignage1 = document.getElementById("pictureSiteSignage").src;
+                                var FillingStructures1 = document.getElementById("pictureFillingStructures").src;
+                                var signature1 = document.getElementById("imageSignCheck").src;
+
+                                var siteSignageClr = document.getElementById("siteSignage").style.color;
+                                var FillingStructuresClr = document.getElementById("FillingStructures").style.color;
+                                var signatureClr = document.getElementById("singnCheck1").style.color;
+
+                                var flagSiteSignage = false;
+                                var flagFillingStructures = false;
+                                var flagSignature = false;
+
+                                if (siteSignageClr == "green" && siteSignageURL1 != siteSignage1)
+                                    flagSiteSignage = true;
+
+                                if (FillingStructuresClr == "green" && FillingStructuresURL1 != FillingStructures1)
+                                    flagFillingStructures = true;
+
+                                if (signatureClr == "red" && signatureURL1 != signature1)
+                                    flagSignature = true;
+
+                                if (flagSiteSignage == true || flagFillingStructures == true || flagSignature == true)
+                                    uploadPictureToServerS(flagSiteSignage, flagFillingStructures, flagSignature, view[0]);
+                                else {
+                                    app.mobileApp.hideLoading();
+                                    app.mobileApp.navigate('#components/hightGuard/view.html');
+                                }
+                                //if (document.getElementById("siteSignage").style.color == "green" || document.getElementById("FillingStructures").style.color == "green" || document.getElementById('singnCheck1').style.color == "red") {
+                                //    uploadPictureToServer(view[0]);
+                                //}
+
+                              
                             }
                             else {
                                 alert("שגיאה");
@@ -1182,8 +1251,9 @@ app.controlPoint = kendo.observable({
                         jsdo.saveChanges();
 
 
-                        function uploadPictureToServer(cur) {
-
+                        function uploadPictureToServerS(flagSiteSignage, flagFillingStructures, flagSignature, cur) {
+                            var mone1 = 0;
+                            var mone2 = 0;
                             var options = new FileUploadOptions();
                             options.quality = 10;
                             options.fileKey = "fileContents";
@@ -1198,8 +1268,8 @@ app.controlPoint = kendo.observable({
                             var imageObj1, imageObj2, imageObj3;
                             var fileURI1, fileURI2, fileURI3;
                             var urlRB1, urlRB2, urlRB3;
-
-                            if (document.getElementById("siteSignage").style.color == "green") {
+                            if (flagSiteSignage == true) {
+                                mone1++;
                                 imageObj1 = $.parseJSON(cur.siteSignage);
                                 fileURI1 = document.getElementById('pictureSiteSignage').src;
                                 urlRB1 = jsdo.url + imageObj1.src + "?objName=" + app.controlPoint.homeModel._jsdoOptions.name;
@@ -1212,7 +1282,8 @@ app.controlPoint = kendo.observable({
                                     options,
                                     true);
                             }
-                            if (document.getElementById("FillingStructures").style.color == "green") {
+                            if (flagFillingStructures == true) {
+                                mone1++;
                                 imageObj2 = $.parseJSON(cur.FillingStructures);
                                 fileURI2 = document.getElementById('pictureFillingStructures').src;
                                 urlRB2 = jsdo.url + imageObj2.src + "?objName=" + app.controlPoint.homeModel._jsdoOptions.name;
@@ -1225,9 +1296,8 @@ app.controlPoint = kendo.observable({
                                     options,
                                     true);
                             }
-                            //var image = document.getElementById('imageSignCheck');
-                            //if (image.src == "" || image.src == "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAArIAAAEsCAYAAAA//VAuAAAACXBIWXMAAAsSAAALEgHS3X78AAAF0klEQVR4Xu3WMQ0AMAzAsPIn3ULYu0j2HQCZBQCAoHkFAADwIyMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIMnIAgCQZGQBAEgysgAAJBlZAACSjCwAAElGFgCAJCMLAECSkQUAIOkAMrh6a5dIy8oAAAAASUVORK5CYII=") {
-                            if (document.getElementById('singnCheck1').style.color == "red") {
+                            if (flagSignature == true) {
+                                mone1++;
                                 imageObj3 = $.parseJSON(cur.signature);
                                 fileURI3 = document.getElementById('imageSignCheck').src;
                                 urlRB3 = jsdo.url + imageObj3.src + "?objName=" + app.controlPoint.homeModel._jsdoOptions.name;
@@ -1242,6 +1312,15 @@ app.controlPoint = kendo.observable({
                             }
 
                             function onFileUploadSuccess(fieldName) {
+                                mone2++;
+                                if (mone1 == mone2) {
+                                    setTimeout(function () {
+                                        app.mobileApp.hideLoading();
+                                        app.mobileApp.navigate('#components/hightGuard/view.html');
+                                    }, 100);
+                                 
+                                }
+
                                 //alert("sss");
                             }
                             function onFileTransferFail(error) {
@@ -1588,7 +1667,6 @@ app.controlPoint = kendo.observable({
             //תמונות סגירת מבדק
             ifOpenPictureFromF: function () {
                 var check1 = app.controlPoint.homeModel.get("cameraIdF");
-                console.log(document.getElementById(check1).style.color)
                 if (document.getElementById(check1).style.color == "green") {
                     if (check1 == "siteSignage")
                         $("#popImageSiteSignage").kendoMobileModalView("open");
@@ -2290,6 +2368,11 @@ app.controlPoint = kendo.observable({
 
         var itemModel = app.hightGuard.homeModel.get("currentCheck");
 
+        homeModel.set("FillingStructuresURL1", "");
+        homeModel.set("siteSignageURL1", "");
+        document.getElementById("pictureFillingStructures").src = "";
+        document.getElementById("pictureSiteSignage").src = "";
+
         if (app.hightGuard.homeModel.get("itemIs") == true) {//מבדק קיים
             homeModel.set("checkItem", itemModel);
             if (itemModel.publicBuildings == 1) {//פרוט בהתאם לצק בוקס
@@ -2308,20 +2391,34 @@ app.controlPoint = kendo.observable({
             }
             //תמונות
             if (itemModel.FillingStructuresURL != "null") {
-                document.getElementById("FillingStructuresPD").src = itemModel.FillingStructuresURL;
-                document.getElementById("pictureFillingStructures").style.color = "green";
+                document.getElementById("pictureFillingStructures").src = itemModel.FillingStructuresURL;
+                document.getElementById("FillingStructures").style.color = "green";
+                homeModel.set("FillingStructuresURL1", itemModel.FillingStructuresURL)
             }
             else {
-                document.getElementById("FillingStructuresPD").src = "";
+                document.getElementById("pictureFillingStructures").src = "";
+                homeModel.set("FillingStructuresURL1", "")
             }
 
             if (itemModel.siteSignageURL != "null") {
                 document.getElementById("pictureSiteSignage").src = itemModel.siteSignageURL;
                 document.getElementById("siteSignage").style.color = "green";
+                homeModel.set("siteSignageURL1", itemModel.siteSignageURL)
 
             }
             else {
-                document.getElementById("siteSignagePD").src = "";
+                document.getElementById("pictureSiteSignage").src = "";
+                homeModel.set("siteSignageURL1", "")
+            }
+            //חתימה
+            if (itemModel.signatureURL != "null") {
+                document.getElementById("imageSignCheck").src = itemModel.signatureURL;
+                document.getElementById("singnCheck1").style.color = "red";
+                homeModel.set("signatureURL1", itemModel.signatureURL)
+            }
+            else {
+                document.getElementById("imageSignCheck").src = "";
+                homeModel.set("signatureURL1", "")
             }
 
             if (itemModel.DroneURL == "null")
@@ -2336,7 +2433,7 @@ app.controlPoint = kendo.observable({
             if (itemModel.cb_isPublish == 1) {//מבדק סגור 
                 $("#popEndCheck :input").attr("disabled", true);
                 $('[name=sketch]').css("display", "none");//אי יכולת קשקוש על תמונה
-            //    CheckupReportDiv.hidden = false;//דוח וציון
+                //    CheckupReportDiv.hidden = false;//דוח וציון
                 document.getElementById("CheckupReportDivGrade").style.display = "inline-block";//ציון
 
                 openCheck.hidden = true;//footer 
@@ -2348,11 +2445,13 @@ app.controlPoint = kendo.observable({
                 document.getElementById("adduildAndTool").style.display = "none";//adduildAndTool
                 document.getElementById("changeImageF1").style.display = "none"; //החלף תמונה
                 document.getElementById("changeImageF2").style.display = "none"; //החלף תמונה
+                document.getElementById("changeSignCheck1").style.display = "none"; //החלף חתימה
 
-            } else {//מבדק פתוח
+            }
+            else {//מבדק פתוח
                 $("#popEndCheck :input").attr("disabled", false);
                 $('[name=sketch]').css("display", "");//אי יכולת קשקוש על תמונה
-               // CheckupReportDiv.hidden = true;//דוח וציון
+                // CheckupReportDiv.hidden = true;//דוח וציון
                 document.getElementById("CheckupReportDivGrade").style.display = "none";//ציון
 
                 openCheck.hidden = false;//footer 
@@ -2365,12 +2464,14 @@ app.controlPoint = kendo.observable({
 
                 document.getElementById("changeImageF1").style.display = ""; //החלף תמונה
                 document.getElementById("changeImageF2").style.display = ""; //החלף תמונה
+                document.getElementById("changeSignCheck1").style.display = ""; //החלף חתימה
             }
 
-        } else {//מבדק חדש
+        }
+        else {//מבדק חדש
             $("#popEndCheck :input").attr("disabled", false);
             $('[name=sketch]').css("display", "");//אי יכולת קשקוש על תמונה
-           // CheckupReportDiv.hidden = true;//דוח וציון
+            // CheckupReportDiv.hidden = true;//דוח וציון
             document.getElementById("CheckupReportDivGrade").style.display = "none";//ציון
 
             openCheck.hidden = false;//footer 
@@ -2383,7 +2484,7 @@ app.controlPoint = kendo.observable({
 
             document.getElementById("changeImageF1").style.display = ""; //החלף תמונה
             document.getElementById("changeImageF2").style.display = ""; //החלף תמונה
-
+            document.getElementById("changeSignCheck1").style.display = ""; //החלף חתימה
             var obj = {
                 "DroneURL": "",
                 "AdditionalComments": "",
@@ -2466,7 +2567,7 @@ app.controlPoint = kendo.observable({
 
         //}
         //else {//מבדק פתוח
-            
+
         //    $("#popEndCheck :input").attr("disabled", false);
         //    $('[name=sketch]').css("display", "");//אי יכולת קשקוש על תמונה
         //    CheckupReportDiv.hidden = true;//דוח וציון
@@ -2500,7 +2601,7 @@ app.controlPoint = kendo.observable({
         //    homeModel.set("builtItem", {});
         //    document.getElementById("imageSignCheckTR").style.display = "";
         //}
-    
+
         //כיבוי
         //נקודות בקרה
         var fetch2 = false;
@@ -2748,6 +2849,8 @@ app.controlPoint = kendo.observable({
                 homeModel.set("arrSeifImage", arrSeifImage);
                 homeModel.set("arrSeifComments", arrSeifComments);
                 homeModel.set("arrObjectes", arrObjectes)
+                $("input:checkbox").attr("disabled", false);
+                $("textarea").attr("disabled", false);
                 oneChecked();
                 app.mobileApp.hideLoading();
             }
