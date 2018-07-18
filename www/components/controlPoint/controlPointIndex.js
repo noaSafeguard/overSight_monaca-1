@@ -128,6 +128,54 @@ app.controlPoint = kendo.observable({
             checkItem: {},
             builtItem: {},
             toolItem: {},
+            itemClickTool: function (e) {
+                var item = e.dataItem;
+                homeModel.set("clickItemTool", item)
+                setTimeout(function () {
+                    $("#popToolAll").kendoMobileModalView("close");
+                    $("#popToolDetailes").kendoMobileModalView("open");
+                }, 100);
+               
+            },
+            EditTool: function (e) {
+                var clickItemTool = homeModel.get("clickItemTool");
+                var dataSource = homeModel.get("dataSourceTool");
+                var jsdo = dataSource.transport.jsdo;
+                var jsrow = jsdo.findById(clickItemTool.id);
+                var afterUpdateFn;
+                jsrow.assign(clickItemTool);
+                afterUpdateFn = function (jsdo, record, success, request) {
+                    jsdo.unsubscribe('afterUpdate', afterUpdateFn);
+                    if (success === true) {
+                        $("#popToolDetailes").kendoMobileModalView("close");
+                        $("#popEndCheck").kendoMobileModalView("open");
+                    }
+                    else {
+                        alert("שגיאה");
+                    }
+                };
+                jsdo.subscribe('afterUpdate', afterUpdateFn);
+                jsdo.saveChanges();
+
+            },
+            loadTool: function () {
+                var jsdoOptions = homeModel.get('_jsdoOptionsToolsSite'),
+                    jsdo = new progress.data.JSDO(jsdoOptions),
+                    dataSourceOptions = homeModel.get('_dataSourceOptions'),
+                    dataSource;
+                dataSourceOptions.transport.jsdo = jsdo;
+                dataSource = new kendo.data.DataSource(dataSourceOptions);
+                dataSource.filter({
+                    logic: "and",
+                    filters: [
+                        { field: "locationId", operator: "eq", value: app.project.homeModel.get("dataItem").locationId },
+                        { field: "R408159722", operator: "eq", value: app.hightGuard.homeModel.get("currentCheck").id }
+                    ]
+                });
+                homeModel.set("dataSourceTool", dataSource);
+                $("#popToolAll").kendoMobileModalView("open");
+              
+            },
             addTool: function () {
                 app.mobileApp.showLoading();
                 var jsdoOptions = homeModel.get('_jsdoOptionsToolsSite'),
@@ -152,6 +200,60 @@ app.controlPoint = kendo.observable({
                     dataSource.sync();
                 };
                 saveModel();
+            },
+
+            itemClickBuild: function (e) {
+                var item = e.dataItem;
+                homeModel.set("clickItemBuild", item)
+                homeModel.doSelectDetailes();
+                setTimeout(function () {
+                    $("#popBuildAll").kendoMobileModalView("close");
+                    $("#popBuildDetailes").kendoMobileModalView("open");
+                }, 100);
+                
+            },
+            EditBuild: function (e) {
+                var e = document.getElementById("executionStepSelectDetailes");
+                var executionStep = e.options[e.selectedIndex].value;
+                homeModel.clickItemBuild.set("executionStep", executionStep);
+
+                var clickItemBuild = homeModel.get("clickItemBuild");
+                var dataSource = homeModel.get("dataSourceBuild");
+                var jsdo = dataSource.transport.jsdo;
+                var jsrow = jsdo.findById(clickItemBuild.id);
+                var afterUpdateFn;
+                jsrow.assign(clickItemBuild);
+                afterUpdateFn = function (jsdo, record, success, request) {
+                    jsdo.unsubscribe('afterUpdate', afterUpdateFn);
+                    if (success === true) {
+                        $("#popBuildDetailes").kendoMobileModalView("close");
+                        $("#popEndCheck").kendoMobileModalView("open");
+                    }
+                    else {
+                        alert("שגיאה");
+                    }
+                };
+                jsdo.subscribe('afterUpdate', afterUpdateFn);
+                jsdo.saveChanges();
+
+            },
+            loadBuild: function () {
+                var jsdoOptions = homeModel.get('_jsdoOptionsbuildingsSite'),
+                    jsdo = new progress.data.JSDO(jsdoOptions),
+                    dataSourceOptions = homeModel.get('_dataSourceOptions'),
+                    dataSource;
+                dataSourceOptions.transport.jsdo = jsdo;
+                dataSource = new kendo.data.DataSource(dataSourceOptions);
+                dataSource.filter({
+                    logic: "and",
+                    filters: [
+                        { field: "locationId", operator: "eq", value: app.project.homeModel.get("dataItem").locationId },
+                        { field: "R408159712", operator: "eq", value: app.hightGuard.homeModel.get("currentCheck").id }
+                    ]
+                });
+                homeModel.set("dataSourceBuild", dataSource);
+                $("#popBuildAll").kendoMobileModalView("open");
+
             },
             addBuild: function () {
 
@@ -186,9 +288,7 @@ app.controlPoint = kendo.observable({
                 };
                 saveModel();
             },
-
             doSelect: function () {
-
                 document.getElementById("executionStepSelect").options.length = 0;
                 var list = homeModel.get('executionStep');
                 var select = document.getElementById("executionStepSelect");
@@ -196,13 +296,33 @@ app.controlPoint = kendo.observable({
                 option.text = "שלב ביצוע";
                 option.value = -1;
                 select.add(option);
-
                 for (var i = 0; i < list.length; i++) {
                     var option = document.createElement("option");
                     option.text = list[i].name;
                     option.value = list[i].id;
                     select.add(option);
                 }
+            },
+            doSelectDetailes: function () {
+                document.getElementById("executionStepSelectDetailes").options.length = 0;
+                var val = homeModel.clickItemBuild.get("executionStep");
+                var index = 0;
+                var list = homeModel.get('executionStep');
+                var select = document.getElementById("executionStepSelectDetailes");
+                var option = document.createElement("option");
+                option.text = "שלב ביצוע";
+                option.value = -1;
+                select.add(option);
+                for (var i = 0; i < list.length; i++) {
+                    var option = document.createElement("option");
+                    option.text = list[i].name;
+                    option.value = list[i].id;
+                    select.add(option);
+                    if (list[i].id == val)
+                        index = i + 1;
+                }
+                document.getElementById("executionStepSelectDetailes").selectedIndex = index;
+
             },
 
             //בלחיצה על ציון בסעיף
@@ -1054,10 +1174,9 @@ app.controlPoint = kendo.observable({
                                 if (signatureClr == "red" && signatureURL1 != signature1)
                                     flagSignature = true;
 
-                                if (flagSiteSignage == true || flagFillingStructures == true || flagSignature == true )
+                                if (flagSiteSignage == true || flagFillingStructures == true || flagSignature == true)
                                     uploadPictureToServer(flagSiteSignage, flagFillingStructures, flagSignature, view[0]);
-                                else
-                                {
+                                else {
                                     app.mobileApp.hideLoading();
                                     app.mobileApp.navigate('#components/hightGuard/view.html');
                                 }
@@ -1065,7 +1184,7 @@ app.controlPoint = kendo.observable({
                                 //    uploadPictureToServer(view[0]);
                                 //}
 
-                             
+
                             }
                             else {
                                 alert("שגיאה");
@@ -1075,7 +1194,7 @@ app.controlPoint = kendo.observable({
                         jsdo.saveChanges();
 
 
-                        function uploadPictureToServer(flagSiteSignage, flagFillingStructures, flagSignature,cur) {
+                        function uploadPictureToServer(flagSiteSignage, flagFillingStructures, flagSignature, cur) {
                             var mone1 = 0;
                             var mone2 = 0;
                             var options = new FileUploadOptions();
@@ -1110,7 +1229,7 @@ app.controlPoint = kendo.observable({
                             if (flagFillingStructures == true) {
                                 mone1++;
                                 imageObj2 = $.parseJSON(cur.FillingStructures);
-                                fileURI2 = document.getElementById('pictureFillingStructures').src; 
+                                fileURI2 = document.getElementById('pictureFillingStructures').src;
                                 urlRB2 = jsdo.url + imageObj2.src + "?objName=" + app.controlPoint.homeModel._jsdoOptions.name;
                                 options.fileName = "photo2.jpeg";
                                 ft.upload(
@@ -1241,7 +1360,7 @@ app.controlPoint = kendo.observable({
                                 //    uploadPictureToServer(view[0]);
                                 //}
 
-                              
+
                             }
                             else {
                                 alert("שגיאה");
@@ -1318,7 +1437,7 @@ app.controlPoint = kendo.observable({
                                         app.mobileApp.hideLoading();
                                         app.mobileApp.navigate('#components/hightGuard/view.html');
                                     }, 100);
-                                 
+
                                 }
 
                                 //alert("sss");
@@ -2441,8 +2560,8 @@ app.controlPoint = kendo.observable({
 
                 popEndCheckOpen.hidden = true;//footer popup
                 popEndCheckClose.hidden = false;//footer popup
-
-                document.getElementById("adduildAndTool").style.display = "none";//adduildAndTool
+                $('[name=adduildAndTool]').css('display', 'none');
+               // document.getElementById("adduildAndTool").style.display = "none";//adduildAndTool
                 document.getElementById("changeImageF1").style.display = "none"; //החלף תמונה
                 document.getElementById("changeImageF2").style.display = "none"; //החלף תמונה
                 document.getElementById("changeSignCheck1").style.display = "none"; //החלף חתימה
@@ -2460,7 +2579,8 @@ app.controlPoint = kendo.observable({
                 popEndCheckOpen.hidden = false;//footer popup
                 popEndCheckClose.hidden = true;//footer popup
 
-                document.getElementById("adduildAndTool").style.display = "";//adduildAndTool
+                $('[name=adduildAndTool]').css('display', '');
+             //   document.getElementById("adduildAndTool").style.display = "";//adduildAndTool
 
                 document.getElementById("changeImageF1").style.display = ""; //החלף תמונה
                 document.getElementById("changeImageF2").style.display = ""; //החלף תמונה
@@ -2480,7 +2600,8 @@ app.controlPoint = kendo.observable({
             popEndCheckOpen.hidden = false;//footer popup
             popEndCheckClose.hidden = true;//footer popup
 
-            document.getElementById("adduildAndTool").style.display = "";//adduildAndTool
+            $('[name=adduildAndTool]').css('display', '');
+           // document.getElementById("adduildAndTool").style.display = "";//adduildAndTool
 
             document.getElementById("changeImageF1").style.display = ""; //החלף תמונה
             document.getElementById("changeImageF2").style.display = ""; //החלף תמונה

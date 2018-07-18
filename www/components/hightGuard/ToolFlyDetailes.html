@@ -1,0 +1,107 @@
+<div data-role="view" data-layout="main" data-model="app.hightGuard" style="" dir="rtl">
+    <header data-role="header">
+        <div data-role="navbar" class="header" style="background: linear-gradient(5.58deg, #923714 0%, #f7931e 100%);">
+            <span >רחפן</span>
+            <a data-role="button" href="#appDrawer" data-rel="drawer" data-align="left" class="headerButton">
+                <i class="material-icons" style="color:white">reorder</i>
+            </a>
+            <a class="headerButton" id="" data-role="button" data-align="right" style="color: white;" href="">
+                <i class="material-icons" style="color:transparent">dashboard</i>
+            </a>
+        </div>
+    </header>
+    <div style="background-color: transparent;height:3px;"> </div>
+    <center>
+        <div style="width:96%;" dir="rtl">
+            <div style="padding-left: 1.5%; padding-right: 0.1%; padding-top: 1.5%;">
+                <table style="width:98%;">
+                    <tr>
+                        <td>
+                            <label style="font-weight:200;font-size:small;font-family: Tahoma, Geneva, sans-serif;">מס' סידורי</label>
+                        </td>
+                        <td>
+                            <center>
+                                <input type="text" data-bind="value:homeModel.itemToolFly.SerialNum" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;" />
+                            </center>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label style="font-weight:200;font-size:small;font-family: Tahoma, Geneva, sans-serif;">דגם רחפן</label>
+                        </td>
+                        <td>
+                            <center>
+                                <input type="text" data-bind="value:homeModel.itemToolFly.DroneModel" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;" />
+                            </center>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label style="font-weight:200;font-size:small;font-family: Tahoma, Geneva, sans-serif;">מס' זנב</label>
+                        </td>
+                        <td>
+                            <center>
+                                <input type="text" data-bind="value:homeModel.itemToolFly.DroneTail" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;" />
+                            </center>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label style="font-weight:200;font-size:small;font-family: Tahoma, Geneva, sans-serif;">סוג המצלמה</label>
+                        </td>
+                        <td>
+                            <center>
+                                <input type="text" data-bind="value:homeModel.itemToolFly.CameraType" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;" />
+                            </center>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label style="font-weight:200;font-size:small;font-family: Tahoma, Geneva, sans-serif;">דגם</label>
+                        </td>
+                        <td>
+                            <center>
+                                <input type="text" data-bind="value:homeModel.itemToolFly.CameraModel" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;" />
+                            </center>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label style="font-weight:200;font-size:small;font-family: Tahoma, Geneva, sans-serif;">זום</label>
+                        </td>
+                        <td>
+                            <center>
+                                <input type="text" data-bind="value:homeModel.itemToolFly.CameraZoom" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;" />
+                            </center>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </center>
+    <footer data-role="footer" style="background-color:#e9eaeb;">
+        <center>
+            <table style="width:100%">
+                <tr>
+                    <td style="width:50%">
+                        <a data-role="button" data-bind="events: {click:homeModel.closeFly }" style=" font-family:Tahoma, Geneva, sans-serif;border-style:none;border-radius: 0;margin-bottom:2%;align-self:center;width:98%;background-color:#1A607C;color: #ffffff;text-align:center;white-space: normal;direction:ltr;">
+                            <span style="font-family:Tahoma, Geneva, sans-serif;">סגור</span>
+                        </a>
+
+                    </td>
+                    <td style="width:50%">
+                        <a data-role="button" data-bind="events: {click:homeModel.editToolFly }" style=" font-family:Tahoma, Geneva, sans-serif;border-style:none;border-radius: 0;margin-bottom:2%;align-self:center;width:98%;background-color:#1A607C;color: #ffffff;text-align:center;white-space: normal;direction:ltr;">
+                            <span style="font-family:Tahoma, Geneva, sans-serif;">שמור</span>
+                        </a>
+                    </td>
+                  
+                </tr>
+            </table>
+        </center>
+    </footer>
+
+   
+</div>
+
+
+

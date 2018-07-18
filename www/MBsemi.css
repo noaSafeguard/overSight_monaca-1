@@ -468,7 +468,8 @@ input[type=range] {
 /*ממצאים */
 #listviewLikuy > li, #listviewActionOpenVDC > li, #listviewActionOpenVRL > li,
 #listviewActionOpenVCT > li, #listviewActionOpenVGN > li, #listviewActionOpenVSE > li,
-#listviewActionOpenVPW > li, #listviewActionOpenVCD > li, #listviewActionOpenVCM > li ,#listviewChecks>li{
+#listviewActionOpenVPW > li, #listviewActionOpenVCD > li, #listviewActionOpenVCM > li ,#listviewChecks>li
+,#listviewFly>li,#listviewToolFly>li{
     padding: 0.25em;
     border-style: none;
 }

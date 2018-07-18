@@ -14,10 +14,10 @@
     <link rel="stylesheet" href="http://kendo.cdn.telerik.com/2017.1.118/styles/kendo.mobile.all.min.css" />
     <link href="styles/main.css" rel="stylesheet" />
 
-    <link href="kendo/styles/kendo.dataviz.mobile.min.css" rel="stylesheet">
+    <!-- <link href="kendo/styles/kendo.dataviz.mobile.min.css" rel="stylesheet"> -->
     <link href="animate.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <!-- Font Awesome -->
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css" integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">
 
     <link href="MBsemi.css" rel="stylesheet" />
@@ -87,17 +87,23 @@
                 <div style="width:98%;">
                     <ul id="navigation-container" data-role="listview">
                         <li id="projectDetailsTab" style="background-color:rgba(253, 249, 249, 0.62);color: #0B2B38;border-bottom: 2px solid #0B2B38;padding: 7%;">
-                            <a style="background-color:transparent;" onclick="projectDetails()"><span style="font-size: small;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;color:#0B2B38" >פרטי פרויקט</span></a>
+                            <a style="background-color:transparent;" onclick="projectDetails()"><span style="font-size: small;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;color:#0B2B38">פרטי פרויקט</span></a>
+                        </li>
+                        <li id="metisTab" style="background-color:rgba(253, 249, 249, 0.62);color: #0B2B38;border-bottom: 2px solid #0B2B38;padding: 7%;">
+                            <a style="background-color:transparent;" onclick="flyFunc()"><span style="font-size: small;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;color:#0B2B38">מטיסים</span></a>
+                        </li>
+                        <li id="toolTab" style="background-color:rgba(253, 249, 249, 0.62);color: #0B2B38;border-bottom: 2px solid #0B2B38;padding: 7%;">
+                            <a style="background-color:transparent;" onclick="toolFlyFunc()"><span style="font-size: small;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;color:#0B2B38">רחפנים</span></a>
                         </li>
                         <li id="machozTab" style="background-color:rgba(253, 249, 249, 0.62);color: #0B2B38;border-bottom: 2px solid #0B2B38;padding: 7%;">
-                            <a style="background-color:transparent;" onclick="projectLocation()"><span style="font-size: small;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;color:#0B2B38" >מחוזות</span></a>
+                            <a style="background-color:transparent;" onclick="projectLocation()"><span style="font-size: small;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;color:#0B2B38">מחוזות</span></a>
                         </li>
-                 
+
                         <li id="VersionTab" style="background-color:rgba(253, 249, 249, 0.62);color: #0B2B38;border-bottom: 2px solid #0B2B38;padding: 7%;">
-                            <a onclick="onClickVersion()" style="background-color:transparent;"><span style="font-size: small;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;color:#0B2B38" >גירסא</span></a>
+                            <a onclick="onClickVersion()" style="background-color:transparent;"><span style="font-size: small;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;color:#0B2B38">גירסא</span></a>
                         </li>
                         <li id="logOutTab" style="background-color:rgba(253, 249, 249, 0.62);color: #0B2B38;border-bottom: 2px solid #0B2B38;padding: 7%;">
-                            <a style="background-color:transparent;" onclick="goToLoginPage()"><span style="font-size: small;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;color:#0B2B38" >התנתק</span></a>
+                            <a style="background-color:transparent;" onclick="goToLoginPage()"><span style="font-size: small;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;color:#0B2B38">התנתק</span></a>
                         </li>
                     </ul>
                 </div>
@@ -124,20 +130,27 @@
             app.hightGuard.homeModel.detailsProject();
 
         }
+        function flyFunc() {
+           app.mobileApp.navigate('#components/hightGuard/fly.html');
+
+        }
+        function toolFlyFunc() {
+          app.mobileApp.navigate('#components/hightGuard/tool.html');
+        }
         function projectLocation() {
             app.mobileApp.navigate('#components/machoz/view.html');
         }
         function onClickVersion() {
             app.hightGuard.homeModel.onClickVersion();
         }
-         function onClickVersionClose() {
+        function onClickVersionClose() {
             app.hightGuard.homeModel.closePopVersion();
         }
         function goToLoginPage() {
             app.mobileApp.navigate('#components/authenticationView/view.html?logout=true');
         }
-      
-       
+
+
     </script>
 
     <!--פופאפ גירסא-->

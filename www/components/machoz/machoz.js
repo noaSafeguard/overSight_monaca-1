@@ -257,11 +257,13 @@ app.machoz = kendo.observable({
 
             //fetchFilteredData(projectModel.get('paramFilter'), searchFilter);
              document.getElementById('projectDetailsTab').style.display = "none";
-             document.getElementById('machozTab').style.display = "none";
+             document.getElementById('machozTab').style.display = "";
+             document.getElementById('metisTab').style.display = "";
+             document.getElementById('toolTab').style.display = "";
              document.getElementById('VersionTab').style.display = "";
              document.getElementById('logOutTab').style.display = "";
-            homeModel.set('dataSource', dataSource);
-            app.mobileApp.hideLoading();
+             homeModel.set('dataSource', dataSource);
+             app.mobileApp.hideLoading();
         });
     });
 

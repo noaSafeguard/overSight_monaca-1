@@ -18,6 +18,17 @@ app.hightGuard = kendo.observable({
             name: 'ProjectDashboard',
             autoFill: false
         },
+        //מטיסים
+        jsdoOptionsDroneOperator = {
+            name: 'DroneOperator',
+            autoFill: false
+        },
+        //-כלי-מטיסים
+        jsdoOptionsdrones = {
+            name: 'drones',
+            autoFill: false
+        },
+
         dataSourceOptions = {
             type: 'jsdo',
             transport: {},
@@ -29,12 +40,6 @@ app.hightGuard = kendo.observable({
             },
             schema: {
                 model: {
-                    fields: {
-                        'name': {
-                            field: 'name',
-                            defaultValue: ''
-                        },
-                    }
                 }
             },
             serverFiltering: true,
@@ -50,6 +55,8 @@ app.hightGuard = kendo.observable({
             dataSourceProjectDashboard: dataSourceProjectDashboard,
             _dataSourceOptions: dataSourceOptions,
             _jsdoOptionsProjectDashboard: jsdoOptionsProjectDashboard,
+            _jsdoOptionsdrones: jsdoOptionsdrones,
+            _jsdoOptionsDroneOperator: jsdoOptionsDroneOperator,
             _jsdoOptions: jsdoOptions,
             currentCheck: null,
             projectDetails: {},
@@ -67,6 +74,8 @@ app.hightGuard = kendo.observable({
             closePopVersion: function () {
                 $("#popVersion").kendoMobileModalView("close");
             },
+
+          
             //dayCheckClick: function (e) {
             //    homeModel.set("dailyCheckOrLikuy", true);
             //    app.mobileApp.navigate('#components/controlPoint/dayCheck.html');
@@ -166,52 +175,52 @@ app.hightGuard = kendo.observable({
                 var flag2 = false;
                 var view = [];
                 var view2 = [];
-                    var jsdoOptions = homeModel.get('_jsdoOptionsProjectDashboard'),
+                var jsdoOptions = homeModel.get('_jsdoOptionsProjectDashboard'),
+                    jsdo = new progress.data.JSDO(jsdoOptions),
+                    dataSourceOptions = homeModel.get('_dataSourceOptions'),
+                    dataSource;
+                dataSourceOptions.transport.jsdo = jsdo;
+                dataSource = new kendo.data.DataSource(dataSourceOptions)
+                dataSource.filter({
+                    field: "locationId",
+                    operator: "==",
+                    value: (app.project.homeModel.get("dataItem")).locationId
+                });
+                dataSource.fetch(function () {
+                    view = dataSource.view();
+                    flag1 = true;
+                    if (flag1 == true && flag2 == true) {
+                        popDetailes()
+                    }
+                });
+                if (homeModel.get('projectDetailsCheckF') == true) {//אם קיים מבדק סגור
+                    //אז תשלוף מבדק אחרון סגור
+                    var jsdoOptions = homeModel.get('_jsdoOptions'),
                         jsdo = new progress.data.JSDO(jsdoOptions),
                         dataSourceOptions = homeModel.get('_dataSourceOptions'),
-                        dataSource;
+                        dataSource1;
                     dataSourceOptions.transport.jsdo = jsdo;
-                    dataSource = new kendo.data.DataSource(dataSourceOptions)
-                    dataSource.filter({
-                        field: "locationId",
-                        operator: "==",
-                        value: (app.project.homeModel.get("dataItem")).locationId
+                    dataSource1 = new kendo.data.DataSource(dataSourceOptions)
+                    dataSource1.filter({
+                        logic: "and",
+                        filters: [
+                            { field: "locationId", operator: "==", value: app.project.homeModel.get("dataItem").locationId },
+                            { field: "cb_isPublish", operator: "==", value: 1 },
+                        ]
                     });
-                    dataSource.fetch(function () {
-                        view = dataSource.view();
-                        flag1 = true;
+
+                    dataSource1.sort({ field: 'createdAt', dir: 'desc' });
+                    dataSource1.fetch(function () {
+                        view2 = dataSource1.view();
+                        flag2 = true;
                         if (flag1 == true && flag2 == true) {
                             popDetailes()
                         }
                     });
-                    if (homeModel.get('projectDetailsCheckF') == true) {//אם קיים מבדק סגור
-                        //אז תשלוף מבדק אחרון סגור
-                        var jsdoOptions = homeModel.get('_jsdoOptions'),
-                            jsdo = new progress.data.JSDO(jsdoOptions),
-                            dataSourceOptions = homeModel.get('_dataSourceOptions'),
-                            dataSource1;
-                        dataSourceOptions.transport.jsdo = jsdo;
-                        dataSource1 = new kendo.data.DataSource(dataSourceOptions)
-                        dataSource1.filter({
-                            logic: "and",
-                            filters: [
-                                { field: "locationId", operator: "==", value: app.project.homeModel.get("dataItem").locationId },
-                                { field: "cb_isPublish", operator: "==", value: 1 },
-                            ]
-                        });
-
-                        dataSource1.sort({ field: 'createdAt', dir: 'desc' });
-                        dataSource1.fetch(function () {
-                            view2 = dataSource1.view();
-                            flag2 = true;
-                            if (flag1 == true && flag2 == true) {
-                                popDetailes()
-                            }
-                        });
-                    }
-                    else {
-                        flag2 = true;
-                    }
+                }
+                else {
+                    flag2 = true;
+                }
                 function popDetailes() {
                     //var view = dataSource.view();
                     //var view2 = dataSource1.view();
@@ -378,6 +387,110 @@ app.hightGuard = kendo.observable({
                 }
 
             },
+            //מטיסים ורחפנים
+          
+            itemClickFly: function (e) {
+                var item = e.dataItem;
+                homeModel.set("itemFly", item);
+                setTimeout(function () {
+                    app.mobileApp.navigate('#components/hightGuard/FlyDetailes.html');
+                }, 200);
+            },
+            itemClickToolFly: function (e) {
+                var item = e.dataItem;
+                homeModel.set("itemToolFly", item);
+                setTimeout(function () {
+                    app.mobileApp.navigate('#components/hightGuard/ToolFlyDetailes.html');
+                }, 200);
+            },
+            createFly: function () {
+                app.mobileApp.showLoading();
+                var jsdoOptions = homeModel.get('_jsdoOptionsDroneOperator'),
+                    jsdo = new progress.data.JSDO(jsdoOptions),
+                    dataSourceOptions = homeModel.get('_dataSourceOptions'),
+                    dataSource;
+                dataSourceOptions.transport.jsdo = jsdo;
+                dataSource = new kendo.data.DataSource(dataSourceOptions);
+
+                function saveModel() {
+                    dataSource.add(homeModel.get("itemFly"));
+                    dataSource.one('change', function (e) {
+                        homeModel.set("itemFly", {});
+                        app.mobileApp.navigate('#components/hightGuard/fly.html');
+                        app.mobileApp.hideLoading();
+                    });
+                    dataSource.sync();
+                };
+                saveModel();
+            },
+            createToolFly: function () {
+                app.mobileApp.showLoading();
+                var jsdoOptions = homeModel.get('_jsdoOptionsdrones'),
+                    jsdo = new progress.data.JSDO(jsdoOptions),
+                    dataSourceOptions = homeModel.get('_dataSourceOptions'),
+                    dataSource;
+                dataSourceOptions.transport.jsdo = jsdo;
+                dataSource = new kendo.data.DataSource(dataSourceOptions);
+             
+                function saveModel() {
+                    dataSource.add(homeModel.get("itemToolFly"));
+                    dataSource.one('change', function (e) {
+                        homeModel.set("itemToolFly", {});
+                        app.mobileApp.navigate('#components/hightGuard/tool.html');
+                        app.mobileApp.hideLoading();
+                    });
+                    dataSource.sync();
+                };
+                saveModel();
+            },
+            editFly: function () {
+                app.mobileApp.showLoading();
+                var item = homeModel.get("itemFly");
+                var dataSource = homeModel.get("dataSourceFly");
+                var jsdo = dataSource.transport.jsdo;
+                var jsrow = jsdo.findById(item.id);
+                var afterUpdateFn;
+                jsrow.assign(item);
+                afterUpdateFn = function (jsdo, record, success, request) {
+                    jsdo.unsubscribe('afterUpdate', afterUpdateFn);
+                    if (success === true) {
+                        homeModel.set("itemFly", {});
+                        app.mobileApp.navigate('#components/hightGuard/fly.html');
+                        app.mobileApp.hideLoading();
+                    }
+                    else {
+                        alert("שגיאה");
+                    }
+                };
+                jsdo.subscribe('afterUpdate', afterUpdateFn);
+                jsdo.saveChanges();
+            },
+            editToolFly: function () {
+                app.mobileApp.showLoading();
+                var item = homeModel.get("itemToolFly");
+                var dataSource = homeModel.get("dataSourceToolFly");
+                var jsdo = dataSource.transport.jsdo;
+                var jsrow = jsdo.findById(item.id);
+                var afterUpdateFn;
+                jsrow.assign(item);
+                afterUpdateFn = function (jsdo, record, success, request) {
+                    jsdo.unsubscribe('afterUpdate', afterUpdateFn);
+                    if (success === true) {
+                        homeModel.set("itemToolFly", {});
+                        app.mobileApp.navigate('#components/hightGuard/tool.html');
+                        app.mobileApp.hideLoading();
+                    }
+                    else {
+                        alert("שגיאה");
+                    }
+                };
+                jsdo.subscribe('afterUpdate', afterUpdateFn);
+                jsdo.saveChanges();
+            },
+            closeFly: function () {
+                app.mobileApp.navigate('#:back');
+            },
+
         });
 
     parent.set('homeModel', homeModel);
@@ -405,6 +518,8 @@ app.hightGuard = kendo.observable({
                 homeModel.set('dataSource', dataSource)
                 app.mobileApp.hideLoading();
                 document.getElementById('projectDetailsTab').style.display = "";
+                document.getElementById('metisTab').style.display = "";
+                document.getElementById('toolTab').style.display = "";
                 document.getElementById('machozTab').style.display = "";
                 document.getElementById('VersionTab').style.display = "";
                 document.getElementById('logOutTab').style.display = "";
@@ -414,6 +529,76 @@ app.hightGuard = kendo.observable({
             alert("שגיאה")
         }
     });
+    parent.set('onShowFly', function (e) {
+        try {
+            var scroller = e.view.scroller;
+            scroller.reset();
+            app.mobileApp.showLoading();
+            dataProvider.loadCatalogs().then(function _catalogsLoaded() {
+                var jsdoOptions = homeModel.get('_jsdoOptionsDroneOperator'),
+                    jsdo = new progress.data.JSDO(jsdoOptions),
+                    dataSourceOptions = homeModel.get('_dataSourceOptions'),
+                    dataSource;
+                dataSourceOptions.transport.jsdo = jsdo;
+                dataSource = new kendo.data.DataSource(dataSourceOptions)
+                //dataSource.filter({
+                //    field: "locationId",
+                //    operator: "==",
+                //    value: (app.project.homeModel.get("dataItem")).locationId
+                //});
+                dataSource.sort({ field: 'createdAt', dir: 'desc' });
+                homeModel.set('dataSourceFly', dataSource)
+                app.mobileApp.hideLoading();
+            });
+            app.mobileApp.hideLoading();
+        } catch (e) {
+            alert("שגיאה")
+        }
+    });
+    parent.set('onShowToolFly', function (e) {
+        try {
+            var scroller = e.view.scroller;
+            scroller.reset();
+            app.mobileApp.showLoading();
+                var jsdoOptions = homeModel.get('_jsdoOptionsdrones'),
+                    jsdo = new progress.data.JSDO(jsdoOptions),
+                    dataSourceOptions = homeModel.get('_dataSourceOptions'),
+                    dataSource;
+                dataSourceOptions.transport.jsdo = jsdo;
+                dataSource = new kendo.data.DataSource(dataSourceOptions)
+                //dataSource.filter({
+                //    field: "locationId",
+                //    operator: "==",
+                //    value: (app.project.homeModel.get("dataItem")).locationId
+                //});
+                dataSource.sort({ field: 'createdAt', dir: 'desc' });
+                homeModel.set('dataSourceToolFly', dataSource)
+                app.mobileApp.hideLoading();
+        
+            app.mobileApp.hideLoading();
+        } catch (e) {
+            alert("שגיאה")
+        }
+    });
+    parent.set('onShowAddFly', function (e) {
+        try {
+            var scroller = e.view.scroller;
+            scroller.reset();
+            homeModel.set("itemFly", {});
+        } catch (e) {
+            alert("שגיאה")
+        }
+    });
+    parent.set('onShowAddToolFly', function (e) {
+        try {
+            var scroller = e.view.scroller;
+            scroller.reset();
+            homeModel.set("itemToolFly", {});
+        } catch (e) {
+            alert("שגיאה")
+        }
+    });
+   
 
 })(app.hightGuard);
 

@@ -1,0 +1,83 @@
+<div data-role="view" data-layout="main" data-model="app.hightGuard" data-show="app.hightGuard.onShowToolFly" style="" dir="rtl">
+    <header data-role="header">
+        <div data-role="navbar" class="header" style="background: linear-gradient(5.58deg, #923714 0%, #f7931e 100%);">
+            <span >רחפנים</span>
+            <a data-role="button" href="#appDrawer" data-rel="drawer" data-align="left" class="headerButton">
+                <i class="material-icons" style="color:white">reorder</i>
+            </a>
+            <a class="headerButton" id="" data-role="button" data-align="right" style="color: white;" href="">
+                <i class="material-icons" style="color:transparent">dashboard</i>
+            </a>
+        </div>
+    </header>
+    <div style="background-color: transparent;height:3px;"> </div>
+    <div>
+        <center>
+            <ul data-role="listview" id="listviewToolFly" data-style="inset" data-template="templateToolFly" style="background-color:#e9eaeb" data-bind="{ source: homeModel.dataSourceToolFly, events: {click:  homeModel.itemClickToolFly}}" data-pull-to-refresh="false"></ul>
+            <script type="text/x-kendo-template" id="templateToolFly">
+               
+                <div class="rectangle3" style="width:96.25%;">
+                    <div style="width:95%;">
+                        <table style="width:100%">
+                            <tr>
+                                <td style="width:93%">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <label style="color: black;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;font-size:small;">
+                                                    #=kendo.toString(data['createdAt'], "dd/MM/yyyy HH:mm")#
+                                                </label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label style="color: black;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;font-size:small;">
+                                                    דגם רחפן:#:data['DroneModel']#
+                                                </label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label style="color: black;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;font-size:small;">
+                                                    מס' זנב:#:data['DroneTail']#
+                                                </label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label style="color: black;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;font-size:small;">
+                                                  סוג המצלמה:#:data['CameraType']#
+                                                </label>
+                                            </td>
+                                        </tr>
+                                       
+                                    </table>
+                                </td>
+
+                                <td>
+                                    <span style="">
+                                        <i class="fas fa-chevron-left" style="color:black;font-size:large;"></i>
+                                    </span>
+                                </td>
+                            </tr>
+
+                        </table>
+                    </div>
+                </div>
+            </script>
+        </center>
+    </div>
+    <footer data-role="footer" style="background-color:#e9eaeb;">
+        <div id="myFooter" onclick="addToolFly()" style="background-color:transparent;">
+            <label class="circle" style=" left: 1em;position: absolute;bottom: 2em;z-index: 999;background-repeat:no-repeat;background-size:75%; background-position: center; "><br /><center style="color: white; margin: -2%;margin-left: -1%;  font-size: xx-large;">+</center></label>
+        </div>
+    </footer>
+    <script>
+        function addToolFly() {
+            app.mobileApp.navigate('#components/hightGuard/addToolFly.html');
+        }
+    </script>
+</div>
+
+
+

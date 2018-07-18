@@ -134,9 +134,160 @@
             </div>
         </center>
     </footer>
+    <script>
 
 
+        //בניין
+        function openPopBuild() {
+            $("#popEndCheck").kendoMobileModalView("close");
+            app.controlPoint.homeModel.loadBuild();
+            // $("#popBuild").kendoMobileModalView("open");
+            // app.controlPoint.homeModel.doSelect();
+        }
+        function closePopBuild() {
+            $("#popEndCheck").kendoMobileModalView("open");
+            $("#popBuild").kendoMobileModalView("close");
+        }
+        function addBuild() {
+            $("#popBuild").kendoMobileModalView("open");
+            app.controlPoint.homeModel.doSelect();
+            $("#popBuildAll").kendoMobileModalView("close");
+        }
+        function closePopAllBuild() {
+            $("#popEndCheck").kendoMobileModalView("open");
+            $("#popBuildAll").kendoMobileModalView("close");
+        }
+        function closePopDetailesBuild() {
+            $("#popBuildAll").kendoMobileModalView("open");
+            $("#popBuildDetailes").kendoMobileModalView("close");
+        }
+        
+        //כלי
+        function openPopTool() {
+            $("#popEndCheck").kendoMobileModalView("close");
+            app.controlPoint.homeModel.loadTool();
+            // $("#popTool").kendoMobileModalView("open");
+        }
+        function closePopTool() {
+            $("#popEndCheck").kendoMobileModalView("open");
+            $("#popTool").kendoMobileModalView("close");
+        }
+        function addTool() {
+            $("#popTool").kendoMobileModalView("open");
+            $("#popToolAll").kendoMobileModalView("close");
+        }
+        function closePopAllTool() {
+            $("#popEndCheck").kendoMobileModalView("open");
+            $("#popToolAll").kendoMobileModalView("close");
+        }
+        function closePopDetailesTool() {
+            $("#popToolAll").kendoMobileModalView("open");
+            $("#popToolDetailes").kendoMobileModalView("close");
+        }
+        
+
+        function publicBuildingsC() {
+            if (document.getElementById("publicBuildings").checked == false) {
+                //document.getElementById("publicBuildingsT1").style.display = "none";
+                document.getElementById("publicBuildingsT2").style.display = "none";
+            }
+            else {
+                //document.getElementById("publicBuildingsT1").style.display = "";
+                document.getElementById("publicBuildingsT2").style.display = "";
+
+
+            }
+        }
+    </script>
+
+    <style>
+        #listviewTool > li, #listviewBuild > li {
+            width: 100%;
+            border-bottom: 1px solid #a4a7a9;
+            direction: rtl;
+            text-align: right;
+        }
+    </style>
     <!--כלי טעון בדיקה  -->
+    <div data-role="modalview" id="popToolAll" style="width:97%;height:75%;" >
+        <br />
+        <div style="width:100%;height:36%; background-color:#e9eaeb;box-shadow:0 4px 2px -2px #c7c1c1;">
+            <label style="box-shadow: 0px 2px 3px #A29E9E;background-color:#1A607C;font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 200;text-align:center;padding-left: 6px;padding-top: 2px;padding-right: 12px;padding-bottom: 3px;float: right;">  כלי טעון בדיקה</label>
+        </div>
+        <br />
+        <br />
+        <center>
+
+            <ul data-role="listview" id="listviewTool" data-style="inset" data-template="templateTool" style="background-color:#e9eaeb;width: 95%;" data-bind="{ source: homeModel.dataSourceTool, events: {click:homeModel.itemClickTool}}" data-pull-to-refresh="false"></ul>
+            <script type="text/x-kendo-template" id="templateTool">
+                <div>
+                    <table style="width:100%">
+                        <tr>
+                            <td style="width:93%">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <label style="color: black;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;font-size:small;">
+                                                #=kendo.toString(data['createdAt'], "dd/MM/yyyy HH:mm")#
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label style="color: black;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;font-size:small;">
+                                                תיאור:#:data['ToolDescription']#
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label style="color: black;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;font-size:small;">
+                                                כמות:#:data['toolsNum']#
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label style="color: black;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;font-size:small;">
+                                                מיקום באתר:#:data['locInSite']#
+                                            </label>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                     
+                            <td>
+                                <span style="">
+                                    <i class="fas fa-chevron-left" style="color:black;font-size:large;"></i>
+                                </span>
+                            </td>
+                        </tr>
+                     
+                    </table>
+                </div>
+
+            </script>
+        </center>
+        <footer data-role="footer" style="background-color:#e9eaeb;">
+            <center>
+                <table style="width:100%">
+                    <tr>
+                        <td style="width:50%">
+                            <a name="adduildAndTool" data-role="button" onclick="addTool()"  style=" font-family:Tahoma, Geneva, sans-serif;border-style:none;border-radius: 0;margin-bottom:2%;align-self:center;width:98%;background-color:#1A607C;color: #ffffff;text-align:center;white-space: normal;direction:ltr;">
+                                <span style="font-family:Tahoma, Geneva, sans-serif;">הוסף</span>
+                            </a>
+                        </td>
+                        <td style="width:50%">
+                            <a data-role="button" onclick="closePopAllTool()" style=" font-family:Tahoma, Geneva, sans-serif;border-style:none;border-radius: 0;margin-bottom:2%;align-self:center;width:98%;background-color:#1A607C;color: #ffffff;text-align:center;white-space: normal;direction:ltr;">
+                                <span style="font-family:Tahoma, Geneva, sans-serif;">חזור</span>
+                            </a>
+
+                        </td>
+                    </tr>
+                </table>
+            </center>
+        </footer>
+    </div>
     <div data-role="modalview" id="popTool" style="width:97%;height:75%;">
         <br />
         <div style="width:100%;height:36%; background-color:#e9eaeb;box-shadow:0 4px 2px -2px #c7c1c1;">
@@ -203,7 +354,7 @@
                 <table style="width:100%">
                     <tr>
                         <td style="width:50%">
-                            <a data-role="button" data-bind="events: {click:homeModel.addTool }" style=" font-family:Tahoma, Geneva, sans-serif;border-style:none;border-radius: 0;margin-bottom:2%;align-self:center;width:98%;background-color:#1A607C;color: #ffffff;text-align:center;white-space: normal;direction:ltr;">
+                            <a  data-role="button" data-bind="events: {click:homeModel.addTool }" style=" font-family:Tahoma, Geneva, sans-serif;border-style:none;border-radius: 0;margin-bottom:2%;align-self:center;width:98%;background-color:#1A607C;color: #ffffff;text-align:center;white-space: normal;direction:ltr;">
                                 <span style="font-family:Tahoma, Geneva, sans-serif;">שמור</span>
                             </a>
                         </td>
@@ -218,7 +369,167 @@
             </center>
         </footer>
     </div>
+    <div data-role="modalview" id="popToolDetailes" style="width:97%;height:75%;">
+        <br />
+        <div style="width:100%;height:36%; background-color:#e9eaeb;box-shadow:0 4px 2px -2px #c7c1c1;">
+            <label style="box-shadow: 0px 2px 3px #A29E9E;background-color:#1A607C;font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 200;text-align:center;padding-left: 6px;padding-top: 2px;padding-right: 12px;padding-bottom: 3px;float: right;"> עריכת כלי טעון בדיקה</label>
+        </div>
+        <br />
+        <center>
+            <div style="width:96%;" dir="rtl">
+                <div style="padding-left: 1.5%; padding-right: 0.1%; padding-top: 1.5%;">
+                    <table style="width:98%;">
+                        <tr>
+                            <td colspan="2">
+                                <div style="height:4px;background-color:transparent;"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:9%;">
+                                <i class="fas fa-pencil-alt" style="color:#7B7878;font-size:large;"></i>
+                            </td>
+                            <td>
+                                <center>
+                                    <input type="text" data-bind="value:homeModel.clickItemTool.ToolDescription" placeholder="תיאור" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;" />
+                                </center>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div style="height:4px;background-color:transparent;"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:9%;">
+                                <i class="fas fa-pencil-alt" style="color:#7B7878;font-size:large;"></i>
+                            </td>
+                            <td>
+                                <center>
+                                    <input type="number" data-bind="value:homeModel.clickItemTool.toolsNum" placeholder="כמות" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;" />
+                                </center>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div style="height:4px;background-color:transparent;"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:9%;">
+                                <i class="fas fa-map-marker" style="color:#7B7878;font-size:large;"></i>
+                            </td>
+                            <td>
+                                <center>
+                                    <input type="text" data-bind="value:homeModel.clickItemTool.locInSite" placeholder="מיקום באתר" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;" />
+                                </center>
+                            </td>
+                        </tr>
+                    </table>
+
+
+                </div>
+            </div>
+        </center>
+        <footer data-role="footer" style="background-color:#e9eaeb;">
+            <center>
+                <table style="width:100%">
+                    <tr>
+                        <td style="width:50%">
+                            <a name="adduildAndTool" data-role="button" data-bind="events: {click:homeModel.EditTool }" style=" font-family:Tahoma, Geneva, sans-serif;border-style:none;border-radius: 0;margin-bottom:2%;align-self:center;width:98%;background-color:#1A607C;color: #ffffff;text-align:center;white-space: normal;direction:ltr;">
+                                <span style="font-family:Tahoma, Geneva, sans-serif;">שמור</span>
+                            </a>
+                        </td>
+                        <td style="width:50%">
+                            <a data-role="button" onclick="closePopDetailesTool()" style=" font-family:Tahoma, Geneva, sans-serif;border-style:none;border-radius: 0;margin-bottom:2%;align-self:center;width:98%;background-color:#1A607C;color: #ffffff;text-align:center;white-space: normal;direction:ltr;">
+                                <span style="font-family:Tahoma, Geneva, sans-serif;">חזור</span>
+                            </a>
+
+                        </td>
+                    </tr>
+                </table>
+            </center>
+        </footer>
+    </div>
     <!-- בניין -->
+    <div data-role="modalview" id="popBuildAll" style="width:97%;height:75%;" >
+        <br />
+        <div style="width:100%;height:36%; background-color:#e9eaeb;box-shadow:0 4px 2px -2px #c7c1c1;">
+            <label style="box-shadow: 0px 2px 3px #A29E9E;background-color:#1A607C;font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 200;text-align:center;padding-left: 6px;padding-top: 2px;padding-right: 12px;padding-bottom: 3px;float: right;">  בניין</label>
+        </div>
+        <br />
+        <br />
+        <center>
+
+            <ul data-role="listview" id="listviewBuild" data-style="inset" data-template="templateBuild" style="background-color:#e9eaeb;    width: 95%;" data-bind="{ source: homeModel.dataSourceBuild, events: {click:  homeModel.itemClickBuild}}" data-pull-to-refresh="false"></ul>
+            <script type="text/x-kendo-template" id="templateBuild">
+                <div>
+                    <table style="width:100%">
+                        <tr>
+                            <td style="width:93%">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <label style="color: black;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;font-size:small;">
+                                                #=kendo.toString(data['createdAt'], "dd/MM/yyyy HH:mm")#
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label style="color: black;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;font-size:small;">
+                                                מספר בניין:#:data['buildingNum']#
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label style="color: black;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;font-size:small;">
+                                                מס קומות בעת הביקור:#:data['floorsNum']#
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label style="color: black;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;font-size:small;">
+                                                הערכת שטח בנוי:#:data['builtUpArea']#
+                                            </label>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+
+                            <td>
+                                <span style="">
+                                    <i class="fas fa-chevron-left" style="color:black;font-size:large;"></i>
+                                </span>
+                            </td>
+                        </tr>
+
+                    </table>
+                </div>
+
+            </script>
+        </center>
+        <footer data-role="footer" style="background-color:#e9eaeb;">
+            <center>
+                <table style="width:100%">
+                    <tr>
+                        <td style="width:50%">
+                            <a name="adduildAndTool" data-role="button" onclick="addBuild()" style=" font-family:Tahoma, Geneva, sans-serif;border-style:none;border-radius: 0;margin-bottom:2%;align-self:center;width:98%;background-color:#1A607C;color: #ffffff;text-align:center;white-space: normal;direction:ltr;">
+                                <span style="font-family:Tahoma, Geneva, sans-serif;">הוסף</span>
+                            </a>
+                        </td>
+                        <td style="width:50%">
+                            <a data-role="button" onclick="closePopAllBuild()" style=" font-family:Tahoma, Geneva, sans-serif;border-style:none;border-radius: 0;margin-bottom:2%;align-self:center;width:98%;background-color:#1A607C;color: #ffffff;text-align:center;white-space: normal;direction:ltr;">
+                                <span style="font-family:Tahoma, Geneva, sans-serif;">חזור</span>
+                            </a>
+
+                        </td>
+                    </tr>
+                </table>
+            </center>
+        </footer>
+    </div>
     <div data-role="modalview" id="popBuild" style="width:97%;height:75%;">
         <br />
         <div style="width:100%;height:36%; background-color:#e9eaeb;box-shadow:0 4px 2px -2px #c7c1c1;">
@@ -306,6 +617,102 @@
                         </td>
                         <td style="width:50%">
                             <a data-role="button" onclick="closePopBuild()" style=" font-family:Tahoma, Geneva, sans-serif;border-style:none;border-radius: 0;margin-bottom:2%;align-self:center;width:98%;background-color:#1A607C;color: #ffffff;text-align:center;white-space: normal;direction:ltr;">
+                                <span style="font-family:Tahoma, Geneva, sans-serif;">חזור</span>
+                            </a>
+
+                        </td>
+                    </tr>
+                </table>
+            </center>
+        </footer>
+    </div>
+    <div data-role="modalview" id="popBuildDetailes" style="width:97%;height:75%;">
+        <br />
+        <div style="width:100%;height:36%; background-color:#e9eaeb;box-shadow:0 4px 2px -2px #c7c1c1;">
+            <label style="box-shadow: 0px 2px 3px #A29E9E;background-color:#1A607C;font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 200;text-align:center;padding-left: 6px;padding-top: 2px;padding-right: 12px;padding-bottom: 3px;float: right;"> עריכת בניין</label>
+        </div>
+        <br />
+        <center>
+            <div style="width:96%;" dir="rtl">
+                <div style="padding-left: 1.5%; padding-right: 0.1%; padding-top: 1.5%;">
+                    <table style="width:98%;">
+                        <tr>
+                            <td colspan="2">
+                                <div style="height:4px;background-color:transparent;"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:9%;">
+                                <i class="fas fa-building" style="color:#7B7878;font-size:large;"></i>
+                            </td>
+                            <td>
+                                <center>
+                                    <input type="text" data-bind="value:homeModel.clickItemBuild.buildingNum" placeholder="מספר בניין" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;" />
+                                </center>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div style="height:4px;background-color:transparent;"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:9%;">
+
+                                <i class="fas fa-pencil-alt" style="color:#7B7878;font-size:large;"></i>
+                            </td>
+                            <td>
+                                <center>
+                                    <select id="executionStepSelectDetailes" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;"></select>
+                                    <!--<input type="text"  placeholder="שלב ביצוע" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;" />-->
+                                </center>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div style="height:4px;background-color:transparent;"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:9%;">
+                                <i class="fas fa-align-justify" style="color:#7B7878;font-size:large;"></i>
+                            </td>
+                            <td>
+                                <center>
+                                    <input type="number" data-bind="value:homeModel.clickItemBuild.floorsNum" placeholder="מס קומות בעת הביקור" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;" />
+                                </center>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="width:9%;">
+                                <div style="height:4px;background-color:transparent;"></div>
+                                <i class="fas fa-pencil-alt" style="color:#7B7878;font-size:large;"></i>
+                            </td>
+                            <td>
+                                <div style="height:4px;background-color:transparent;"></div>
+                                <center>
+                                    <input type="number" data-bind="value:homeModel.clickItemBuild.builtUpArea" placeholder="הערכת שטח בנוי" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;" />
+                                </center>
+                            </td>
+                        </tr>
+                    </table>
+
+
+                </div>
+            </div>
+        </center>
+        <footer data-role="footer" style="background-color:#e9eaeb;">
+            <center>
+                <table style="width:100%">
+                    <tr>
+                        <td style="width:50%">
+                            <a name="adduildAndTool" data-role="button" data-bind="events: {click:homeModel.EditBuild }" style=" font-family:Tahoma, Geneva, sans-serif;border-style:none;border-radius: 0;margin-bottom:2%;align-self:center;width:98%;background-color:#1A607C;color: #ffffff;text-align:center;white-space: normal;direction:ltr;">
+                                <span style="font-family:Tahoma, Geneva, sans-serif;">שמור</span>
+                            </a>
+                        </td>
+                        <td style="width:50%">
+                            <a data-role="button" onclick="closePopDetailesBuild()" style=" font-family:Tahoma, Geneva, sans-serif;border-style:none;border-radius: 0;margin-bottom:2%;align-self:center;width:98%;background-color:#1A607C;color: #ffffff;text-align:center;white-space: normal;direction:ltr;">
                                 <span style="font-family:Tahoma, Geneva, sans-serif;">חזור</span>
                             </a>
 
@@ -429,8 +836,8 @@
 
                             </td>
                         </tr>
-
-                        <tr id="adduildAndTool">
+                        <!--id="adduildAndTool"-->
+                        <tr >
                             <td style="width:9%;">
                                 <div style="height:4px;background-color:transparent;"></div>
                                 <i class="fas fa-plus" style="color:#7B7878;font-size:large;"></i>
@@ -439,12 +846,12 @@
                                 <div style="height:4px;background-color:transparent;"></div>
                                 <div style="width:100%;">
                                     <div onclick="openPopTool()" style="display: inline-block;padding: 0.5em;font-weight:200;width:49%;text-align: center;height: 40px;border:2px solid #F7931E;font-size:small;font-family: Tahoma, Geneva, sans-serif;background-color:#F7931E;">
-                                        <span style="font-family:Tahoma, Geneva, sans-serif;color: #ffffff;">הוספת כלי טעון בדיקה</span>
+                                        <span style="font-family:Tahoma, Geneva, sans-serif;color: #ffffff;"> כלי טעון בדיקה</span>
                                     </div>
 
 
                                     <div onclick="openPopBuild()" style="float: left;display: inline-block;padding: 0.5em;font-weight:200;width:49%;text-align: center;height: 40px;border:2px solid #F7931E;font-size:small;font-family: Tahoma, Geneva, sans-serif;background-color:#F7931E;">
-                                        <span style="font-family:Tahoma, Geneva, sans-serif;color: #ffffff;">הוסף בניין</span>
+                                        <span style="font-family:Tahoma, Geneva, sans-serif;color: #ffffff;"> בניין</span>
                                     </div>
                                 </div>
 
@@ -494,7 +901,7 @@
                                     <div style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);">
                                         <label style="float: right;text-align: right;font-size:small;font-family: Tahoma, Geneva, sans-serif;">הוסף חתימה</label>
                                         <i class="fas fa-edit" id="singnCheck1" onclick="getSketchSignatureB()" style="color:#7B7878;font-size:medium;float:left;"></i>
-                                      
+
                                         <!--<i class="fas fa-edit" id="singnCheck1" onclick="getSketchSignature()" style="color:#7B7878;font-size:medium;float:left;"></i>-->
                                         <!--<img id="imageSignCheck" hidden src="" style="width: 100%;" />-->
                                     </div>
@@ -547,55 +954,6 @@
             </div>
         </footer>
     </div>
-
-
-
-
-    <script>
-        function openPopBuild() {
-            $("#popEndCheck").kendoMobileModalView("close");
-            $("#popBuild").kendoMobileModalView("open");
-
-            app.controlPoint.homeModel.doSelect();
-            //document.getElementById("executionStepSelect").options.length = 0;
-            //var list = homeModel.get('executionStep');
-            //var select = document.getElementById("executionStepSelect");
-            //for (var i = 0; i < list.length; i++) {
-            //    var option = document.createElement("option");
-            //    option.text = list[i].name;
-            //    option.value = list[i].id;
-            //    select.add(option);
-            //}
-
-        }
-        function openPopTool() {
-            $("#popEndCheck").kendoMobileModalView("close");
-            $("#popTool").kendoMobileModalView("open");
-        }
-        function closePopBuild() {
-            $("#popEndCheck").kendoMobileModalView("open");
-            $("#popBuild").kendoMobileModalView("close");
-
-
-        }
-        function closePopTool() {
-            $("#popEndCheck").kendoMobileModalView("open");
-            $("#popTool").kendoMobileModalView("close");
-        }
-        function publicBuildingsC() {
-            if (document.getElementById("publicBuildings").checked == false) {
-                //document.getElementById("publicBuildingsT1").style.display = "none";
-                document.getElementById("publicBuildingsT2").style.display = "none";
-            }
-            else {
-                //document.getElementById("publicBuildingsT1").style.display = "";
-                document.getElementById("publicBuildingsT2").style.display = "";
-
-
-            }
-        }
-    </script>
-
     <!-- פופאפ תמונות חדש -->
     <div data-role="modalview" id="picturedropList1Pop" style="left:1px;width:80%; height:152px;direction: rtl;">
         <div onclick="takeFromCameraF()" style="width:100%;height:50px;background-color:transparent;padding:1%;border-bottom:1px solid #114A60;">
@@ -618,7 +976,6 @@
 
         </div>
     </div>
-
 
     <script>
 
@@ -680,9 +1037,9 @@
                     getSketchSignature();
                 }
             }
-               
+
         }
-        
+
         function closePopSignCheck1() {
             $("#popimageSignCheck").kendoMobileModalView("close");
         }
@@ -691,14 +1048,14 @@
             getSketchSignature();
         }
 
-        
+
     </script>
     <!--פופאפ חתימה-->
     <div data-role="modalview" id="popimageSignCheck" data-zoom="true" style="left: 1px;width: 98%; height: 100%; background-color:transparent">
         <header data-role="header" style="background-color: #18556a;">
             <div data-role="navbar" class="header" style="background-color: #18556a;">
                 <span style="font-family:Tahoma, Geneva, sans-serif;color:white">חתימה</span>
-              
+
             </div>
         </header>
 

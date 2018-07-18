@@ -190,6 +190,9 @@ app.authenticationView = kendo.observable({
      document.getElementById('machozTab').style.display = "none";
      document.getElementById('VersionTab').style.display = "";
      document.getElementById('logOutTab').style.display = "none";
+
+      document.getElementById('metisTab').style.display = "none";
+       document.getElementById('toolTab').style.display = "none";
         if (e && e.view && e.view.params && e.view.params.logout) {
             if (localStorage) {
                 localStorage.setItem(rememberKey, null);
