@@ -3240,7 +3240,7 @@ app.controlPoint = kendo.observable({
                                 }
 
                                 if (txtCheckbox == "")
-                                    txtCheckbox = '<input  type= "checkbox" name="' + viewSeif[i - 10].id + '"  onclick="myChooseSectionStatusND(this,this.name,' + nameTxt + ')"/>'
+                                    txtCheckbox = '<input  type= "checkbox" name="' + viewSeif[i - 10].id + '"  onclick="myChooseSectionStatusND(this,this.name,' + nameCode + ')"/>'
 
                                 string += txtCheckbox;
                                 string += ' </td > '
