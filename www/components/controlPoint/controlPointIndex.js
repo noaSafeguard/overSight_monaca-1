@@ -67,6 +67,13 @@ app.controlPoint = kendo.observable({
             name: 'drones',
             autoFill: false
         },
+
+        //הערות
+        jsdoOptionsSectionNote = {
+            name: 'SectionNote',
+            autoFill: false
+        },
+
         dataSourceOptions = {
             type: 'jsdo',
             transport: {},
@@ -108,6 +115,7 @@ app.controlPoint = kendo.observable({
             _dataSourceOptions: dataSourceOptions,
             _jsdoOptions: jsdoOptions,
             _jsdoOptionsCategorySection: jsdoOptionsCategorySection,
+            _jsdoOptionsSectionNote: jsdoOptionsSectionNote,
             _jsdoOptionsSectionCheckup: jsdoOptionsSectionCheckup,
             _jsdoOptionsControlPointCheckup: jsdoOptionsControlPointCheckup,
             _jsdoOptionsCheckupObject: jsdoOptionsCheckupObject,
@@ -1523,12 +1531,37 @@ app.controlPoint = kendo.observable({
                         AdditionalCommentsSub.innerHTML = "הערות " + arr[i].name;
                         homeModel.set("lastIdIndex", i);
                         document.getElementById("AdditionalCommentsTxt").value = arr[i].Comments;
-                        $("#popAdditionalComments").kendoMobileModalView("open");
+                        //רשימה
+                       
+                        var getAll_R414357253 = "https://www.rollbase.com/rest/jsdo/getRelationships?output=json&id=" + arr[i].id + "&startRow=&rowsPerPage=&relName=R414357253&fieldList=id,NoteContent"
+                        $.get(getAll_R414357253, function (data, status) {
+                            var listComments = [];
+                            $.each(data.genericData, function (key, value) {
+                                listComments.push(value);
+                            });
+                            var multiselect = $("#inputListComments").data("kendoMultiSelect");
+                            var dataSource = new kendo.data.DataSource({
+                                data: listComments,
+                                sort: { field: "NoteContent", dir: "asc" }
+                            });
+                            dataSource.sort({ field: "NoteContent", dir: "asc" });
+                            multiselect.setDataSource(dataSource);
+                            multiselect.value([]);
+                            $("#popAdditionalComments").kendoMobileModalView("open");
+
+                          //  multiselectToolFly.trigger("change");
+                          // homeModel.set("dataToolFly", dataToolFly.toString());
+
+                        });
+                       
+                        //multiselect.setDataSource(dataSource);
+                      
+
                     }
 
                 }
 
-
+             
             },
             closePopAdditionalComments: function () {
                 var i = homeModel.get("lastIdIndex");
@@ -1538,7 +1571,19 @@ app.controlPoint = kendo.observable({
                 else
                     document.getElementById("comments" + arr[i].id).style.color = "#7B7878";
 
-                arr[i].Comments = document.getElementById("AdditionalCommentsTxt").value;
+             
+                var txt = document.getElementById("AdditionalCommentsTxt").value;
+               
+                var list = $("#inputListComments").data("kendoMultiSelect").dataItems();
+                if (list.length > 0) {
+                    document.getElementById("comments" + arr[i].id).style.color = "red";
+                }
+                for (var j = 0; j < list.length; j++) {
+                    if (txt != "")
+                        txt += " , "
+                    txt += list[j].NoteContent;
+                }
+                arr[i].Comments = txt;
                 homeModel.set("arrSeifComments", arr)
                 $("#popAdditionalComments").kendoMobileModalView("close");
             },
@@ -1571,6 +1616,35 @@ app.controlPoint = kendo.observable({
                 $("#popAdditionalCommentsD").kendoMobileModalView("close");
             },
 
+
+
+            itemClickSectionNote: function (div) {
+                var arr = homeModel.get("arrDescription");
+                var x = div.innerText;
+                var flag = false;
+                var index = 0;
+                var clr = document.getElementById(div.id).style.backgroundColor;
+                if (clr == "rgb(166, 175, 179)") {//בוחר
+                    document.getElementById(div.id).style.backgroundColor = "rgb(17,74,96)";
+                    arr.push(x)
+                }
+                else {//לא בוחר
+                    document.getElementById(div.id).style.backgroundColor = "rgb(166, 175, 179)";
+                    for (var i = 0; i < arr.length; i++) {
+                        if (arr[i] == x) {
+                            flag = true;
+                        }
+                    }
+                    if (flag == true)
+                        arr[index] = "";
+                }
+                homeModel.set("arrDescription", arr);
+                textFromList.innerHTML = "";
+                for (var i = 0; i < arr.length; i++)
+                    if (arr[i] != "")
+                        textFromList.innerHTML += arr[i] + "<br>"
+
+            },
             //camera
             ifOpenPictureFrom: function () {
                 var check1 = app.controlPoint.homeModel.get("cameraId");
@@ -2897,6 +2971,71 @@ app.controlPoint = kendo.observable({
 
 
         });
+        //הערות
+        dataProvider.loadCatalogs().then(function _catalogsLoaded() {
+            var jsdoOptions = homeModel.get('_jsdoOptionsSectionNote'),
+                jsdo = new progress.data.JSDO(jsdoOptions),
+                dataSourceOptions = homeModel.get('_dataSourceOptions'),
+                dataSource;
+            dataSourceOptions.transport.jsdo = jsdo;
+            dataSource = new kendo.data.DataSource(dataSourceOptions)
+            homeModel.set('dataSourceSectionNote', dataSource);
+            var checkInputs = function (elements) {
+                elements.each(function () {
+                    var element = $(this);
+                    var input = element.children("input");
+                    input.prop("checked", element.hasClass("k-state-selected"));
+                });
+            };
+            
+            $("#inputListComments").kendoMultiSelect({
+                tagTemplate: kendo.template($("#tagTemplateListComments").html()),
+                tagMode: "single",
+                itemTemplate: '<table style=""><tr><td style="width:98%;padding:0.7em;">' +
+                '<label style="float: right;text-align: right;font-size:small;font-family: Tahoma, Geneva, sans-serif;">:#:NoteContent#</label>' +
+                '</td></tr></table>',
+
+                autoClose: false,
+                dataTextField: "NoteContent",
+                dataValueField: "id",
+                dataSource: homeModel.dataSourceSectionNote,
+                dataBound: function () {
+                    var items = this.ul.find("li");
+                    setTimeout(function () {
+                        checkInputs(items);
+                    });
+                },
+                change: function () {
+                    var items = this.ul.find("li");
+                    checkInputs(items);
+                },
+            });
+            var multiselect = $("#inputListComments").data("kendoMultiSelect");
+            multiselect.input.attr("readonly", true)
+                .on("keydown", function (e) {
+                    if (e.keyCode === 8) {
+                        e.preventDefault();
+                    }
+                });
+            //dataSource.fetch(function () {
+            //    var view = dataSource.view();
+
+            //    for (var i = 0; i < view.length; i++) {
+            //        var node = document.createElement('div');
+            //        var string = "";
+            //        string += '<div class="DescriptionGeneri" id="' + view[i].id+'">';
+            //        string += '<label style="color: white;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;font-size:medium;width:100%">';
+            //        string += view[i].NoteContent;
+            //        string += '</label></div>'
+            //        node.innerHTML = string;
+            //        document.getElementById('DescriptionGeneri').appendChild(node);
+            //    }
+         
+              
+            //});
+
+
+        });
 
     });
     parent.set('onShowSection', function (e) {
@@ -3075,6 +3214,9 @@ app.controlPoint = kendo.observable({
 
             }
         });
+      //  homeModel.set("arrDescription",[])
+
+     
 
         //} catch (e) {
         //    alert("שגיאה")
@@ -3086,7 +3228,9 @@ app.controlPoint = kendo.observable({
         controlPointLabelEdit.innerHTML = (app.controlPoint.homeModel.get("itemClickCp")).name;
         var scroller = e.view.scroller;
         scroller.reset();
+
         app.mobileApp.showLoading();
+
         editSection1.hidden = false;
         saveSectionAssign1.hidden = true;
         document.getElementById("changeImageSeifD").style.display = "none";
@@ -3326,6 +3470,7 @@ app.controlPoint = kendo.observable({
                 imageEdit2.hidden = true;
                 $("textarea").attr("disabled", true);
                 app.mobileApp.hideLoading();
+            
             }
             function getList(IntScore) {
                 var res = [];

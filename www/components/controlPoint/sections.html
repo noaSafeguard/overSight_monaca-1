@@ -1,4 +1,3 @@
-<!--<div data-role="view" data-layout="main" data-model="app.controlPoint" data-init="app.controlPoint.onShowTestSectionInit" data-show="app.controlPoint.onShowTestSection" style="" dir="rtl">-->
 <div data-role="view" data-layout="main" data-model="app.controlPoint" data-init="app.controlPoint.onShowSectionInit" data-show="app.controlPoint.onShowSection" style="" dir="rtl">
     <header data-role="header">
         <div data-role="navbar" class="header" style="background: linear-gradient(5.58deg, #923714 0%, #f7931e 100%);">
@@ -10,10 +9,7 @@
                 <i class="material-icons" style="color:white">navigate_next</i>
             </a>
         </div>
-        <!--<div style="height:1em;background-color:#e9eaeb;"></div>
-        <div style="width:100%;height:17%;background-color:#e9eaeb;">
-            <label style="box-shadow: 0px 2px 3px #A29E9E;background-color:#1A607C;font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 400;text-align:center;padding-left: 6px;padding-top: 2px;padding-right: 12px;padding-bottom: 3px;" ></label>
-        </div>-->
+
     </header>
 
 
@@ -204,7 +200,7 @@
         }
     </script>
     <!--פופאפ  הערות-->
-    <div data-role="modalview" id="popAdditionalComments" style="left:1px;width: 95%; height: 43%;">
+    <div data-role="modalview" id="popAdditionalComments" style="left:1px;width: 98%; height:98%;">
         <br />
         <div style="width:100%;height:36%; background-color:#e9eaeb;box-shadow:0 4px 2px -2px #c7c1c1;">
             <label style="max-width: 90%;box-shadow: 0px 2px 3px #A29E9E;background-color:#1A607C;font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 200;text-align:right;padding-left: 6px;padding-top: 2px;padding-right: 12px;padding-bottom: 3px;float: right;" id="AdditionalCommentsSub">הערות נוספות</label>
@@ -214,10 +210,25 @@
         <br />
         <div style="text-align:center;" dir="rtl">
             <center>
-                <textarea id="AdditionalCommentsTxt" name="textFloat" style="padding: 1em;font-weight:200;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;width:25em;height:7em;"></textarea>
+                <textarea id="AdditionalCommentsTxt" name="textFloat" style="padding: 1em;font-weight:200;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;width:95%;height:9em;"></textarea>
             </center>
 
         </div>
+        <br />
+        <center>
+            <span style="font-family: Tahoma, Geneva, sans-serif; color:black; font-size: small;">בחר הערות מתוך רשימה</span>
+        </center>
+        <center>
+            <div style="width:95%">
+                <script id="tagTemplateListComments" type="text/x-kendo-template">
+                    #:maxTotal#    /   #:values.length#
+                </script>
+                <center style="height: 40px;border:1px solid rgba(128, 128, 128, 0.5);background-color:white;">
+                    <input id="inputListComments" style="border:none;padding:1px;background-color:white;font-weight:200;width:95%;font-size:small;font-family: Tahoma, Geneva, sans-serif;" />
+                </center>
+
+            </div>
+        </center>
         <footer data-role="footer">
             <center>
                 <a data-role="button" data-bind="events: {click:homeModel.closePopAdditionalComments }" style=" font-family:Tahoma, Geneva, sans-serif;border-style:none;border-radius: 0;margin-bottom:2%;align-self:center;width:40%;background-color:#1A607C;color: #ffffff;text-align:center;white-space: normal;direction:ltr;">
@@ -296,6 +307,78 @@
         <footer data-role="footer">
             <center>
                 <a data-role="button" data-bind="events: {click:homeModel.close_pop_item_description }" style=" font-family:Tahoma, Geneva, sans-serif;border-style:none;border-radius: 0;margin-bottom:2%;align-self:center;width:40%;background-color:#1A607C;color: #ffffff;text-align:center;white-space: normal;direction:ltr;">
+                    <span style="font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;">אישור</span>
+
+                </a>
+            </center>
+        </footer>
+    </div>
+    <style>
+        #listviewDescription > li {
+            width: 100%;
+            padding: 0%;
+            text-align: right;
+        }
+            /*#listviewDescription > li:hover {
+                background-color: #114A60;
+            }*/
+    </style>
+    <script>
+        function clickItemNote(div) {
+            app.controlPoint.homeModel.itemClickSectionNote(div);
+        }
+    </script>
+    <div data-role="modalview" id="popDescription" style="left:1px;width: 100%; height:100%;">
+        <br />
+        <div style="width:100%;height:36%; background-color:#e9eaeb;box-shadow:0 4px 2px -2px #c7c1c1;">
+            <label style="box-shadow: 0px 2px 3px #A29E9E;background-color:#1A607C;font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 200;text-align:center;padding-left: 6px;padding-top: 2px;padding-right: 12px;padding-bottom: 3px;float: right;">הערות נוספות</label>
+        </div>
+        <br />
+        <br />
+        <label id="textFromList"></label>
+        <br />
+        <!--<div style="text-align:center;" dir="rtl" id="DescriptionGeneri"> </div>-->
+        <ul data-role="listview" id="listviewDescription" data-style="inset" data-template="templateDescription" style="background-color:#e9eaeb;width: 100%;" data-bind="{ source: homeModel.dataSourceSectionNote}" data-pull-to-refresh="false"></ul>
+        <script type="text/x-kendo-template" id="templateDescription">
+            <div onclick="clickItemNote(this)" id="#=data['id']#" style="background-color:rgb(166,175,179);border-bottom: 1px solid white; width: 100%; padding:2%;">
+                <label style="color: white;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;font-size:medium;width:100%">
+                    #:data['NoteContent']#
+                </label>
+            </div>
+
+        </script>
+     
+        <footer data-role="footer">
+            <center>
+                <a data-role="button" data-bind="events: {click:homeModel.closePopDescription }" style=" font-family:Tahoma, Geneva, sans-serif;border-style:none;border-radius: 0;margin-bottom:2%;align-self:center;width:40%;background-color:#1A607C;color: #ffffff;text-align:center;white-space: normal;direction:ltr;">
+                    <span style="font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;">אישור</span>
+
+                </a>
+            </center>
+        </footer>
+    </div>
+
+    <div data-role="modalview" id="popDescriptionList" style="left:1px;width: 100%; height:100%;">
+        <br />
+        <div style="width:100%;height:36%; background-color:#e9eaeb;box-shadow:0 4px 2px -2px #c7c1c1;">
+            <label style="box-shadow: 0px 2px 3px #A29E9E;background-color:#1A607C;font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 200;text-align:center;padding-left: 6px;padding-top: 2px;padding-right: 12px;padding-bottom: 3px;float: right;">הערות נוספות</label>
+        </div>
+        <br />
+        <br />
+        <!--<center>
+            <div style="width:95%">
+                <script id="tagTemplateListComments" type="text/x-kendo-template">
+                    #:maxTotal#    /   #:values.length#
+                </script>
+                <center style="height: 40px;border:1px solid rgba(128, 128, 128, 0.5);background-color:white;">
+                    <input id="inputListComments" style="border:none;padding:1px;background-color:white;font-weight:200;width:95%;font-size:small;font-family: Tahoma, Geneva, sans-serif;" />
+                </center>
+
+            </div>
+        </center>-->
+        <footer data-role="footer">
+            <center>
+                <a data-role="button" data-bind="events: {click:homeModel.closePopDescriptionList }" style=" font-family:Tahoma, Geneva, sans-serif;border-style:none;border-radius: 0;margin-bottom:2%;align-self:center;width:40%;background-color:#1A607C;color: #ffffff;text-align:center;white-space: normal;direction:ltr;">
                     <span style="font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;">אישור</span>
 
                 </a>
