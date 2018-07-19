@@ -702,7 +702,7 @@ input[type=range] {
 
 /*ינפוט ליקויים*/
 /*ינפוט*/
-#inputToolFly,#inputFly,#inputListComments {
+#inputToolFly,#inputFly,#inputListComments,#inputListCommentsEdit {
     font-family: Tahoma, Geneva, sans-serif;
     font-weight: 200;
     font-size: small;
@@ -715,7 +715,7 @@ input[type=range] {
     visibility: hidden;
 }
 /*כל שורה*/
-#inputToolFly-list .k-item,#inputFly-list .k-item,#inputListComments-list .k-item {
+#inputToolFly-list .k-item,#inputFly-list .k-item,#inputListComments-list .k-item,#inputListCommentsEdit-list .k-item {
     line-height: 1em;
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     color: black;
@@ -726,7 +726,7 @@ input[type=range] {
     font-size: small;
 }
     /*במעבר על שורה*/
-    #inputToolFly-list .k-item:hover,  #inputFly-list .k-item:hover ,  #inputListComments-list .k-item:hover {
+    #inputToolFly-list .k-item:hover,  #inputFly-list .k-item:hover ,  #inputListComments-list .k-item:hover ,  #inputListCommentsEdit-list .k-item:hover {
         line-height: 1em;
         /*min-width: 300px;*/
         color: black;
@@ -737,7 +737,7 @@ input[type=range] {
         direction: rtl;
     }
 /*התיבה הניפתחת*/
-#inputToolFly-list,#inputFly-list,#inputListComments-list {
+#inputToolFly-list,#inputFly-list,#inputListComments-list,#inputListCommentsEdit-list {
     border: 1px solid rgba(0, 0, 0, 0.05);
     direction: rtl;
     background-color: #ffffff;
@@ -745,7 +745,7 @@ input[type=range] {
     /*height:100px;*/
 }
 
-    #inputToolFly-list div ,#inputFly-list div,#inputListComments-list div {
+    #inputToolFly-list div ,#inputFly-list div,#inputListComments-list div,#inputListCommentsEdit-list div {
         color: black;
         background-color: #ffffff;
         font-family: Tahoma, Geneva, sans-serif;

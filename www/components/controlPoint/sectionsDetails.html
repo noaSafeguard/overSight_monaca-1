@@ -1,4 +1,4 @@
-<div data-role="view" data-layout="main" data-model="app.controlPoint" data-init="app.controlPoint.onShowSectionInit" data-show="app.controlPoint.onShowSectionEdit" style="" dir="rtl">
+<div data-role="view" data-layout="main" data-model="app.controlPoint" data-init="app.controlPoint.onShowSectionEditInit" data-show="app.controlPoint.onShowSectionEdit" style="" dir="rtl">
     <header data-role="header">
         <div data-role="navbar" class="header" style="background: linear-gradient(5.58deg, #923714 0%, #f7931e 100%);">
             <span id="controlPointLabelEdit"></span>
@@ -218,12 +218,12 @@
 
     </script>
     <script>
-          function openPopAdditionalCommentsD(id) {
-              app.controlPoint.homeModel.openPopAdditionalCommentsD(id);
-          }
+        function openPopAdditionalCommentsD(id) {
+            app.controlPoint.homeModel.openPopAdditionalCommentsD(id);
+        }
     </script>
     <!--פופאפ  הערות-->
-    <div data-role="modalview" id="popAdditionalCommentsD" style="left:1px;width: 95%; height: 43%;">
+    <div data-role="modalview" id="popAdditionalCommentsD" style="left:1px;width: 98%; height:98%;">
         <br />
         <div style="width:100%;height:36%; background-color:#e9eaeb;box-shadow:0 4px 2px -2px #c7c1c1;">
             <label style="max-width: 90%;box-shadow: 0px 2px 3px #A29E9E;background-color:#1A607C;font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 200;text-align:right;padding-left: 6px;padding-top: 2px;padding-right: 12px;padding-bottom: 3px;float: right;" id="AdditionalCommentsSubD">הערות נוספות</label>
@@ -236,6 +236,23 @@
                 <textarea id="AdditionalCommentsTxtD" name="textFloat" style="padding: 1em;font-weight:200;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;width:25em;height:7em;"></textarea>
             </center>
 
+        </div>
+        <br />
+        <div id="inputListCommentsEditDiv">
+            <center>
+                <span style="font-family: Tahoma, Geneva, sans-serif; color:black; font-size: small;">בחר הערות מתוך רשימה</span>
+            </center>
+            <center>
+                <div style="width:95%">
+                    <script id="tagTemplateListCommentsEdit" type="text/x-kendo-template">
+                        #:maxTotal# ניבחרו:
+                    </script>
+                    <center style="height: 40px;border:1px solid rgba(128, 128, 128, 0.5);background-color:white;">
+                        <input id="inputListCommentsEdit" style="border:none;padding:1px;background-color:white;font-weight:200;width:95%;font-size:small;font-family: Tahoma, Geneva, sans-serif;" />
+                    </center>
+
+                </div>
+            </center>
         </div>
         <footer data-role="footer">
             <center>

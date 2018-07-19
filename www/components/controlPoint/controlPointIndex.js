@@ -748,6 +748,7 @@ app.controlPoint = kendo.observable({
                     imageEdit1.hidden = false;
                     imageEdit2.hidden = false;
                     app.controlPoint.set("flagIsEdit", true)
+                    inputListCommentsEditDiv.hidden = false;
                     document.getElementById("changeImageSeifD").style.display = "";
                     $('[name=sketch]').css("display", "");
                     $("textarea").attr("disabled", false);
@@ -1532,7 +1533,6 @@ app.controlPoint = kendo.observable({
                         homeModel.set("lastIdIndex", i);
                         document.getElementById("AdditionalCommentsTxt").value = arr[i].Comments;
                         //רשימה
-                       
                         var getAll_R414357253 = "https://www.rollbase.com/rest/jsdo/getRelationships?output=json&id=" + arr[i].id + "&startRow=&rowsPerPage=&relName=R414357253&fieldList=id,NoteContent"
                         $.get(getAll_R414357253, function (data, status) {
                             var listComments = [];
@@ -1548,10 +1548,6 @@ app.controlPoint = kendo.observable({
                             multiselect.setDataSource(dataSource);
                             multiselect.value([]);
                             $("#popAdditionalComments").kendoMobileModalView("open");
-
-                          //  multiselectToolFly.trigger("change");
-                          // homeModel.set("dataToolFly", dataToolFly.toString());
-
                         });
                        
                         //multiselect.setDataSource(dataSource);
@@ -1596,7 +1592,32 @@ app.controlPoint = kendo.observable({
                         AdditionalCommentsSubD.innerHTML = "הערות " + arr[i].name;
                         homeModel.set("lastIdIndex", i);
                         document.getElementById("AdditionalCommentsTxtD").value = arr[i].Comments;
-                        $("#popAdditionalCommentsD").kendoMobileModalView("open");
+                        //רשימה
+                        if (app.controlPoint.get("flagIsEdit") == true) {
+                            var getAll_R414357253 = "https://www.rollbase.com/rest/jsdo/getRelationships?output=json&id=" + arr[i].id + "&startRow=&rowsPerPage=&relName=R414357253&fieldList=id,NoteContent"
+                            $.get(getAll_R414357253, function (data, status) {
+                                var listComments = [];
+                                $.each(data.genericData, function (key, value) {
+                                    listComments.push(value);
+                                });
+                                var multiselect = $("#inputListCommentsEdit").data("kendoMultiSelect");
+                                var dataSource = new kendo.data.DataSource({
+                                    data: listComments,
+                                    sort: { field: "NoteContent", dir: "asc" }
+                                });
+                                dataSource.sort({ field: "NoteContent", dir: "asc" });
+                                multiselect.setDataSource(dataSource);
+                                multiselect.value([]);
+                                $("#popAdditionalCommentsD").kendoMobileModalView("open");
+
+                            });
+                        }
+                        else {
+                            
+                            $("#popAdditionalCommentsD").kendoMobileModalView("open");
+                        }
+                            
+
                     }
 
                 }
@@ -1604,15 +1625,28 @@ app.controlPoint = kendo.observable({
 
             },
             closePopAdditionalCommentsD: function () {
-                var i = homeModel.get("lastIdIndex");
-                var arr = homeModel.get("arrSeifComments");
-                if (document.getElementById("AdditionalCommentsTxtD").value != "" && document.getElementById("AdditionalCommentsTxtD").value != "null")
-                    document.getElementById("comments" + arr[i].id).style.color = "red";
-                else
-                    document.getElementById("comments" + arr[i].id).style.color = "#7B7878";
+                if (app.controlPoint.get("flagIsEdit") == true) {
+                    var i = homeModel.get("lastIdIndex");
+                    var arr = homeModel.get("arrSeifComments");
+                    if (document.getElementById("AdditionalCommentsTxtD").value != "" && document.getElementById("AdditionalCommentsTxtD").value != "null")
+                        document.getElementById("commentsD" + arr[i].id).style.color = "red";
+                    else
+                        document.getElementById("commentsD" + arr[i].id).style.color = "#7B7878";
 
-                arr[i].Comments = document.getElementById("AdditionalCommentsTxtD").value;
-                homeModel.set("arrSeifCommentsD", arr)
+                    var txt = document.getElementById("AdditionalCommentsTxtD").value;
+                    var list = $("#inputListCommentsEdit").data("kendoMultiSelect").dataItems();
+                    if (list.length > 0) {
+                        document.getElementById("commentsD" + arr[i].id).style.color = "red";
+                    }
+                    for (var j = 0; j < list.length; j++) {
+                        if (txt != "")
+                            txt += " , "
+                        txt += list[j].NoteContent;
+                    }
+                    arr[i].Comments = txt;
+
+                    homeModel.set("arrSeifCommentsD", arr)
+                }
                 $("#popAdditionalCommentsD").kendoMobileModalView("close");
             },
 
@@ -2972,14 +3006,17 @@ app.controlPoint = kendo.observable({
 
         });
         //הערות
-        dataProvider.loadCatalogs().then(function _catalogsLoaded() {
-            var jsdoOptions = homeModel.get('_jsdoOptionsSectionNote'),
-                jsdo = new progress.data.JSDO(jsdoOptions),
-                dataSourceOptions = homeModel.get('_dataSourceOptions'),
-                dataSource;
-            dataSourceOptions.transport.jsdo = jsdo;
-            dataSource = new kendo.data.DataSource(dataSourceOptions)
-            homeModel.set('dataSourceSectionNote', dataSource);
+        //dataProvider.loadCatalogs().then(function _catalogsLoaded() {
+        //    var jsdoOptions = homeModel.get('_jsdoOptionsSectionNote'),
+        //        jsdo = new progress.data.JSDO(jsdoOptions),
+        //        dataSourceOptions = homeModel.get('_dataSourceOptions'),
+        //        dataSource;
+        //    dataSourceOptions.transport.jsdo = jsdo;
+        //    dataSource = new kendo.data.DataSource(dataSourceOptions)
+        var dataSourceSectionNote = new kendo.data.DataSource({
+            data: [],
+        });
+        homeModel.set('dataSourceSectionNote', dataSource);
             var checkInputs = function (elements) {
                 elements.each(function () {
                     var element = $(this);
@@ -3035,7 +3072,94 @@ app.controlPoint = kendo.observable({
             //});
 
 
+        //});
+
+    });
+    parent.set('onShowSectionEditInit', function (e) {
+
+
+        //שולף טבלה סעיפי בדיקה מהשרת
+        dataProvider.loadCatalogs().then(function _catalogsLoaded() {
+            var jsdoOptions = homeModel.get('_jsdoOptionsCategorySection'),
+                jsdo = new progress.data.JSDO(jsdoOptions),
+                dataSourceOptions = homeModel.get('_dataSourceOptions'),
+                dataSource;
+            dataSourceOptions.transport.jsdo = jsdo;
+            dataSource = new kendo.data.DataSource(dataSourceOptions)
+            homeModel.set('dataSourceCategorySection', dataSource);
+
+            homeModel.set('IntScore', jsdo.getPicklist_IntScore().response.picklistData);
+
+
         });
+        //הערות
+        //dataProvider.loadCatalogs().then(function _catalogsLoaded() {
+        //    var jsdoOptions = homeModel.get('_jsdoOptionsSectionNote'),
+        //        jsdo = new progress.data.JSDO(jsdoOptions),
+        //        dataSourceOptions = homeModel.get('_dataSourceOptions'),
+        //        dataSource;
+        //    dataSourceOptions.transport.jsdo = jsdo;
+        //    dataSource = new kendo.data.DataSource(dataSourceOptions)
+            var checkInputs = function (elements) {
+                elements.each(function () {
+                    var element = $(this);
+                    var input = element.children("input");
+                    input.prop("checked", element.hasClass("k-state-selected"));
+                });
+            };
+        var dataSourceSectionNote = new kendo.data.DataSource({
+            data: [],
+            });
+        homeModel.set('dataSourceSectionNote', dataSource);
+
+            $("#inputListCommentsEdit").kendoMultiSelect({
+                tagTemplate: kendo.template($("#tagTemplateListCommentsEdit").html()),
+                tagMode: "single",
+                itemTemplate: '<table style=""><tr><td style="width:98%;padding:0.7em;">' +
+                '<label style="float: right;text-align: right;font-size:small;font-family: Tahoma, Geneva, sans-serif;">:#:NoteContent#</label>' +
+                '</td></tr></table>',
+
+                autoClose: false,
+                dataTextField: "NoteContent",
+                dataValueField: "id",
+                dataSource: homeModel.dataSourceSectionNote,
+                dataBound: function () {
+                    var items = this.ul.find("li");
+                    setTimeout(function () {
+                        checkInputs(items);
+                    });
+                },
+                change: function () {
+                    var items = this.ul.find("li");
+                    checkInputs(items);
+                },
+            });
+            var multiselect = $("#inputListCommentsEdit").data("kendoMultiSelect");
+            multiselect.input.attr("readonly", true)
+                .on("keydown", function (e) {
+                    if (e.keyCode === 8) {
+                        e.preventDefault();
+                    }
+                });
+            //dataSource.fetch(function () {
+            //    var view = dataSource.view();
+
+            //    for (var i = 0; i < view.length; i++) {
+            //        var node = document.createElement('div');
+            //        var string = "";
+            //        string += '<div class="DescriptionGeneri" id="' + view[i].id+'">';
+            //        string += '<label style="color: white;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;font-size:medium;width:100%">';
+            //        string += view[i].NoteContent;
+            //        string += '</label></div>'
+            //        node.innerHTML = string;
+            //        document.getElementById('DescriptionGeneri').appendChild(node);
+            //    }
+
+
+            //});
+
+
+     //   });
 
     });
     parent.set('onShowSection', function (e) {
@@ -3235,6 +3359,7 @@ app.controlPoint = kendo.observable({
         saveSectionAssign1.hidden = true;
         document.getElementById("changeImageSeifD").style.display = "none";
         app.controlPoint.set("flagIsEdit", false);
+        inputListCommentsEditDiv.hidden = true;
         if (homeModel.currentControlPointCheckup.ControlPointComment != "null") {
             document.getElementById("descriptionEdit").value = homeModel.currentControlPointCheckup.ControlPointComment;
         }
@@ -3378,6 +3503,7 @@ app.controlPoint = kendo.observable({
                                     //image
                                     if (arrObjectesSelect[f].idMefga == viewMefga[j].id && arrObjectesSelect[f].idSeif == viewSeif[i - 10].id) {
                                         urlImag = arrObjectesSelect[f].image;
+                                        console.log(urlImag)
                                         Remarks = arrObjectesSelect[f].Remarks;
                                     }
 
@@ -3429,15 +3555,15 @@ app.controlPoint = kendo.observable({
                             string += '</td>';
                             string += '<td  style= "" >';
                             if (Remarks != "null" && Remarks != "")
-                                string += '<div><i class="fas fa-pencil-alt" style="margin-right: 80%;color:red;font-size:medium;" onclick="openPopAdditionalCommentsD(' + viewSeif[i - 10].id + ')" id="comments' + viewSeif[i - 10].id + '"></i></div>';
+                                string += '<div><i class="fas fa-pencil-alt" style="margin-right: 80%;color:red;font-size:medium;" onclick="openPopAdditionalCommentsD(' + viewSeif[i - 10].id + ')" id="commentsD' + viewSeif[i - 10].id + '"></i></div>';
                             else {
-                                string += '<div><i class="fas fa-pencil-alt" style="margin-right: 80%;color:#7B7878;font-size:medium;" onclick="openPopAdditionalCommentsD(' + viewSeif[i - 10].id + ')" id="comments' + viewSeif[i - 10].id + '"></i></div>';
+                                string += '<div><i class="fas fa-pencil-alt" style="margin-right: 80%;color:#7B7878;font-size:medium;" onclick="openPopAdditionalCommentsD(' + viewSeif[i - 10].id + ')" id="commentsD' + viewSeif[i - 10].id + '"></i></div>';
                                 Remarks = "";
                             }
                             arrSeifComments.push({ "id": viewSeif[i - 10].id, "name": viewSeif[i - 10].SectionContent, "Comments": Remarks, "Comments2": Remarks })
                             //obj.Remarks = viewSeif[i - 10].Remarks;
                             //obj.RemarksT = viewSeif[i - 10].Remarks;
-                            //string += '<div><i class="fas fa-pencil-alt" style="margin-right: 80%;color:#7B7878;font-size:medium;" onclick="openPopAdditionalComments(' + viewSeif[i - 10].id + ')" id="comments' + viewSeif[i - 10].id + '"></i></div>';
+                            //string += '<div><i class="fas fa-pencil-alt" style="margin-right: 80%;color:#7B7878;font-size:medium;" onclick="openPopAdditionalComments(' + viewSeif[i - 10].id + ')" id="commentsD' + viewSeif[i - 10].id + '"></i></div>';
                             string += '</td>';
                             string += '</tr>';
 
