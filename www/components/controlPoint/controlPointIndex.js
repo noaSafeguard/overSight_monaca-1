@@ -57,6 +57,16 @@ app.controlPoint = kendo.observable({
             name: 'ToolsSite',
             autoFill: false
         },
+        //מטיסים
+        jsdoOptionsDroneOperator = {
+            name: 'DroneOperator',
+            autoFill: false
+        },
+        //-כלי-מטיסים
+        jsdoOptionsdrones = {
+            name: 'drones',
+            autoFill: false
+        },
         dataSourceOptions = {
             type: 'jsdo',
             transport: {},
@@ -106,6 +116,8 @@ app.controlPoint = kendo.observable({
             dataSourceSectionCheckupEdit: dataSourceSectionCheckupEdit,
             _jsdoOptionsbuildingsSite: jsdoOptionsbuildingsSite,
             _jsdoOptionsToolsSite: jsdoOptionsToolsSite,
+            _jsdoOptionsdrones: jsdoOptionsdrones,
+            _jsdoOptionsDroneOperator: jsdoOptionsDroneOperator,
             EditSectionItem: null,
             itemClickCp: {},
             sectionStatus: [],
@@ -135,7 +147,7 @@ app.controlPoint = kendo.observable({
                     $("#popToolAll").kendoMobileModalView("close");
                     $("#popToolDetailes").kendoMobileModalView("open");
                 }, 100);
-               
+
             },
             EditTool: function (e) {
                 var clickItemTool = homeModel.get("clickItemTool");
@@ -174,7 +186,7 @@ app.controlPoint = kendo.observable({
                 });
                 homeModel.set("dataSourceTool", dataSource);
                 $("#popToolAll").kendoMobileModalView("open");
-              
+
             },
             addTool: function () {
                 app.mobileApp.showLoading();
@@ -210,7 +222,7 @@ app.controlPoint = kendo.observable({
                     $("#popBuildAll").kendoMobileModalView("close");
                     $("#popBuildDetailes").kendoMobileModalView("open");
                 }, 100);
-                
+
             },
             EditBuild: function (e) {
                 var e = document.getElementById("executionStepSelectDetailes");
@@ -1132,8 +1144,22 @@ app.controlPoint = kendo.observable({
 
                     homeModel.checkItem.set("publicBuildings", document.getElementById("publicBuildings").checked);//קיימים מבנים ציבוריים
                     homeModel.checkItem.set("cb_Share", document.getElementById("publishToContact").checked);//הפצה לאנשי קשר לפי מחוז
+                    homeModel.checkItem.set("DroneCalibration", document.getElementById("DroneCalibration").checked);//בוצע כיול לרחפן
                     homeModel.checkItem.set("cb_isPublish", true);//סיום מבדק
-                    //הפצה לאנשי קשר לפי מחוז
+                    //מטיסי רחפן
+                    var multiselect = $("#inputFly").data("kendoMultiSelect");
+                    var inputFly = multiselect.value();
+                    if (inputFly != null) {
+                        inputFly = likyInput.toString()
+                        homeModel.checkItem.set("R414108735", inputFly);//מטיסי רחפן
+                    }
+                    //רחפנים
+                    var multiselect = $("#inputToolFly").data("kendoMultiSelect");
+                    var inputToolFly = multiselect.value();
+                    if (inputToolFly != null) {
+                        inputToolFly = likyInput.toString()
+                        homeModel.checkItem.set("R414166903", inputToolFly);//רחפנים
+                    }
 
 
 
@@ -1310,9 +1336,22 @@ app.controlPoint = kendo.observable({
 
                     homeModel.checkItem.set("publicBuildings", document.getElementById("publicBuildings").checked);//קיימים מבנים ציבוריים
                     //   homeModel.checkItem.set("cb_Share", document.getElementById("publishToContact").checked);//הפצה לאנשי קשר לפי מחוז
+                    homeModel.checkItem.set("DroneCalibration", document.getElementById("DroneCalibration").checked);//בוצע כיול לרחפן
 
-                    //הפצה לאנשי קשר לפי מחוז
-
+                    //מטיסי רחפן
+                    var multiselect = $("#inputFly").data("kendoMultiSelect");
+                    var inputFly = multiselect.value();
+                    if (inputFly != null) {
+                        inputFly = likyInput.toString()
+                        homeModel.checkItem.set("R414108735", inputFly);//מטיסי רחפן
+                    }
+                    //רחפנים
+                    var multiselect = $("#inputToolFly").data("kendoMultiSelect");
+                    var inputToolFly = multiselect.value();
+                    if (inputToolFly != null) {
+                        inputToolFly = likyInput.toString()
+                        homeModel.checkItem.set("R414166903", inputToolFly);//רחפנים
+                    }
 
                     var obj = homeModel.get("checkItem")
                     try {
@@ -2383,49 +2422,10 @@ app.controlPoint = kendo.observable({
 
     parent.set('homeModel', homeModel);
     //כניסה ראשונית
-    parent.set('onShow', function (e) {
+    parent.set('onShowInit', function (e) {
         //  try {
-        //var scroller = e.view.scroller;
-        //scroller.reset();
 
         app.mobileApp.showLoading();
-        //שולף טבלה מהשרת
-        //dataProvider.loadCatalogs().then(function _catalogsLoaded() {
-        //    var jsdoOptions = homeModel.get('_jsdoOptions'),
-        //        jsdo = new progress.data.JSDO(jsdoOptions),
-        //        dataSourceOptions = homeModel.get('_dataSourceOptions'),
-        //        dataSource;
-        //    dataSourceOptions.transport.jsdo = jsdo;
-        //    dataSource = new kendo.data.DataSource(dataSourceOptions)
-        //    //dataSource.filter({
-        //    //    field: "locationId",
-        //    //    operator: "==",
-        //    //    value: (app.project.homeModel.get("dataItem")).locationId
-        //    //});
-        //    dataSource.sort({
-        //        field: "Index",
-        //        dir: "asc"
-        //    })
-        //    homeModel.set('dataSource', dataSource);
-        //    var dataSource1 = homeModel.get("dataSource");
-        //    homeModel.set("dataSource1", dataSource1)
-        //    $("#listView").kendoListView({
-        //        dataSource: dataSource1,
-        //        template: kendo.template($("#template1").html()),
-        //        selectable: true,
-        //        change: function () {
-        //            var index = this.select().index(),
-        //                dataItem = this.dataSource.view()[index];
-        //        }
-        //    });
-
-
-
-
-
-        //    app.mobileApp.hideLoading();
-
-        //});
 
         dataProvider.loadCatalogs().then(function _catalogsLoaded() {
             var jsdoOptions = homeModel.get('_jsdoOptions'),
@@ -2456,12 +2456,99 @@ app.controlPoint = kendo.observable({
             homeModel.set('executionStep', jsdo.getPicklist_executionStep().response.picklistData);
         });
 
+        var checkInputs = function (elements) {
+            elements.each(function () {
+                var element = $(this);
+                var input = element.children("input");
+                input.prop("checked", element.hasClass("k-state-selected"));
+            });
+        };
+
+        //רחפנים
+        var jsdoOptions = homeModel.get('_jsdoOptionsdrones'),
+            jsdo = new progress.data.JSDO(jsdoOptions),
+            dataSourceOptions = homeModel.get('_dataSourceOptions'),
+            dataSourceToolFly;
+        dataSourceOptions.transport.jsdo = jsdo;
+        dataSourceToolFly = new kendo.data.DataSource(dataSourceOptions)
+        dataSourceToolFly.sort({ field: 'createdAt', dir: 'desc' });
+        homeModel.set('dataSourceToolFly', dataSourceToolFly);
+        $("#inputToolFly").kendoMultiSelect({
+            tagTemplate: kendo.template($("#tagTemplateToolFly").html()),
+            tagMode: "single",
+            itemTemplate: '<table style=""><tr><td style="width:98%;padding:0.5em;">' +
+            '<label style="float: right;text-align: right;font-size:small;font-family: Tahoma, Geneva, sans-serif;">מספר:#:data.SerialNum# דגם: #:data.DroneModel#</label>' +
+            '</td></tr></table>',
+
+            autoClose: false,
+            dataTextField: "SerialNum",
+            dataValueField: "id",
+            dataSource: homeModel.dataSourceToolFly,
+            dataBound: function () {
+                var items = this.ul.find("li");
+                setTimeout(function () {
+                    checkInputs(items);
+                });
+            },
+            change: function () {
+                var items = this.ul.find("li");
+                checkInputs(items);
+            },
+        });
+        var multiselect = $("#inputToolFly").data("kendoMultiSelect");
+        multiselect.input.attr("readonly", true)
+            .on("keydown", function (e) {
+                if (e.keyCode === 8) {
+                    e.preventDefault();
+                }
+            });
+
+        //מטיסים
+        var jsdoOptions = homeModel.get('_jsdoOptionsDroneOperator'),
+            jsdo = new progress.data.JSDO(jsdoOptions),
+            dataSourceOptions = homeModel.get('_dataSourceOptions'),
+            dataSourceFly;
+        dataSourceOptions.transport.jsdo = jsdo;
+        dataSourceFly = new kendo.data.DataSource(dataSourceOptions)
+        dataSourceFly.sort({ field: 'createdAt', dir: 'desc' });
+        homeModel.set('dataSourceFly', dataSourceFly)
+
+        $("#inputFly").kendoMultiSelect({
+            tagTemplate: kendo.template($("#tagTemplateFly").html()),
+            tagMode: "single",
+            itemTemplate: '<table style=""><tr><td style="width:98%;padding:0.5em;">' +
+            '<label style="float: right;text-align: right;font-size:small;font-family: Tahoma, Geneva, sans-serif;">שם:#:data.OperatorName# תז: #:data.OperatorId#</label>' +
+            '</td></tr></table>',
+            autoClose: false,
+            dataTextField: "OperatorName",
+            dataValueField: "id",
+            dataSource: homeModel.dataSourceFly,
+            dataBound: function () {
+                var items = this.ul.find("li");
+                setTimeout(function () {
+                    checkInputs(items);
+                });
+            },
+            change: function () {
+                var items = this.ul.find("li");
+                checkInputs(items);
+            },
+
+        });
+        var multiselect = $("#inputFly").data("kendoMultiSelect");
+        multiselect.input.attr("readonly", true)
+            .on("keydown", function (e) {
+                if (e.keyCode === 8) {
+                    e.preventDefault();
+                }
+            });
+
         //} catch (e) {
         //    alert("שגיאה")
         //}
     });
     //בכל כניסה
-    parent.set('onShow2', function (e) {
+    parent.set('onShow', function (e) {
         //  try {
 
         var scroller = e.view.scroller;
@@ -2492,6 +2579,42 @@ app.controlPoint = kendo.observable({
         document.getElementById("pictureFillingStructures").src = "";
         document.getElementById("pictureSiteSignage").src = "";
 
+
+        //רחפנים
+        var jsdoOptions = homeModel.get('_jsdoOptionsdrones'),
+            jsdo = new progress.data.JSDO(jsdoOptions),
+            dataSourceOptions = homeModel.get('_dataSourceOptions'),
+            dataSourceToolFly;
+        dataSourceOptions.transport.jsdo = jsdo;
+        dataSourceToolFly = new kendo.data.DataSource(dataSourceOptions)
+        dataSourceToolFly.sort({ field: 'createdAt', dir: 'desc' });
+        homeModel.set('dataSourceToolFly', dataSourceToolFly)
+        var multiselect = $("#inputToolFly").data("kendoMultiSelect");
+        multiselect.setDataSource(dataSourceToolFly);
+        multiselect.value([]);
+
+
+
+
+        //מטיסים
+        var jsdoOptions = homeModel.get('_jsdoOptionsDroneOperator'),
+            jsdo = new progress.data.JSDO(jsdoOptions),
+            dataSourceOptions = homeModel.get('_dataSourceOptions'),
+            dataSourceFly;
+        dataSourceOptions.transport.jsdo = jsdo;
+        dataSourceFly = new kendo.data.DataSource(dataSourceOptions)
+        dataSourceFly.sort({ field: 'createdAt', dir: 'desc' });
+        homeModel.set('dataSourceFly', dataSourceFly)
+        var multiselect = $("#inputFly").data("kendoMultiSelect");
+        multiselect.setDataSource(dataSourceFly);
+        multiselect.value([]);
+
+
+
+
+
+
+
         if (app.hightGuard.homeModel.get("itemIs") == true) {//מבדק קיים
             homeModel.set("checkItem", itemModel);
             if (itemModel.publicBuildings == 1) {//פרוט בהתאם לצק בוקס
@@ -2507,6 +2630,13 @@ app.controlPoint = kendo.observable({
             }
             else {
                 document.getElementById("publishToContact").checked = false;
+            }
+
+            if (itemModel.DroneCalibration == 1) {//בוצע כיול לרחפן
+                document.getElementById("DroneCalibration").checked = true;
+            }
+            else {
+                document.getElementById("DroneCalibration").checked = false;
             }
             //תמונות
             if (itemModel.FillingStructuresURL != "null") {
@@ -2561,7 +2691,7 @@ app.controlPoint = kendo.observable({
                 popEndCheckOpen.hidden = true;//footer popup
                 popEndCheckClose.hidden = false;//footer popup
                 $('[name=adduildAndTool]').css('display', 'none');
-               // document.getElementById("adduildAndTool").style.display = "none";//adduildAndTool
+                // document.getElementById("adduildAndTool").style.display = "none";//adduildAndTool
                 document.getElementById("changeImageF1").style.display = "none"; //החלף תמונה
                 document.getElementById("changeImageF2").style.display = "none"; //החלף תמונה
                 document.getElementById("changeSignCheck1").style.display = "none"; //החלף חתימה
@@ -2580,7 +2710,7 @@ app.controlPoint = kendo.observable({
                 popEndCheckClose.hidden = true;//footer popup
 
                 $('[name=adduildAndTool]').css('display', '');
-             //   document.getElementById("adduildAndTool").style.display = "";//adduildAndTool
+                //   document.getElementById("adduildAndTool").style.display = "";//adduildAndTool
 
                 document.getElementById("changeImageF1").style.display = ""; //החלף תמונה
                 document.getElementById("changeImageF2").style.display = ""; //החלף תמונה
@@ -2601,7 +2731,7 @@ app.controlPoint = kendo.observable({
             popEndCheckClose.hidden = true;//footer popup
 
             $('[name=adduildAndTool]').css('display', '');
-           // document.getElementById("adduildAndTool").style.display = "";//adduildAndTool
+            // document.getElementById("adduildAndTool").style.display = "";//adduildAndTool
 
             document.getElementById("changeImageF1").style.display = ""; //החלף תמונה
             document.getElementById("changeImageF2").style.display = ""; //החלף תמונה
@@ -2617,6 +2747,8 @@ app.controlPoint = kendo.observable({
             homeModel.set("checkItem", obj)
             document.getElementById("publicBuildings").checked = false;
             document.getElementById("publishToContact").checked = false;
+            document.getElementById("DroneCalibration").checked = false;
+
             //document.getElementById("publicBuildingsT1").style.display = "none";
             document.getElementById("publicBuildingsT2").style.display = "none";
             document.getElementById("siteSignage").style.color = "transparent";
@@ -2626,104 +2758,8 @@ app.controlPoint = kendo.observable({
             document.getElementById("imageSignCheckTR").style.display = "";
         }
 
-        //if (itemModel.cb_isPublish == 1) {//מבדק סגור
-        //    $('[name=sketch]').css("display", "none");//אי יכולת קשקוש על תמונה
-        //    CheckupReportDiv.hidden = false;//דוח וציון
-        //    openCheck.hidden = true;//footer 
-        //    closeCheck.hidden = false;//footer 
 
-        //    popEndCheckOpen.hidden = true;//footer popup
-        //    popEndCheckClose.hidden = false;//footer popup
-
-        //    document.getElementById("adduildAndTool").style.display = "none";//adduildAndTool
-
-        //    document.getElementById("changeImageF1").style.display = "none"; //החלף תמונה
-        //    document.getElementById("changeImageF2").style.display = "none"; //החלף תמונה
-
-        //    homeModel.set("checkItem", itemModel)
-        //    if (itemModel.publicBuildings == 1) {//פרוט בהתאם לצק בוקס
-        //        //document.getElementById("publicBuildingsT1").style.display = "";
-        //        document.getElementById("publicBuildingsT2").style.display = "";
-        //        document.getElementById("publicBuildings").checked = true;
-        //    }
-        //    else {
-        //        document.getElementById("publicBuildings").checked = false;
-        //        //document.getElementById("publicBuildingsT1").style.display = "none";
-        //        document.getElementById("publicBuildingsT2").style.display = "none";
-        //    }
-        //    if (itemModel.cb_Share == 1) {//הפצה לאנשי קשר
-        //        document.getElementById("publishToContact").checked = true;
-        //    }
-        //    else {
-        //        document.getElementById("publishToContact").checked = false;
-        //    }
-        //    //תמונות
-        //    if (itemModel.FillingStructuresURL != "null") {
-        //        document.getElementById("FillingStructuresPD").src = itemModel.FillingStructuresURL;
-        //        document.getElementById("pictureFillingStructures").style.color = "green";
-        //    }
-        //    else {
-        //        document.getElementById("FillingStructuresPD").src = "";
-        //    }
-
-        //    if (itemModel.siteSignageURL != "null") {
-        //        document.getElementById("pictureSiteSignage").src = itemModel.siteSignageURL;
-        //        document.getElementById("siteSignage").style.color = "green";
-
-        //    }
-        //    else {
-        //        document.getElementById("siteSignagePD").src = "";
-        //    }
-
-        //    if (itemModel.DroneURL == "null")
-        //        homeModel.checkItem.set("DroneURL", "");
-        //    if (itemModel.AdditionalComments == "null")
-        //        homeModel.checkItem.set("AdditionalComments", "");
-        //    if (itemModel.structureNum == "null")
-        //        homeModel.checkItem.set("structureNum", "");
-        //    if (itemModel.publicBuildingsDetails == "null")
-        //        homeModel.checkItem.set("publicBuildingsDetails", "");
-        //    $("#popEndCheck :input").attr("disabled", true);
-        //    document.getElementById("imageSignCheckTR").style.display = "none";
-
-        //}
-        //else {//מבדק פתוח
-
-        //    $("#popEndCheck :input").attr("disabled", false);
-        //    $('[name=sketch]').css("display", "");//אי יכולת קשקוש על תמונה
-        //    CheckupReportDiv.hidden = true;//דוח וציון
-        //    openCheck.hidden = false;//footer 
-        //    closeCheck.hidden = true;//footer 
-
-        //    popEndCheckOpen.hidden = false;//footer popup
-        //    popEndCheckClose.hidden = true;//footer popup
-
-        //    document.getElementById("adduildAndTool").style.display = "";//adduildAndTool
-
-        //    document.getElementById("changeImageF1").style.display = ""; //החלף תמונה
-        //    document.getElementById("changeImageF2").style.display = ""; //החלף תמונה
-
-        //    var obj = {
-        //        "DroneURL": "",
-        //        "AdditionalComments": "",
-        //        "TourParticipants": itemModel.TourParticipants,
-        //        "publicBuildings": false,
-        //        "structureNum": "",
-        //        "publicBuildingsDetails": "",
-        //    }
-        //    homeModel.set("checkItem", obj)
-        //    document.getElementById("publicBuildings").checked = false;
-        //    document.getElementById("publishToContact").checked = false;
-        //    //document.getElementById("publicBuildingsT1").style.display = "none";
-        //    document.getElementById("publicBuildingsT2").style.display = "none";
-        //    document.getElementById("siteSignage").style.color = "transparent";
-        //    document.getElementById("FillingStructures").style.color = "transparent";
-        //    homeModel.set("toolItem", {});
-        //    homeModel.set("builtItem", {});
-        //    document.getElementById("imageSignCheckTR").style.display = "";
-        //}
-
-        //כיבוי
+        //חיווי
         //נקודות בקרה
         var fetch2 = false;
         var dataSource = homeModel.get('dataSource');

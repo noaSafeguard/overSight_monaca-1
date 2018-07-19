@@ -702,7 +702,7 @@ input[type=range] {
 
 /*ינפוט ליקויים*/
 /*ינפוט*/
-#likyInput {
+#inputToolFly,#inputFly {
     font-family: Tahoma, Geneva, sans-serif;
     font-weight: 200;
     font-size: small;
@@ -715,7 +715,7 @@ input[type=range] {
     visibility: hidden;
 }
 /*כל שורה*/
-#likyInput-list .k-item {
+#inputToolFly-list .k-item,#inputFly-list .k-item {
     line-height: 1em;
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     color: black;
@@ -726,7 +726,7 @@ input[type=range] {
     font-size: small;
 }
     /*במעבר על שורה*/
-    #likyInput-list .k-item:hover {
+    #inputToolFly-list .k-item:hover,  #inputFly-list .k-item:hover {
         line-height: 1em;
         /*min-width: 300px;*/
         color: black;
@@ -737,14 +737,15 @@ input[type=range] {
         direction: rtl;
     }
 /*התיבה הניפתחת*/
-#likyInput-list {
+#inputToolFly-list,#inputFly-list {
     border: 1px solid rgba(0, 0, 0, 0.05);
     direction: rtl;
     background-color: #ffffff;
+        width:100%;
     /*height:100px;*/
 }
 
-    #likyInput-list div {
+    #inputToolFly-list div ,    #inputFly-list div {
         color: black;
         background-color: #ffffff;
         font-family: Tahoma, Geneva, sans-serif;
@@ -767,6 +768,9 @@ div.k-multiselect-wrap.k-floatwrap {
     background-color: #ffffff;
     color: black;
     direction: rtl;
+        border-radius: 0px;
+    min-height: 0;
+    padding-right: 0;
 }
 /*הבפנים*/
 li.k-button {

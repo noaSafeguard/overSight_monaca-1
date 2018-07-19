@@ -1,4 +1,4 @@
-<div data-role="view" data-layout="main" data-model="app.controlPoint" data-init="app.controlPoint.onShow" data-show="app.controlPoint.onShow2" id="controlPointScreen" dir="rtl">
+<div data-role="view" data-layout="main" data-model="app.controlPoint" data-init="app.controlPoint.onShowInit" data-show="app.controlPoint.onShow" id="controlPointScreen" dir="rtl">
     <header data-role="header">
         <div data-role="navbar" class="header" style="background: linear-gradient(5.58deg, #923714 0%, #f7931e 100%);">
             <span>מבדק בטיחות</span>
@@ -161,7 +161,7 @@
             $("#popBuildAll").kendoMobileModalView("open");
             $("#popBuildDetailes").kendoMobileModalView("close");
         }
-        
+
         //כלי
         function openPopTool() {
             $("#popEndCheck").kendoMobileModalView("close");
@@ -184,7 +184,7 @@
             $("#popToolAll").kendoMobileModalView("open");
             $("#popToolDetailes").kendoMobileModalView("close");
         }
-        
+
 
         function publicBuildingsC() {
             if (document.getElementById("publicBuildings").checked == false) {
@@ -209,7 +209,7 @@
         }
     </style>
     <!--כלי טעון בדיקה  -->
-    <div data-role="modalview" id="popToolAll" style="width:97%;height:75%;" >
+    <div data-role="modalview" id="popToolAll" style="width:97%;height:75%;">
         <br />
         <div style="width:100%;height:36%; background-color:#e9eaeb;box-shadow:0 4px 2px -2px #c7c1c1;">
             <label style="box-shadow: 0px 2px 3px #A29E9E;background-color:#1A607C;font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 200;text-align:center;padding-left: 6px;padding-top: 2px;padding-right: 12px;padding-bottom: 3px;float: right;">  כלי טעון בדיקה</label>
@@ -255,14 +255,14 @@
                                     </tr>
                                 </table>
                             </td>
-                     
+
                             <td>
                                 <span style="">
                                     <i class="fas fa-chevron-left" style="color:black;font-size:large;"></i>
                                 </span>
                             </td>
                         </tr>
-                     
+
                     </table>
                 </div>
 
@@ -273,7 +273,7 @@
                 <table style="width:100%">
                     <tr>
                         <td style="width:50%">
-                            <a name="adduildAndTool" data-role="button" onclick="addTool()"  style=" font-family:Tahoma, Geneva, sans-serif;border-style:none;border-radius: 0;margin-bottom:2%;align-self:center;width:98%;background-color:#1A607C;color: #ffffff;text-align:center;white-space: normal;direction:ltr;">
+                            <a name="adduildAndTool" data-role="button" onclick="addTool()" style=" font-family:Tahoma, Geneva, sans-serif;border-style:none;border-radius: 0;margin-bottom:2%;align-self:center;width:98%;background-color:#1A607C;color: #ffffff;text-align:center;white-space: normal;direction:ltr;">
                                 <span style="font-family:Tahoma, Geneva, sans-serif;">הוסף</span>
                             </a>
                         </td>
@@ -354,7 +354,7 @@
                 <table style="width:100%">
                     <tr>
                         <td style="width:50%">
-                            <a  data-role="button" data-bind="events: {click:homeModel.addTool }" style=" font-family:Tahoma, Geneva, sans-serif;border-style:none;border-radius: 0;margin-bottom:2%;align-self:center;width:98%;background-color:#1A607C;color: #ffffff;text-align:center;white-space: normal;direction:ltr;">
+                            <a data-role="button" data-bind="events: {click:homeModel.addTool }" style=" font-family:Tahoma, Geneva, sans-serif;border-style:none;border-radius: 0;margin-bottom:2%;align-self:center;width:98%;background-color:#1A607C;color: #ffffff;text-align:center;white-space: normal;direction:ltr;">
                                 <span style="font-family:Tahoma, Geneva, sans-serif;">שמור</span>
                             </a>
                         </td>
@@ -451,7 +451,7 @@
         </footer>
     </div>
     <!-- בניין -->
-    <div data-role="modalview" id="popBuildAll" style="width:97%;height:75%;" >
+    <div data-role="modalview" id="popBuildAll" style="width:97%;height:75%;">
         <br />
         <div style="width:100%;height:36%; background-color:#e9eaeb;box-shadow:0 4px 2px -2px #c7c1c1;">
             <label style="box-shadow: 0px 2px 3px #A29E9E;background-color:#1A607C;font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 200;text-align:center;padding-left: 6px;padding-top: 2px;padding-right: 12px;padding-bottom: 3px;float: right;">  בניין</label>
@@ -723,11 +723,13 @@
         </footer>
     </div>
     <!-- פופאפ סיום מבדק   -->
-    <div data-role="modalview" id="popEndCheck" style="left:1px;width:97%;height:98%;">
-        <br />
-        <div style="width:100%;height:36%; background-color:#e9eaeb;box-shadow:0 4px 2px -2px #c7c1c1;">
-            <label style="box-shadow: 0px 2px 3px #A29E9E;background-color:#1A607C;font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 200;text-align:center;padding-left: 6px;padding-top: 2px;padding-right: 12px;padding-bottom: 3px;float: right;">פרטים נוספים</label>
-        </div>
+    <div data-role="modalview" id="popEndCheck" style="left:1px;width:100%;height:100%;">
+        <header data-role="header" style="background-color:#e9eaeb;">
+            <br />
+            <div style="width:100%;height:36%; background-color:#e9eaeb;box-shadow:0 4px 2px -2px #c7c1c1;">
+                <label style="box-shadow: 0px 2px 3px #A29E9E;background-color:#1A607C;font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 200;text-align:center;padding-left: 6px;padding-top: 2px;padding-right: 12px;padding-bottom: 3px;float: right;">פרטים נוספים</label>
+            </div>
+        </header>
         <br />
         <center>
             <div style="width:96%;" dir="rtl">
@@ -837,7 +839,7 @@
                             </td>
                         </tr>
                         <!--id="adduildAndTool"-->
-                        <tr >
+                        <tr>
                             <td style="width:9%;">
                                 <div style="height:4px;background-color:transparent;"></div>
                                 <i class="fas fa-plus" style="color:#7B7878;font-size:large;"></i>
@@ -860,7 +862,6 @@
                         </tr>
 
                         <tr>
-
                             <td style="width:9%;">
                                 <div style="height:4px;background-color:transparent;"></div>
                                 <i class="fas fa-check-square" style="color:#7B7878;font-size:large;"></i>
@@ -879,6 +880,23 @@
                         <tr>
                             <td style="width:9%;">
                                 <div style="height:4px;background-color:transparent;"></div>
+                                <i class="fas fa-check-square" style="color:#7B7878;font-size:large;"></i>
+                            </td>
+                            <td>
+                                <div style="height:4px;background-color:transparent;"></div>
+                                <center>
+                                    <div style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);">
+                                        <label style="float: right;text-align: right;font-size:small;font-family: Tahoma, Geneva, sans-serif;">בוצע כיול לרחפן</label>
+                                        <input type="checkbox" style="float: left;" id="DroneCalibration" />
+                                    </div>
+                                </center>
+
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="width:9%;">
+                                <div style="height:4px;background-color:transparent;"></div>
                                 <i class="fas fa-pencil-alt" style="color:#7B7878;font-size:large;"></i>
                             </td>
                             <td>
@@ -888,7 +906,57 @@
                                 </center>
                             </td>
                         </tr>
+                        <tr>
+                            <td style="width:9%;">
+                                <img src="images/drone.png" style="width:87%;" />
+                            </td>
+                            <td>
+                                <center>
+                                    <div style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border-bottom:1px solid rgba(128, 128, 128, 0.5);">
+                                        <label style="float: right;text-align: right;font-size:small;font-family: Tahoma, Geneva, sans-serif;">רחפנים</label>
+                                    </div>
+                                </center>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:9%;"></td>
+                            <td>
+                                <script id="tagTemplateToolFly" type="text/x-kendo-template">
+                                    #:maxTotal#    /   #:values.length#
+                                </script>
+                                <center style="height: 40px;border:1px solid rgba(128, 128, 128, 0.5);background-color:white;">
+                                    <input id="inputToolFly" style="border:none;padding:1px;background-color:white;font-weight:200;width:95%;font-size:small;font-family: Tahoma, Geneva, sans-serif;" />
+                                </center>
+                            </td>
+                        </tr>
 
+                        <tr>
+                            <td style="width:9%;">
+                                <img src="images/drone.png" style="width:87%;" />
+                            </td>
+                            <td>
+                                <center>
+                                    <div style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border-bottom:1px solid rgba(128, 128, 128, 0.5);">
+                                        <label style="float: right;text-align: right;font-size:small;font-family: Tahoma, Geneva, sans-serif;">מטיסים</label>
+
+                                    </div>
+                                </center>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:9%;"></td>
+                            <td>
+                                <script id="tagTemplateFly" type="text/x-kendo-template">
+                                    #:maxTotal#    /   #:values.length#
+                                </script>
+                                <center style="height: 40px;border:1px solid rgba(128, 128, 128, 0.5);background-color:white;">
+                                    <input id="inputFly" style="border:none;padding:1px;background-color:white;font-weight:200;width:95%;font-size:small;font-family: Tahoma, Geneva, sans-serif;" />
+                                </center>
+
+
+                            </td>
+                        </tr>
                         <tr id="imageSignCheckTR">
 
                             <td style="width:9%;">
