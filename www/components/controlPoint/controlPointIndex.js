@@ -1354,7 +1354,7 @@ app.controlPoint = kendo.observable({
                     if (inputToolFly != null) {
                         inputToolFly = inputToolFly.toString()
                         if (homeModel.get("dataToolFly") != inputToolFly)
-                           homeModel.checkItem.set("R414166903", inputToolFly);//רחפנים
+                            homeModel.checkItem.set("R414166903", inputToolFly);//רחפנים
                     }
 
                     var obj = homeModel.get("checkItem")
@@ -2596,7 +2596,7 @@ app.controlPoint = kendo.observable({
         var multiselectToolFly = $("#inputToolFly").data("kendoMultiSelect");
         multiselectToolFly.setDataSource(dataSourceToolFly);
         multiselectToolFly.value([]);
-        homeModel.set("dataToolFly","");
+        homeModel.set("dataToolFly", "");
 
 
 
@@ -2623,7 +2623,7 @@ app.controlPoint = kendo.observable({
 
         if (app.hightGuard.homeModel.get("itemIs") == true) {//מבדק קיים
             homeModel.set("checkItem", itemModel);
-               // multiselectToolFly.enable(true);
+            // multiselectToolFly.enable(true);
 
             //רחפנים
             var rToolFly = itemModel.R414166903;
@@ -2639,7 +2639,7 @@ app.controlPoint = kendo.observable({
                     multiselectToolFly.value(dataToolFly);
                     multiselectToolFly.trigger("change");
                     homeModel.set("dataToolFly", dataToolFly.toString());
-                 
+
                 });
             }
 
@@ -2652,14 +2652,14 @@ app.controlPoint = kendo.observable({
                     var dataFly = [];
                     $.each(data.genericData, function (key, value) {
                         dataFly[key] = value.id;
-                        lableFly.innerHTML += "שם: " + value.OperatorName + "  " + "תז: " + value.OperatorId +"<br>";
+                        lableFly.innerHTML += "שם: " + value.OperatorName + "  " + "תז: " + value.OperatorId + "<br>";
                     });
                     multiselectFly.value(dataFly);
                     multiselectFly.trigger("change");
                     homeModel.set("dataFly", dataFly.toString());
                 });
             }
-           
+
 
             if (itemModel.publicBuildings == 1) {//פרוט בהתאם לצק בוקס
                 document.getElementById("publicBuildingsT2").style.display = "";
@@ -2722,7 +2722,7 @@ app.controlPoint = kendo.observable({
                 homeModel.checkItem.set("structureNum", "");
             if (itemModel.publicBuildingsDetails == "null")
                 homeModel.checkItem.set("publicBuildingsDetails", "");
-              //מבדק סגור
+            //מבדק סגור
             if (itemModel.cb_isPublish == 1) {
                 divToolFly.hidden = true;
                 lableToolFly.hidden = false;
@@ -2744,8 +2744,8 @@ app.controlPoint = kendo.observable({
                 document.getElementById("changeImageF2").style.display = "none"; //החלף תמונה
                 document.getElementById("changeSignCheck1").style.display = "none"; //החלף חתימה
 
-             
-             
+
+
 
             }
             else {//מבדק פתוח
@@ -2995,11 +2995,15 @@ app.controlPoint = kendo.observable({
                                 string += '<tr style= "width:100%" >';
                                 string += ' <td style="width:25%;">';
                                 var nameTxt = "";
+                                var nameCode = -1;
                                 for (var o = 0; o < homeModel.get('IntScore').length; o++) {
-                                    if (arr[k] == homeModel.get('IntScore')[o].id)
+                                    if (arr[k] == homeModel.get('IntScore')[o].id) {
                                         nameTxt = homeModel.get('IntScore')[o].name;
+                                        nameCode = homeModel.get('IntScore')[o].code;
+
+                                    }
                                 }
-                                string += '<input  type= "checkbox" name="' + viewSeif[i - 10].id + '"  onclick="myChooseSectionStatusN(this,this.name,' + nameTxt + ')"/>'
+                                string += '<input  type= "checkbox" name="' + viewSeif[i - 10].id + '"  onclick="myChooseSectionStatusN(this,this.name,' + nameCode + ')"/>'
                                 string += ' </td > '
                                 string += '<td style= "width:75%;" > '
 
@@ -3205,18 +3209,22 @@ app.controlPoint = kendo.observable({
                                 string += '<tr style= "width:100%" >';
                                 string += ' <td style="width:25%;">';
                                 var nameTxt = "";
+                                var nameCode = -1;
                                 for (var o = 0; o < homeModel.get('IntScore').length; o++) {
-                                    if (arr[k] == homeModel.get('IntScore')[o].id)
+                                    if (arr[k] == homeModel.get('IntScore')[o].id) {
                                         nameTxt = homeModel.get('IntScore')[o].name;
+                                        nameCode = homeModel.get('IntScore')[o].code;
+
+                                    }
                                 }
                                 var txtCheckbox = "";
                                 // var obj = { "idMefga": view[i].R408159765, "idSeif": view1[j].R370259173, "id": view1[j].id, "val": view1[j].IntScore }
                                 var urlImag = "";
                                 var Remarks = "";
                                 for (var f = 0; f < arrObjectesSelect.length; f++) {
-                                    if (arrObjectesSelect[f].idMefga == viewMefga[j].id && arrObjectesSelect[f].idSeif == viewSeif[i - 10].id && nameTxt == arrObjectesSelect[f].val) {
+                                    if (arrObjectesSelect[f].idMefga == viewMefga[j].id && arrObjectesSelect[f].idSeif == viewSeif[i - 10].id && nameCode == arrObjectesSelect[f].val) {
 
-                                        txtCheckbox = '<input  type= "checkbox" checked name="' + viewSeif[i - 10].id + '"  onclick="myChooseSectionStatusND(this,this.name,' + nameTxt + ')"/>'
+                                        txtCheckbox = '<input  type= "checkbox" checked name="' + viewSeif[i - 10].id + '"  onclick="myChooseSectionStatusND(this,this.name,' + nameCode + ')"/>'
                                         obj.value = arrObjectesSelect[f].val;
                                         obj.was = true;
                                         obj.seifID = arrObjectesSelect[f].id;
