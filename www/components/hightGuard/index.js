@@ -353,6 +353,37 @@ app.hightGuard = kendo.observable({
 
             },
             assignDetails: function () {
+              var flagSave=false;
+              var must=homeModel.get("projectDetails");
+              if(!must.ExecutiveCompanyName||must.ExecutiveCompanyName=="null"||must.ExecutiveCompanyName==""){
+                 $('#mustField5').css("border", "1px solid red");
+                 flagSave=true;
+              }
+              else
+                $('#mustField5').css("border", "none");//שדות חובה
+
+              if(!must.settlement||must.settlement=="null"||must.settlement==""){
+                  $('#mustField6').css("border", "1px solid red");
+                  flagSave=true;
+              }
+              else
+                 $('#mustField6').css("border", "none");//שדות חובה
+
+              if(!must.constructionType||must.constructionType=="null"||must.constructionType==""){
+                  $('#mustField7').css("border", "1px solid red");
+                  flagSave=true;
+              }
+              else
+                 $('#mustField7').css("border", "none");//שדות חובה
+
+              if(!must.ProjectManager||must.ProjectManager=="null"||must.ProjectManager==""){
+                  $('#mustField8').css("border", "1px solid red");
+                  flagSave=true;
+              }
+              else
+                 $('#mustField8').css("border", "none");//שדות חובה
+
+              if(flagSave==false){
                 $("#popProjectDetails").kendoMobileModalView("close");
                 var dataSource = homeModel.get("dataSourceProjectDashboard")
                 var view = dataSource.view();
@@ -385,6 +416,7 @@ app.hightGuard = kendo.observable({
                         alert("התגלתה בעיה בטעינת הנתונים, אנא נסה שוב  מאוחר יותר")
                     }
                 }
+             }
 
             },
             //מטיסים ורחפנים
@@ -498,6 +530,10 @@ app.hightGuard = kendo.observable({
         try {
             var scroller = e.view.scroller;
             scroller.reset();
+            $('#mustField5').css("border", "none");//שדות חובה
+            $('#mustField6').css("border", "none");//שדות חובה
+            $('#mustField7').css("border", "none");//שדות חובה
+            $('#mustField8').css("border", "none");//שדות חובה
             app.mobileApp.showLoading();
             projectNameHome.innerHTML = (app.project.homeModel.get("dataItem")).LocationName;
             dataProvider.loadCatalogs().then(function _catalogsLoaded() {
