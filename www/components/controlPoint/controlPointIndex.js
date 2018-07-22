@@ -193,7 +193,6 @@ app.controlPoint = kendo.observable({
                     ]
                 });
                 homeModel.set("dataSourceTool", dataSource);
-                $("#popToolAll").kendoMobileModalView("open");
 
             },
             addTool: function () {
@@ -214,6 +213,7 @@ app.controlPoint = kendo.observable({
                         homeModel.set("toolItem", {});
                         $("#popEndCheck").kendoMobileModalView("open");
                         $("#popTool").kendoMobileModalView("close");
+                        document.getElementById("toolIcon1").style.color = "green";
                         app.mobileApp.hideLoading();
 
                     });
@@ -272,7 +272,7 @@ app.controlPoint = kendo.observable({
                     ]
                 });
                 homeModel.set("dataSourceBuild", dataSource);
-                $("#popBuildAll").kendoMobileModalView("open");
+               
 
             },
             addBuild: function () {
@@ -301,6 +301,7 @@ app.controlPoint = kendo.observable({
                         homeModel.set("builtItem", {});
                         $("#popEndCheck").kendoMobileModalView("open");
                         $("#popBuild").kendoMobileModalView("close");
+                        document.getElementById("BuildIcon1").style.color = "green";
                         app.mobileApp.hideLoading();
 
                     });
@@ -1157,6 +1158,15 @@ app.controlPoint = kendo.observable({
                     $('#mustField3').css("border-color", "red");
                     flag=true;
                 }
+
+                //כלים
+                  if(document.getElementById("toolIcon1").style.color!="green"){
+                   $('#mustField4').css("border-color", "red");
+                   flag=true;
+                }
+                else
+                   $('#mustField4').css("border-color", "#F7931E");
+
 
                 if(flag==false){
                 app.mobileApp.showLoading();
@@ -2734,7 +2744,11 @@ app.controlPoint = kendo.observable({
         $('#mustField1').css("border-color", "rgba(128, 128, 128, 0.5)");//שדות חובה
         $('#mustField2').css("border-color", "rgba(128, 128, 128, 0.5)");
         $('#mustField3').css("border-color", "rgba(128, 128, 128, 0.5)");
-        
+        $('#mustField4').css("border-color", "#F7931E");
+
+        document.getElementById("toolIcon1").style.color = "transparent";
+        document.getElementById("BuildIcon1").style.color = "transparent";
+
         //רחפנים
         var jsdoOptions = homeModel.get('_jsdoOptionsdrones'),
             jsdo = new progress.data.JSDO(jsdoOptions),
@@ -3022,6 +3036,9 @@ app.controlPoint = kendo.observable({
             });
             //console.log(dataSourceCP)
             homeModel.set("dataSourceCP", dataSourceCP);
+            homeModel.loadTool();
+            homeModel.loadBuild();
+            
             app.mobileApp.hideLoading();
         }
 

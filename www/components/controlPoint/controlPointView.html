@@ -141,6 +141,7 @@
         function openPopBuild() {
             $("#popEndCheck").kendoMobileModalView("close");
             app.controlPoint.homeModel.loadBuild();
+            $("#popBuildAll").kendoMobileModalView("open");
             // $("#popBuild").kendoMobileModalView("open");
             // app.controlPoint.homeModel.doSelect();
         }
@@ -166,6 +167,7 @@
         function openPopTool() {
             $("#popEndCheck").kendoMobileModalView("close");
             app.controlPoint.homeModel.loadTool();
+              $("#popToolAll").kendoMobileModalView("open");
             // $("#popTool").kendoMobileModalView("open");
         }
         function closePopTool() {
@@ -220,6 +222,7 @@
 
             <ul data-role="listview" id="listviewTool" data-style="inset" data-template="templateTool" style="background-color:#e9eaeb;width: 95%;" data-bind="{ source: homeModel.dataSourceTool, events: {click:homeModel.itemClickTool}}" data-pull-to-refresh="false"></ul>
             <script type="text/x-kendo-template" id="templateTool">
+               #document.getElementById("toolIcon1").style.color = "green";#
                 <div>
                     <table style="width:100%">
                         <tr>
@@ -462,6 +465,7 @@
 
             <ul data-role="listview" id="listviewBuild" data-style="inset" data-template="templateBuild" style="background-color:#e9eaeb;    width: 95%;" data-bind="{ source: homeModel.dataSourceBuild, events: {click:  homeModel.itemClickBuild}}" data-pull-to-refresh="false"></ul>
             <script type="text/x-kendo-template" id="templateBuild">
+               #document.getElementById("BuildIcon1").style.color = "green";#
                 <div>
                     <table style="width:100%">
                         <tr>
@@ -852,11 +856,13 @@
                             <td>
                                 <div style="height:4px;background-color:transparent;"></div>
                                 <div style="width:100%;">
-                                    <div onclick="openPopTool()" style="display: inline-block;padding: 0.5em;font-weight:200;width:49%;text-align: center;height: 40px;border:2px solid #F7931E;font-size:small;font-family: Tahoma, Geneva, sans-serif;background-color:#F7931E;">
+                                    <i class="fas fa-check-circle" id="toolIcon1" style="position: absolute;color:transparent;font-size:large;"></i>
+                                    <div onclick="openPopTool()" id="mustField4" style="display: inline-block;padding: 0.5em;font-weight:200;width:49%;text-align: center;height: 40px;border:2px solid #F7931E;font-size:small;font-family: Tahoma, Geneva, sans-serif;background-color:#F7931E;">
                                         <span style="font-family:Tahoma, Geneva, sans-serif;color: #ffffff;"> כלי טעון בדיקה</span>
                                     </div>
 
-
+                                    <i class="fas fa-check-circle" id="BuildIcon1" style="right: 54.5%;position: absolute;color:transparent;font-size:large;"></i>
+                                    
                                     <div onclick="openPopBuild()" style="float: left;display: inline-block;padding: 0.5em;font-weight:200;width:49%;text-align: center;height: 40px;border:2px solid #F7931E;font-size:small;font-family: Tahoma, Geneva, sans-serif;background-color:#F7931E;">
                                         <span style="font-family:Tahoma, Geneva, sans-serif;color: #ffffff;"> בניין</span>
                                     </div>
