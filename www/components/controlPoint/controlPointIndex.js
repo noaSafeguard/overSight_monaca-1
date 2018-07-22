@@ -1120,6 +1120,26 @@ app.controlPoint = kendo.observable({
             },
             //סיום מבדק
             endCheck: function () {
+          
+                var flag=false;
+                var obj=homeModel.get("checkItem");
+                console.log(obj.builtUpArea);
+                if(!obj.builtUpArea||obj.builtUpArea=="null"||obj.builtUpArea==""){
+                   $('#mustField1').css("border-color", "red");
+                   flag=true;
+                }
+                else
+                  $('#mustField1').css("border-color", "rgba(128, 128, 128, 0.5)");
+                
+
+                if(document.getElementById("singnCheck1").style.color!="red"){
+                   $('#mustField2').css("border-color", "red");
+                   flag=true;
+                }
+                else
+                   $('#mustField2').css("border-color", "rgba(128, 128, 128, 0.5)");
+
+                if(flag==false){
                 app.mobileApp.showLoading();
                 $("#popEndCheck").kendoMobileModalView("close");
                 var jsdoOptions = homeModel.get('_jsdoOptionsCheckupObject'),
@@ -1311,7 +1331,8 @@ app.controlPoint = kendo.observable({
                         alert("התגלתה בעיה בטעינת הנתונים, אנא נסה שוב  מאוחר יותר")
                     }
                 });
-
+                }
+                
             },
             saveCheck: function () {
                 app.mobileApp.showLoading();
@@ -2691,7 +2712,8 @@ app.controlPoint = kendo.observable({
         document.getElementById("pictureFillingStructures").src = "";
         document.getElementById("pictureSiteSignage").src = "";
 
-
+        $('#mustField1').css("border-color", "rgba(128, 128, 128, 0.5)");//שדות חובה
+        $('#mustField2').css("border-color", "rgba(128, 128, 128, 0.5)");
         //רחפנים
         var jsdoOptions = homeModel.get('_jsdoOptionsdrones'),
             jsdo = new progress.data.JSDO(jsdoOptions),
