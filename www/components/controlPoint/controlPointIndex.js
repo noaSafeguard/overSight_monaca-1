@@ -1111,6 +1111,7 @@ app.controlPoint = kendo.observable({
             //סיום מבדק
             endCheck1: function () {
                 $("#popEndCheck").kendoMobileModalView("open");
+                  $('#popEndCheck').data('kendoMobileModalView').scroller.reset()
                 //if (app.hightGuard.homeModel.get("currentCheck").cb_isPublish == 1) {//מבדק סגור
 
                 //}
@@ -1138,6 +1139,24 @@ app.controlPoint = kendo.observable({
                 }
                 else
                    $('#mustField2').css("border-color", "rgba(128, 128, 128, 0.5)");
+
+                //מטיסי רחפן
+                var multiselect = $("#inputFly").data("kendoMultiSelect");
+                var inputFly = multiselect.value();
+                if (inputFly != null) {
+                    inputFly = inputFly.toString()
+                    if (inputFly==""){
+                       $('#mustField3').css("border-color", "red");
+                       flag=true;
+                    }
+                    else{
+                      $('#mustField3').css("border-color", "rgba(128, 128, 128, 0.5)");
+                    }
+                }
+                else{
+                    $('#mustField3').css("border-color", "red");
+                    flag=true;
+                }
 
                 if(flag==false){
                 app.mobileApp.showLoading();
@@ -2714,6 +2733,8 @@ app.controlPoint = kendo.observable({
 
         $('#mustField1').css("border-color", "rgba(128, 128, 128, 0.5)");//שדות חובה
         $('#mustField2').css("border-color", "rgba(128, 128, 128, 0.5)");
+        $('#mustField3').css("border-color", "rgba(128, 128, 128, 0.5)");
+        
         //רחפנים
         var jsdoOptions = homeModel.get('_jsdoOptionsdrones'),
             jsdo = new progress.data.JSDO(jsdoOptions),

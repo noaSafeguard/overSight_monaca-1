@@ -273,6 +273,7 @@ app.hightGuard = kendo.observable({
                     }
                     homeModel.set("dataSourceProjectDashboard", dataSource)
                     $("#popProjectDetails").kendoMobileModalView("open");
+                    $('#popProjectDetails').data('kendoMobileModalView').scroller.reset()
                     app.mobileApp.hideLoading();
 
                 }
@@ -343,6 +344,7 @@ app.hightGuard = kendo.observable({
                     }
                     homeModel.set("dataSourceProjectDashboard", dataSource)
                     $("#popProjectDetails").kendoMobileModalView("open");
+                    $('#popProjectDetails').data('kendoMobileModalView').scroller.reset()
                     app.mobileApp.hideLoading();
                 });
 
