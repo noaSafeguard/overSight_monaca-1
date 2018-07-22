@@ -1,4 +1,5 @@
 <div data-role="view" data-layout="main" data-model="app.hightGuard" data-show="app.hightGuard.onShow" style="" dir="rtl">
+<!-- <div data-role="view" data-use-native-scrolling="true" data-model="app.hightGuard" data-show="app.hightGuard.onShow" dir="rtl" class="screen screen--add add-item-view"> -->
     <header data-role="header">
         <div data-role="navbar" class="header" style="background: linear-gradient(5.58deg, #923714 0%, #f7931e 100%);">
             <span id="projectNameHome"></span>
@@ -141,15 +142,18 @@
         }
     </script>
 
-    <div data-role="modalview" id="popProjectDetails" style="left:1px;width: 95%; height:95%;direction: rtl;text-align: right;">
-        <br />
-        <div style="width:100%;height:36%; background-color:#e9eaeb;box-shadow:0 4px 2px -2px #c7c1c1;">
-            <label style="float: right;box-shadow: 0px 2px 3px #A29E9E;background-color:#1A607C;font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 400;text-align:center;padding-left: 6px;padding-top: 2px;padding-right: 12px;padding-bottom: 3px;">
+    <div data-use-native-scrolling="true" data-role="modalview" id="popProjectDetails" style="left:1px;width: 95%; height:95%;direction: rtl;text-align: right;">
+        <header data-role="header">
+       <div style="width:100%;padding:2%;background-color:#1A607C;">
+         <center>
+          <label style="font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 400;text-align:center;">
                 פרטי פרויקט
             </label>
+         </center>
+       </div>
+        </header>
 
-        </div>
-        <br /><br />
+        <br />
         <center>
             <table style="width:98%;" dir="rtl">
                 <tr>
@@ -335,12 +339,21 @@
     </div>
 
     <!-- פופאפ משתתפים בסיור   -->
-    <div data-role="modalview" id="popParticipants" style="width:99%;height:40%;">
-        <br />
+    <div data-use-native-scrolling="true" data-role="modalview" id="popParticipants" style="width:99%;height:45%;">
+        <!-- <br />
         <div style="width:100%;height:36%; background-color:#e9eaeb;box-shadow:0 4px 2px -2px #c7c1c1;">
             <label style="box-shadow: 0px 2px 3px #A29E9E;background-color:#1A607C;font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 200;text-align:center;padding-left: 6px;padding-top: 2px;padding-right: 12px;padding-bottom: 3px;float: right;">משתתפי הסיור</label>
         </div>
-        <br />
+        <br /> -->
+          <header data-role="header">
+       <div style="width:100%;padding:2%;background-color:#1A607C;">
+         <center>
+          <label style="font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 400;text-align:center;">
+               משתתפי הסיור
+            </label>
+         </center>
+       </div>
+        </header>
         <br />
         <label id=""></label>
         <center>
