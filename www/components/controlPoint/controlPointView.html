@@ -167,7 +167,7 @@
         function openPopTool() {
             $("#popEndCheck").kendoMobileModalView("close");
             app.controlPoint.homeModel.loadTool();
-              $("#popToolAll").kendoMobileModalView("open");
+            $("#popToolAll").kendoMobileModalView("open");
             // $("#popTool").kendoMobileModalView("open");
         }
         function closePopTool() {
@@ -222,7 +222,7 @@
 
             <ul data-role="listview" id="listviewTool" data-style="inset" data-template="templateTool" style="background-color:#e9eaeb;width: 95%;" data-bind="{ source: homeModel.dataSourceTool, events: {click:homeModel.itemClickTool}}" data-pull-to-refresh="false"></ul>
             <script type="text/x-kendo-template" id="templateTool">
-               #document.getElementById("toolIcon1").style.color = "green";#
+                #document.getElementById("toolIcon1").style.color = "green";#
                 <div>
                     <table style="width:100%">
                         <tr>
@@ -296,14 +296,14 @@
         <div style="width:100%;height:36%; background-color:#e9eaeb;box-shadow:0 4px 2px -2px #c7c1c1;">
             <label style="box-shadow: 0px 2px 3px #A29E9E;background-color:#1A607C;font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 200;text-align:center;padding-left: 6px;padding-top: 2px;padding-right: 12px;padding-bottom: 3px;float: right;"> הוספת כלי טעון בדיקה</label>
         </div> -->
-            <header data-role="header">
-       <div style="width:100%;padding:2%;background-color:#1A607C;">
-         <center>
-          <label style="font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 400;text-align:center;">
-               הוספת כלי טעון בדיקה
-            </label>
-         </center>
-       </div>
+        <header data-role="header">
+            <div style="width:100%;padding:2%;background-color:#1A607C;">
+                <center>
+                    <label style="font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 400;text-align:center;">
+                        הוספת כלי טעון בדיקה
+                    </label>
+                </center>
+            </div>
         </header>
         <br />
         <center>
@@ -402,7 +402,7 @@
                             </td>
                             <td>
                                 <center>
-                                    <input type="text" data-bind="value:homeModel.clickItemTool.ToolDescription" placeholder="תיאור" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;" />
+                                    <input name="EdituildAndTool" type="text" data-bind="value:homeModel.clickItemTool.ToolDescription" placeholder="תיאור" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;" />
                                 </center>
                             </td>
                         </tr>
@@ -417,7 +417,7 @@
                             </td>
                             <td>
                                 <center>
-                                    <input type="number" data-bind="value:homeModel.clickItemTool.toolsNum" placeholder="כמות" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;" />
+                                    <input name="EdituildAndTool" type="number" data-bind="value:homeModel.clickItemTool.toolsNum" placeholder="כמות" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;" />
                                 </center>
                             </td>
                         </tr>
@@ -432,7 +432,7 @@
                             </td>
                             <td>
                                 <center>
-                                    <input type="text" data-bind="value:homeModel.clickItemTool.locInSite" placeholder="מיקום באתר" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;" />
+                                    <input name="EdituildAndTool" type="text" data-bind="value:homeModel.clickItemTool.locInSite" placeholder="מיקום באתר" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;" />
                                 </center>
                             </td>
                         </tr>
@@ -474,7 +474,7 @@
 
             <ul data-role="listview" id="listviewBuild" data-style="inset" data-template="templateBuild" style="background-color:#e9eaeb;    width: 95%;" data-bind="{ source: homeModel.dataSourceBuild, events: {click:  homeModel.itemClickBuild}}" data-pull-to-refresh="false"></ul>
             <script type="text/x-kendo-template" id="templateBuild">
-               #document.getElementById("BuildIcon1").style.color = "green";#
+                #document.getElementById("BuildIcon1").style.color = "green";#
                 <div>
                     <table style="width:100%">
                         <tr>
@@ -549,14 +549,14 @@
             <label style="box-shadow: 0px 2px 3px #A29E9E;background-color:#1A607C;font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 200;text-align:center;padding-left: 6px;padding-top: 2px;padding-right: 12px;padding-bottom: 3px;float: right;"> הוספת בניין</label>
         </div>
         <br /> -->
-         <header data-role="header">
-       <div style="width:100%;padding:2%;background-color:#1A607C;">
-         <center>
-          <label style="font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 400;text-align:center;">
-             הוספת בניין
-            </label>
-         </center>
-       </div>
+        <header data-role="header">
+            <div style="width:100%;padding:2%;background-color:#1A607C;">
+                <center>
+                    <label style="font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 400;text-align:center;">
+                        הוספת בניין
+                    </label>
+                </center>
+            </div>
         </header>
         <br />
         <center>
@@ -675,7 +675,7 @@
                             </td>
                             <td>
                                 <center>
-                                    <input type="text" data-bind="value:homeModel.clickItemBuild.buildingNum" placeholder="מספר בניין" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;" />
+                                    <input name="EdituildAndTool" type="text" data-bind="value:homeModel.clickItemBuild.buildingNum" placeholder="מספר בניין" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;" />
                                 </center>
                             </td>
                         </tr>
@@ -691,7 +691,7 @@
                             </td>
                             <td>
                                 <center>
-                                    <select id="executionStepSelectDetailes" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;"></select>
+                                    <select name="EdituildAndTool" id="executionStepSelectDetailes" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;"></select>
                                     <!--<input type="text"  placeholder="שלב ביצוע" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;" />-->
                                 </center>
                             </td>
@@ -707,7 +707,7 @@
                             </td>
                             <td>
                                 <center>
-                                    <input type="number" data-bind="value:homeModel.clickItemBuild.floorsNum" placeholder="מס קומות בעת הביקור" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;" />
+                                    <input name="EdituildAndTool" type="number" data-bind="value:homeModel.clickItemBuild.floorsNum" placeholder="מס קומות בעת הביקור" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;" />
                                 </center>
                             </td>
                         </tr>
@@ -720,7 +720,7 @@
                             <td>
                                 <div style="height:4px;background-color:transparent;"></div>
                                 <center>
-                                    <input type="number" data-bind="value:homeModel.clickItemBuild.builtUpArea" placeholder="הערכת שטח בנוי" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;" />
+                                    <input name="EdituildAndTool" type="number" data-bind="value:homeModel.clickItemBuild.builtUpArea" placeholder="הערכת שטח בנוי" style="padding: 0.5em;font-weight:200;width:100%;height: 40px;border:1px solid rgba(128, 128, 128, 0.5);font-size:small;font-family: Tahoma, Geneva, sans-serif;" />
                                 </center>
                             </td>
                         </tr>
@@ -753,13 +753,13 @@
     <!-- פופאפ סיום מבדק   -->
     <div data-use-native-scrolling="true" data-role="modalview" id="popEndCheck" style="left:1px;width:100%;height:100%;">
         <header data-role="header">
-       <div style="width:100%;padding:2%;background-color:#1A607C;">
-         <center>
-          <label style="font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 400;text-align:center;">
-               פרטים נוספים
-            </label>
-         </center>
-       </div>
+            <div style="width:100%;padding:2%;background-color:#1A607C;">
+                <center>
+                    <label style="font-family: Tahoma, Geneva, sans-serif; color:white; font-size: small;font-weight: 400;text-align:center;">
+                        פרטים נוספים
+                    </label>
+                </center>
+            </div>
         </header>
         <!-- <header data-role="header" style="background-color:#e9eaeb;">
             <br />
@@ -768,7 +768,7 @@
             </div>
         </header>
         <br /> -->
-          <br />
+        <br />
         <center>
             <div style="width:96%;" dir="rtl">
                 <div style="padding-left: 1.5%; padding-right: 0.1%; padding-top: 1.5%;">
@@ -891,7 +891,7 @@
                                     </div>
 
                                     <i class="fas fa-check-circle" id="BuildIcon1" style="right: 54.5%;position: absolute;color:transparent;font-size:large;"></i>
-                                    
+
                                     <div onclick="openPopBuild()" style="float: left;display: inline-block;padding: 0.5em;font-weight:200;width:49%;text-align: center;height: 40px;border:2px solid #F7931E;font-size:small;font-family: Tahoma, Geneva, sans-serif;background-color:#F7931E;">
                                         <span style="font-family:Tahoma, Geneva, sans-serif;color: #ffffff;"> בניין</span>
                                     </div>
@@ -972,7 +972,7 @@
                                 <label id="lableToolFly" style="float: right;text-align: right;font-size:small;font-family: Tahoma, Geneva, sans-serif;"></label>
 
                             </td>
-                           
+
                         </tr>
 
                         <tr>

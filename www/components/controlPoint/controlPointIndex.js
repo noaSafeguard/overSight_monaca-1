@@ -8,6 +8,7 @@ app.controlPoint = kendo.observable({
     flagImageEdit: false,
     flagIsEdit: false
 });
+
 (function (parent) {
     var dataProvider = app.data.progressDataProvider,
         current,
@@ -272,7 +273,7 @@ app.controlPoint = kendo.observable({
                     ]
                 });
                 homeModel.set("dataSourceBuild", dataSource);
-               
+
 
             },
             addBuild: function () {
@@ -1112,7 +1113,7 @@ app.controlPoint = kendo.observable({
             //סיום מבדק
             endCheck1: function () {
                 $("#popEndCheck").kendoMobileModalView("open");
-                  $('#popEndCheck').data('kendoMobileModalView').scroller.reset()
+                $('#popEndCheck').data('kendoMobileModalView').scroller.reset()
                 //if (app.hightGuard.homeModel.get("currentCheck").cb_isPublish == 1) {//מבדק סגור
 
                 //}
@@ -1122,246 +1123,246 @@ app.controlPoint = kendo.observable({
             },
             //סיום מבדק
             endCheck: function () {
-          
-                var flag=false;
-                var obj=homeModel.get("checkItem");
-                console.log(obj.builtUpArea);
-                if(!obj.builtUpArea||obj.builtUpArea=="null"||obj.builtUpArea==""){
-                   $('#mustField1').css("border-color", "red");
-                   flag=true;
-                }
-                else
-                  $('#mustField1').css("border-color", "rgba(128, 128, 128, 0.5)");
-                
 
-                if(document.getElementById("singnCheck1").style.color!="red"){
-                   $('#mustField2').css("border-color", "red");
-                   flag=true;
+                var flag = false;
+                var obj = homeModel.get("checkItem");
+                console.log(obj.builtUpArea);
+                if (!obj.builtUpArea || obj.builtUpArea == "null" || obj.builtUpArea == "") {
+                    $('#mustField1').css("border-color", "red");
+                    flag = true;
                 }
                 else
-                   $('#mustField2').css("border-color", "rgba(128, 128, 128, 0.5)");
+                    $('#mustField1').css("border-color", "rgba(128, 128, 128, 0.5)");
+
+
+                if (document.getElementById("singnCheck1").style.color != "red") {
+                    $('#mustField2').css("border-color", "red");
+                    flag = true;
+                }
+                else
+                    $('#mustField2').css("border-color", "rgba(128, 128, 128, 0.5)");
 
                 //מטיסי רחפן
                 var multiselect = $("#inputFly").data("kendoMultiSelect");
                 var inputFly = multiselect.value();
                 if (inputFly != null) {
                     inputFly = inputFly.toString()
-                    if (inputFly==""){
-                       $('#mustField3').css("border-color", "red");
-                       flag=true;
+                    if (inputFly == "") {
+                        $('#mustField3').css("border-color", "red");
+                        flag = true;
                     }
-                    else{
-                      $('#mustField3').css("border-color", "rgba(128, 128, 128, 0.5)");
+                    else {
+                        $('#mustField3').css("border-color", "rgba(128, 128, 128, 0.5)");
                     }
                 }
-                else{
+                else {
                     $('#mustField3').css("border-color", "red");
-                    flag=true;
+                    flag = true;
                 }
 
                 //כלים
-                  if(document.getElementById("toolIcon1").style.color!="green"){
-                   $('#mustField4').css("border-color", "red");
-                   flag=true;
+                if (document.getElementById("toolIcon1").style.color != "green") {
+                    $('#mustField4').css("border-color", "red");
+                    flag = true;
                 }
                 else
-                   $('#mustField4').css("border-color", "#F7931E");
+                    $('#mustField4').css("border-color", "#F7931E");
 
 
-                if(flag==false){
-                app.mobileApp.showLoading();
-                $("#popEndCheck").kendoMobileModalView("close");
-                var jsdoOptions = homeModel.get('_jsdoOptionsCheckupObject'),
-                    jsdo = new progress.data.JSDO(jsdoOptions),
-                    dataSourceOptions = homeModel.get('_dataSourceOptions'),
-                    dataSource;
-                dataSourceOptions.transport.jsdo = jsdo;
-                dataSource = new kendo.data.DataSource(dataSourceOptions);
-                dataSource.filter({
-                    logic: "and",
-                    filters: [
-                        { field: "id", operator: "eq", value: (app.hightGuard.homeModel.get("currentCheck")).id }
-                    ]
-                })
+                if (flag == false) {
+                    app.mobileApp.showLoading();
+                    $("#popEndCheck").kendoMobileModalView("close");
+                    var jsdoOptions = homeModel.get('_jsdoOptionsCheckupObject'),
+                        jsdo = new progress.data.JSDO(jsdoOptions),
+                        dataSourceOptions = homeModel.get('_dataSourceOptions'),
+                        dataSource;
+                    dataSourceOptions.transport.jsdo = jsdo;
+                    dataSource = new kendo.data.DataSource(dataSourceOptions);
+                    dataSource.filter({
+                        logic: "and",
+                        filters: [
+                            { field: "id", operator: "eq", value: (app.hightGuard.homeModel.get("currentCheck")).id }
+                        ]
+                    })
 
-                dataSource.fetch(function () {
-                    var view = dataSource.view();
-                    console.log(view);
-                    //var obj = {
-                    //    "DroneURL": document.getElementById("DroneURL").value,//רחפן
-                    //    "TourParticipants": document.getElementById("TourParticipants").value,//משתתפים בסיור
-                    //    "AdditionalComments": document.getElementById("AdditionalComments").value,//הערות נוספות
-                    //    "Latitude": pos.lat,
-                    //    "Longitude": pos.lng
+                    dataSource.fetch(function () {
+                        var view = dataSource.view();
+                        console.log(view);
+                        //var obj = {
+                        //    "DroneURL": document.getElementById("DroneURL").value,//רחפן
+                        //    "TourParticipants": document.getElementById("TourParticipants").value,//משתתפים בסיור
+                        //    "AdditionalComments": document.getElementById("AdditionalComments").value,//הערות נוספות
+                        //    "Latitude": pos.lat,
+                        //    "Longitude": pos.lng
 
-                    //}
+                        //}
 
-                    if (document.getElementById("publicBuildings").checked == false) {
-                        homeModel.checkItem.set("publicBuildingsDetails", "");
-                    }
-
-                    homeModel.checkItem.set("publicBuildings", document.getElementById("publicBuildings").checked);//קיימים מבנים ציבוריים
-                    homeModel.checkItem.set("cb_Share", document.getElementById("publishToContact").checked);//הפצה לאנשי קשר לפי מחוז
-                    homeModel.checkItem.set("DroneCalibration", document.getElementById("DroneCalibration").checked);//בוצע כיול לרחפן
-                    homeModel.checkItem.set("cb_isPublish", true);//סיום מבדק
-                    //מטיסי רחפן
-                    var multiselect = $("#inputFly").data("kendoMultiSelect");
-                    var inputFly = multiselect.value();
-                    if (inputFly != null) {
-                        inputFly = inputFly.toString()
-                        if (homeModel.get("dataFly") != inputFly)
-                            homeModel.checkItem.set("R414108735", inputFly);//מטיסי רחפן
-                    }
-                    //רחפנים
-                    var multiselect = $("#inputToolFly").data("kendoMultiSelect");
-                    var inputToolFly = multiselect.value();
-                    if (inputToolFly != null) {
-                        inputToolFly = inputToolFly.toString()
-                        if (homeModel.get("dataToolFly") != inputToolFly)
-                            homeModel.checkItem.set("R414166903", inputToolFly);//רחפנים
-                    }
-
-
-
-                    var obj = homeModel.get("checkItem")
-                    try {
-                        var jsdo = dataSource.transport.jsdo;
-                        var jsrow = jsdo.findById(view[0].id);
-                        var afterUpdateFn;
-                        jsrow.assign(obj);
-                        afterUpdateFn = function (jsdo, record, success, request) {
-                            jsdo.unsubscribe('afterUpdate', afterUpdateFn);
-                            if (success === true) {
-                                //var image = document.getElementById('imageSignCheck');
-                                //document.getElementById('singnCheck1').style.color = "red";
-
-                                var siteSignageURL1 = homeModel.get("siteSignageURL1");
-                                var FillingStructuresURL1 = homeModel.get("FillingStructuresURL1");
-                                var signatureURL1 = homeModel.get("signatureURL1");
-
-                                var siteSignage1 = document.getElementById("pictureSiteSignage").src;
-                                var FillingStructures1 = document.getElementById("pictureFillingStructures").src;
-                                var signature1 = document.getElementById("imageSignCheck").src;
-
-                                var siteSignageClr = document.getElementById("siteSignage").style.color;
-                                var FillingStructuresClr = document.getElementById("FillingStructures").style.color;
-                                var signatureClr = document.getElementById("singnCheck1").style.color;
-
-                                var flagSiteSignage = false;
-                                var flagFillingStructures = false;
-                                var flagSignature = false;
-
-                                if (siteSignageClr == "green" && siteSignageURL1 != siteSignage1)
-                                    flagSiteSignage = true;
-
-                                if (FillingStructuresClr == "green" && FillingStructuresURL1 != FillingStructures1)
-                                    flagFillingStructures = true;
-
-                                if (signatureClr == "red" && signatureURL1 != signature1)
-                                    flagSignature = true;
-
-                                if (flagSiteSignage == true || flagFillingStructures == true || flagSignature == true)
-                                    uploadPictureToServer(flagSiteSignage, flagFillingStructures, flagSignature, view[0]);
-                                else {
-                                    app.mobileApp.hideLoading();
-                                    app.mobileApp.navigate('#components/hightGuard/view.html');
-                                }
-                                //if (document.getElementById("siteSignage").style.color == "green" || document.getElementById("FillingStructures").style.color == "green" || document.getElementById('singnCheck1').style.color == "red") {
-                                //    uploadPictureToServer(view[0]);
-                                //}
-
-
-                            }
-                            else {
-                                alert("שגיאה");
-                            }
-                        };
-                        jsdo.subscribe('afterUpdate', afterUpdateFn);
-                        jsdo.saveChanges();
-
-
-                        function uploadPictureToServer(flagSiteSignage, flagFillingStructures, flagSignature, cur) {
-                            var mone1 = 0;
-                            var mone2 = 0;
-                            var options = new FileUploadOptions();
-                            options.quality = 10;
-                            options.fileKey = "fileContents";
-
-                            options.mimeType = "image/jpeg";
-                            options.params = {};
-                            options.headers = {
-                                Connection: "Close"
-                            };
-                            options.chunkedMode = false;
-                            var ft = new FileTransfer();
-                            var imageObj1, imageObj2, imageObj3;
-                            var fileURI1, fileURI2, fileURI3;
-                            var urlRB1, urlRB2, urlRB3;
-
-                            if (flagSiteSignage == true) {
-                                mone1++;
-                                imageObj1 = $.parseJSON(cur.siteSignage);
-                                fileURI1 = document.getElementById('pictureSiteSignage').src;
-                                urlRB1 = jsdo.url + imageObj1.src + "?objName=" + app.controlPoint.homeModel._jsdoOptions.name;
-                                options.fileName = "photo1.jpeg";
-                                ft.upload(
-                                    fileURI1,
-                                    encodeURI(urlRB1),
-                                    onFileUploadSuccess("photo1"),
-                                    onFileTransferFail,
-                                    options,
-                                    true);
-                            }
-                            if (flagFillingStructures == true) {
-                                mone1++;
-                                imageObj2 = $.parseJSON(cur.FillingStructures);
-                                fileURI2 = document.getElementById('pictureFillingStructures').src;
-                                urlRB2 = jsdo.url + imageObj2.src + "?objName=" + app.controlPoint.homeModel._jsdoOptions.name;
-                                options.fileName = "photo2.jpeg";
-                                ft.upload(
-                                    fileURI2,
-                                    encodeURI(urlRB2),
-                                    onFileUploadSuccess("photo2"),
-                                    onFileTransferFail,
-                                    options,
-                                    true);
-                            }
-                            if (flagSignature == true) {
-                                mone1++;
-                                imageObj3 = $.parseJSON(cur.signature);
-                                fileURI3 = document.getElementById('imageSignCheck').src;
-                                urlRB3 = jsdo.url + imageObj3.src + "?objName=" + app.controlPoint.homeModel._jsdoOptions.name;
-                                options.fileName = "photo3.jpeg";
-                                ft.upload(
-                                    fileURI3,
-                                    encodeURI(urlRB3),
-                                    onFileUploadSuccess("photo3"),
-                                    onFileTransferFail,
-                                    options,
-                                    true);
-                            }
-
-                            function onFileUploadSuccess(fieldName) {
-                                mone2++;
-                                if (mone1 == mone2) {
-                                    setTimeout(function () {
-                                        app.mobileApp.hideLoading();
-                                        app.mobileApp.navigate('#components/hightGuard/view.html');
-                                    }, 100);
-                                }
-                            }
-                            function onFileTransferFail(error) {
-                                alert("Error loading the image");
-                            }
-
+                        if (document.getElementById("publicBuildings").checked == false) {
+                            homeModel.checkItem.set("publicBuildingsDetails", "");
                         }
 
-                    } catch (e) {
-                        alert("התגלתה בעיה בטעינת הנתונים, אנא נסה שוב  מאוחר יותר")
-                    }
-                });
+                        homeModel.checkItem.set("publicBuildings", document.getElementById("publicBuildings").checked);//קיימים מבנים ציבוריים
+                        homeModel.checkItem.set("cb_Share", document.getElementById("publishToContact").checked);//הפצה לאנשי קשר לפי מחוז
+                        homeModel.checkItem.set("DroneCalibration", document.getElementById("DroneCalibration").checked);//בוצע כיול לרחפן
+                        homeModel.checkItem.set("cb_isPublish", true);//סיום מבדק
+                        //מטיסי רחפן
+                        var multiselect = $("#inputFly").data("kendoMultiSelect");
+                        var inputFly = multiselect.value();
+                        if (inputFly != null) {
+                            inputFly = inputFly.toString()
+                            if (homeModel.get("dataFly") != inputFly)
+                                homeModel.checkItem.set("R414108735", inputFly);//מטיסי רחפן
+                        }
+                        //רחפנים
+                        var multiselect = $("#inputToolFly").data("kendoMultiSelect");
+                        var inputToolFly = multiselect.value();
+                        if (inputToolFly != null) {
+                            inputToolFly = inputToolFly.toString()
+                            if (homeModel.get("dataToolFly") != inputToolFly)
+                                homeModel.checkItem.set("R414166903", inputToolFly);//רחפנים
+                        }
+
+
+
+                        var obj = homeModel.get("checkItem")
+                        try {
+                            var jsdo = dataSource.transport.jsdo;
+                            var jsrow = jsdo.findById(view[0].id);
+                            var afterUpdateFn;
+                            jsrow.assign(obj);
+                            afterUpdateFn = function (jsdo, record, success, request) {
+                                jsdo.unsubscribe('afterUpdate', afterUpdateFn);
+                                if (success === true) {
+                                    //var image = document.getElementById('imageSignCheck');
+                                    //document.getElementById('singnCheck1').style.color = "red";
+
+                                    var siteSignageURL1 = homeModel.get("siteSignageURL1");
+                                    var FillingStructuresURL1 = homeModel.get("FillingStructuresURL1");
+                                    var signatureURL1 = homeModel.get("signatureURL1");
+
+                                    var siteSignage1 = document.getElementById("pictureSiteSignage").src;
+                                    var FillingStructures1 = document.getElementById("pictureFillingStructures").src;
+                                    var signature1 = document.getElementById("imageSignCheck").src;
+
+                                    var siteSignageClr = document.getElementById("siteSignage").style.color;
+                                    var FillingStructuresClr = document.getElementById("FillingStructures").style.color;
+                                    var signatureClr = document.getElementById("singnCheck1").style.color;
+
+                                    var flagSiteSignage = false;
+                                    var flagFillingStructures = false;
+                                    var flagSignature = false;
+
+                                    if (siteSignageClr == "green" && siteSignageURL1 != siteSignage1)
+                                        flagSiteSignage = true;
+
+                                    if (FillingStructuresClr == "green" && FillingStructuresURL1 != FillingStructures1)
+                                        flagFillingStructures = true;
+
+                                    if (signatureClr == "red" && signatureURL1 != signature1)
+                                        flagSignature = true;
+
+                                    if (flagSiteSignage == true || flagFillingStructures == true || flagSignature == true)
+                                        uploadPictureToServer(flagSiteSignage, flagFillingStructures, flagSignature, view[0]);
+                                    else {
+                                        app.mobileApp.hideLoading();
+                                        app.mobileApp.navigate('#components/hightGuard/view.html');
+                                    }
+                                    //if (document.getElementById("siteSignage").style.color == "green" || document.getElementById("FillingStructures").style.color == "green" || document.getElementById('singnCheck1').style.color == "red") {
+                                    //    uploadPictureToServer(view[0]);
+                                    //}
+
+
+                                }
+                                else {
+                                    alert("שגיאה");
+                                }
+                            };
+                            jsdo.subscribe('afterUpdate', afterUpdateFn);
+                            jsdo.saveChanges();
+
+
+                            function uploadPictureToServer(flagSiteSignage, flagFillingStructures, flagSignature, cur) {
+                                var mone1 = 0;
+                                var mone2 = 0;
+                                var options = new FileUploadOptions();
+                                options.quality = 10;
+                                options.fileKey = "fileContents";
+
+                                options.mimeType = "image/jpeg";
+                                options.params = {};
+                                options.headers = {
+                                    Connection: "Close"
+                                };
+                                options.chunkedMode = false;
+                                var ft = new FileTransfer();
+                                var imageObj1, imageObj2, imageObj3;
+                                var fileURI1, fileURI2, fileURI3;
+                                var urlRB1, urlRB2, urlRB3;
+
+                                if (flagSiteSignage == true) {
+                                    mone1++;
+                                    imageObj1 = $.parseJSON(cur.siteSignage);
+                                    fileURI1 = document.getElementById('pictureSiteSignage').src;
+                                    urlRB1 = jsdo.url + imageObj1.src + "?objName=" + app.controlPoint.homeModel._jsdoOptions.name;
+                                    options.fileName = "photo1.jpeg";
+                                    ft.upload(
+                                        fileURI1,
+                                        encodeURI(urlRB1),
+                                        onFileUploadSuccess("photo1"),
+                                        onFileTransferFail,
+                                        options,
+                                        true);
+                                }
+                                if (flagFillingStructures == true) {
+                                    mone1++;
+                                    imageObj2 = $.parseJSON(cur.FillingStructures);
+                                    fileURI2 = document.getElementById('pictureFillingStructures').src;
+                                    urlRB2 = jsdo.url + imageObj2.src + "?objName=" + app.controlPoint.homeModel._jsdoOptions.name;
+                                    options.fileName = "photo2.jpeg";
+                                    ft.upload(
+                                        fileURI2,
+                                        encodeURI(urlRB2),
+                                        onFileUploadSuccess("photo2"),
+                                        onFileTransferFail,
+                                        options,
+                                        true);
+                                }
+                                if (flagSignature == true) {
+                                    mone1++;
+                                    imageObj3 = $.parseJSON(cur.signature);
+                                    fileURI3 = document.getElementById('imageSignCheck').src;
+                                    urlRB3 = jsdo.url + imageObj3.src + "?objName=" + app.controlPoint.homeModel._jsdoOptions.name;
+                                    options.fileName = "photo3.jpeg";
+                                    ft.upload(
+                                        fileURI3,
+                                        encodeURI(urlRB3),
+                                        onFileUploadSuccess("photo3"),
+                                        onFileTransferFail,
+                                        options,
+                                        true);
+                                }
+
+                                function onFileUploadSuccess(fieldName) {
+                                    mone2++;
+                                    if (mone1 == mone2) {
+                                        setTimeout(function () {
+                                            app.mobileApp.hideLoading();
+                                            app.mobileApp.navigate('#components/hightGuard/view.html');
+                                        }, 100);
+                                    }
+                                }
+                                function onFileTransferFail(error) {
+                                    alert("Error loading the image");
+                                }
+
+                            }
+
+                        } catch (e) {
+                            alert("התגלתה בעיה בטעינת הנתונים, אנא נסה שוב  מאוחר יותר")
+                        }
+                    });
                 }
-                
+
             },
             saveCheck: function () {
                 app.mobileApp.showLoading();
@@ -1599,15 +1600,15 @@ app.controlPoint = kendo.observable({
                             multiselect.value([]);
                             $("#popAdditionalComments").kendoMobileModalView("open");
                         });
-                       
+
                         //multiselect.setDataSource(dataSource);
-                      
+
 
                     }
 
                 }
 
-             
+
             },
             closePopAdditionalComments: function () {
                 var i = homeModel.get("lastIdIndex");
@@ -1617,9 +1618,9 @@ app.controlPoint = kendo.observable({
                 else
                     document.getElementById("comments" + arr[i].id).style.color = "#7B7878";
 
-             
+
                 var txt = document.getElementById("AdditionalCommentsTxt").value;
-               
+
                 var list = $("#inputListComments").data("kendoMultiSelect").dataItems();
                 if (list.length > 0) {
                     document.getElementById("comments" + arr[i].id).style.color = "red";
@@ -1663,10 +1664,10 @@ app.controlPoint = kendo.observable({
                             });
                         }
                         else {
-                            
+
                             $("#popAdditionalCommentsD").kendoMobileModalView("open");
                         }
-                            
+
 
                     }
 
@@ -2903,6 +2904,8 @@ app.controlPoint = kendo.observable({
 
                 popEndCheckOpen.hidden = true;//footer popup
                 popEndCheckClose.hidden = false;//footer popup
+
+                $('[name=EdituildAndTool]').attr('disabled', true);
                 $('[name=adduildAndTool]').css('display', 'none');
                 // document.getElementById("adduildAndTool").style.display = "none";//adduildAndTool
                 document.getElementById("changeImageF1").style.display = "none"; //החלף תמונה
@@ -2925,6 +2928,7 @@ app.controlPoint = kendo.observable({
                 popEndCheckOpen.hidden = false;//footer popup
                 popEndCheckClose.hidden = true;//footer popup
 
+                $('[name=EdituildAndTool]').attr('disabled', false);
                 $('[name=adduildAndTool]').css('display', '');
                 //   document.getElementById("adduildAndTool").style.display = "";//adduildAndTool
 
@@ -2946,6 +2950,7 @@ app.controlPoint = kendo.observable({
             popEndCheckOpen.hidden = false;//footer popup
             popEndCheckClose.hidden = true;//footer popup
 
+            $('[name=EdituildAndTool]').attr('disabled', false);
             $('[name=adduildAndTool]').css('display', '');
             // document.getElementById("adduildAndTool").style.display = "";//adduildAndTool
 
@@ -3038,7 +3043,7 @@ app.controlPoint = kendo.observable({
             homeModel.set("dataSourceCP", dataSourceCP);
             homeModel.loadTool();
             homeModel.loadBuild();
-            
+
             app.mobileApp.hideLoading();
         }
 
@@ -3077,59 +3082,59 @@ app.controlPoint = kendo.observable({
             data: [],
         });
         homeModel.set('dataSourceSectionNote', dataSource);
-            var checkInputs = function (elements) {
-                elements.each(function () {
-                    var element = $(this);
-                    var input = element.children("input");
-                    input.prop("checked", element.hasClass("k-state-selected"));
-                });
-            };
-            
-            $("#inputListComments").kendoMultiSelect({
-                tagTemplate: kendo.template($("#tagTemplateListComments").html()),
-                tagMode: "single",
-                itemTemplate: '<table style=""><tr><td style="width:98%;padding:0.7em;">' +
-                '<label style="float: right;text-align: right;font-size:small;font-family: Tahoma, Geneva, sans-serif;">:#:NoteContent#</label>' +
-                '</td></tr></table>',
-
-                autoClose: false,
-                dataTextField: "NoteContent",
-                dataValueField: "id",
-                dataSource: homeModel.dataSourceSectionNote,
-                dataBound: function () {
-                    var items = this.ul.find("li");
-                    setTimeout(function () {
-                        checkInputs(items);
-                    });
-                },
-                change: function () {
-                    var items = this.ul.find("li");
-                    checkInputs(items);
-                },
+        var checkInputs = function (elements) {
+            elements.each(function () {
+                var element = $(this);
+                var input = element.children("input");
+                input.prop("checked", element.hasClass("k-state-selected"));
             });
-            var multiselect = $("#inputListComments").data("kendoMultiSelect");
-            multiselect.input.attr("readonly", true)
-                .on("keydown", function (e) {
-                    if (e.keyCode === 8) {
-                        e.preventDefault();
-                    }
-                });
-            //dataSource.fetch(function () {
-            //    var view = dataSource.view();
+        };
 
-            //    for (var i = 0; i < view.length; i++) {
-            //        var node = document.createElement('div');
-            //        var string = "";
-            //        string += '<div class="DescriptionGeneri" id="' + view[i].id+'">';
-            //        string += '<label style="color: white;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;font-size:medium;width:100%">';
-            //        string += view[i].NoteContent;
-            //        string += '</label></div>'
-            //        node.innerHTML = string;
-            //        document.getElementById('DescriptionGeneri').appendChild(node);
-            //    }
-         
-              
-            //});
+        $("#inputListComments").kendoMultiSelect({
+            tagTemplate: kendo.template($("#tagTemplateListComments").html()),
+            tagMode: "single",
+            itemTemplate: '<table style=""><tr><td style="width:98%;padding:0.7em;">' +
+            '<label style="float: right;text-align: right;font-size:small;font-family: Tahoma, Geneva, sans-serif;">:#:NoteContent#</label>' +
+            '</td></tr></table>',
+
+            autoClose: false,
+            dataTextField: "NoteContent",
+            dataValueField: "id",
+            dataSource: homeModel.dataSourceSectionNote,
+            dataBound: function () {
+                var items = this.ul.find("li");
+                setTimeout(function () {
+                    checkInputs(items);
+                });
+            },
+            change: function () {
+                var items = this.ul.find("li");
+                checkInputs(items);
+            },
+        });
+        var multiselect = $("#inputListComments").data("kendoMultiSelect");
+        multiselect.input.attr("readonly", true)
+            .on("keydown", function (e) {
+                if (e.keyCode === 8) {
+                    e.preventDefault();
+                }
+            });
+        //dataSource.fetch(function () {
+        //    var view = dataSource.view();
+
+        //    for (var i = 0; i < view.length; i++) {
+        //        var node = document.createElement('div');
+        //        var string = "";
+        //        string += '<div class="DescriptionGeneri" id="' + view[i].id+'">';
+        //        string += '<label style="color: white;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;font-size:medium;width:100%">';
+        //        string += view[i].NoteContent;
+        //        string += '</label></div>'
+        //        node.innerHTML = string;
+        //        document.getElementById('DescriptionGeneri').appendChild(node);
+        //    }
+
+
+        //});
 
 
         //});
@@ -3160,66 +3165,66 @@ app.controlPoint = kendo.observable({
         //        dataSource;
         //    dataSourceOptions.transport.jsdo = jsdo;
         //    dataSource = new kendo.data.DataSource(dataSourceOptions)
-            var checkInputs = function (elements) {
-                elements.each(function () {
-                    var element = $(this);
-                    var input = element.children("input");
-                    input.prop("checked", element.hasClass("k-state-selected"));
-                });
-            };
+        var checkInputs = function (elements) {
+            elements.each(function () {
+                var element = $(this);
+                var input = element.children("input");
+                input.prop("checked", element.hasClass("k-state-selected"));
+            });
+        };
         var dataSourceSectionNote = new kendo.data.DataSource({
             data: [],
-            });
+        });
         homeModel.set('dataSourceSectionNote', dataSource);
 
-            $("#inputListCommentsEdit").kendoMultiSelect({
-                tagTemplate: kendo.template($("#tagTemplateListCommentsEdit").html()),
-                tagMode: "single",
-                itemTemplate: '<table style=""><tr><td style="width:98%;padding:0.7em;">' +
-                '<label style="float: right;text-align: right;font-size:small;font-family: Tahoma, Geneva, sans-serif;">:#:NoteContent#</label>' +
-                '</td></tr></table>',
+        $("#inputListCommentsEdit").kendoMultiSelect({
+            tagTemplate: kendo.template($("#tagTemplateListCommentsEdit").html()),
+            tagMode: "single",
+            itemTemplate: '<table style=""><tr><td style="width:98%;padding:0.7em;">' +
+            '<label style="float: right;text-align: right;font-size:small;font-family: Tahoma, Geneva, sans-serif;">:#:NoteContent#</label>' +
+            '</td></tr></table>',
 
-                autoClose: false,
-                dataTextField: "NoteContent",
-                dataValueField: "id",
-                dataSource: homeModel.dataSourceSectionNote,
-                dataBound: function () {
-                    var items = this.ul.find("li");
-                    setTimeout(function () {
-                        checkInputs(items);
-                    });
-                },
-                change: function () {
-                    var items = this.ul.find("li");
+            autoClose: false,
+            dataTextField: "NoteContent",
+            dataValueField: "id",
+            dataSource: homeModel.dataSourceSectionNote,
+            dataBound: function () {
+                var items = this.ul.find("li");
+                setTimeout(function () {
                     checkInputs(items);
-                },
-            });
-            var multiselect = $("#inputListCommentsEdit").data("kendoMultiSelect");
-            multiselect.input.attr("readonly", true)
-                .on("keydown", function (e) {
-                    if (e.keyCode === 8) {
-                        e.preventDefault();
-                    }
                 });
-            //dataSource.fetch(function () {
-            //    var view = dataSource.view();
+            },
+            change: function () {
+                var items = this.ul.find("li");
+                checkInputs(items);
+            },
+        });
+        var multiselect = $("#inputListCommentsEdit").data("kendoMultiSelect");
+        multiselect.input.attr("readonly", true)
+            .on("keydown", function (e) {
+                if (e.keyCode === 8) {
+                    e.preventDefault();
+                }
+            });
+        //dataSource.fetch(function () {
+        //    var view = dataSource.view();
 
-            //    for (var i = 0; i < view.length; i++) {
-            //        var node = document.createElement('div');
-            //        var string = "";
-            //        string += '<div class="DescriptionGeneri" id="' + view[i].id+'">';
-            //        string += '<label style="color: white;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;font-size:medium;width:100%">';
-            //        string += view[i].NoteContent;
-            //        string += '</label></div>'
-            //        node.innerHTML = string;
-            //        document.getElementById('DescriptionGeneri').appendChild(node);
-            //    }
+        //    for (var i = 0; i < view.length; i++) {
+        //        var node = document.createElement('div');
+        //        var string = "";
+        //        string += '<div class="DescriptionGeneri" id="' + view[i].id+'">';
+        //        string += '<label style="color: white;font-family:Tahoma, Geneva, sans-serif;font-weight: 400;font-size:medium;width:100%">';
+        //        string += view[i].NoteContent;
+        //        string += '</label></div>'
+        //        node.innerHTML = string;
+        //        document.getElementById('DescriptionGeneri').appendChild(node);
+        //    }
 
 
-            //});
+        //});
 
 
-     //   });
+        //   });
 
     });
     parent.set('onShowSection', function (e) {
@@ -3398,9 +3403,9 @@ app.controlPoint = kendo.observable({
 
             }
         });
-      //  homeModel.set("arrDescription",[])
+        //  homeModel.set("arrDescription",[])
 
-     
+
 
         //} catch (e) {
         //    alert("שגיאה")
@@ -3656,7 +3661,7 @@ app.controlPoint = kendo.observable({
                 imageEdit2.hidden = true;
                 $("textarea").attr("disabled", true);
                 app.mobileApp.hideLoading();
-            
+
             }
             function getList(IntScore) {
                 var res = [];

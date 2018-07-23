@@ -775,6 +775,10 @@ div.k-multiselect-wrap.k-floatwrap {
 /*הבפנים*/
 li.k-button {
     border-style: none;
+        text-align: center;
+    direction: rtl;
+    width: 90%;
+    height: 5px;
 }
     /*הטקסט של הבפנים*/
     li.k-button span {
