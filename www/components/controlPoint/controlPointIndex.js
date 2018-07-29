@@ -660,7 +660,7 @@ app.controlPoint = kendo.observable({
                                 // setTimeout(function () {
                                 if (app.hightGuard.homeModel.get("currentCheck").cb_isPublish != 1) //מבדק פתוח
                                     app.mobileApp.navigate('#components/controlPoint/sections.html');
-                                app.mobileApp.hideLoading();
+                                    app.mobileApp.hideLoading();
                                 // }, 100);
                             }
                         });
@@ -2538,28 +2538,28 @@ app.controlPoint = kendo.observable({
         }
 
         function onFileUploadSuccessEdit(fieldName) {
-            if (fieldName === "photo1") {
-                window.plugins.toast.showWithOptions(
-                    {
-                        message: "תמונה עלתה בהצלחה",
-                        duration: "short", // which is 2000 ms. "long" is 4000. Or specify the nr of ms yourself.
-                        position: "bottom",
-                        addPixelsY: -40  // added a negative value to move it up a bit (default 0)
-                    }
+            //if (fieldName === "photo1") {
+            //    window.plugins.toast.showWithOptions(
+            //        {
+            //            message: "תמונה עלתה בהצלחה",
+            //            duration: "short", // which is 2000 ms. "long" is 4000. Or specify the nr of ms yourself.
+            //            position: "bottom",
+            //            addPixelsY: -40  // added a negative value to move it up a bit (default 0)
+            //        }
 
-                );
-            }
-            if (fieldName === "photo2") {
-                window.plugins.toast.showWithOptions(
-                    {
-                        message: "תמונה עלתה בהצלחה",
-                        duration: "short", // which is 2000 ms. "long" is 4000. Or specify the nr of ms yourself.
-                        position: "bottom",
-                        addPixelsY: -40  // added a negative value to move it up a bit (default 0)
-                    }
+            //    );
+            //}
+            //if (fieldName === "photo2") {
+            //    window.plugins.toast.showWithOptions(
+            //        {
+            //            message: "תמונה עלתה בהצלחה",
+            //            duration: "short", // which is 2000 ms. "long" is 4000. Or specify the nr of ms yourself.
+            //            position: "bottom",
+            //            addPixelsY: -40  // added a negative value to move it up a bit (default 0)
+            //        }
 
-                );
-            }
+            //    );
+            //}
             moneS++;
             if (mone == moneS) {
                 app.controlPoint.homeModel.set("fileURIEdit", "null");
@@ -3748,7 +3748,7 @@ function getSketchCP() {
             destinationType: navigator.sketch.DestinationType.DATA_URL,
             encodingType: navigator.sketch.EncodingType.JPEG,
             inputType: navigator.sketch.InputType.DATA_URL,
-            inputData: image.src
+            inputData: image
         });
     }
     else {

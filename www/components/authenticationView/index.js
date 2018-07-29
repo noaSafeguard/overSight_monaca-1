@@ -193,6 +193,8 @@ app.authenticationView = kendo.observable({
 
       document.getElementById('metisTab').style.display = "none";
        document.getElementById('toolTab').style.display = "none";
+
+        $("input:checkbox").attr("disabled", false);
         if (e && e.view && e.view.params && e.view.params.logout) {
             if (localStorage) {
                 localStorage.setItem(rememberKey, null);

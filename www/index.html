@@ -70,9 +70,9 @@
         </header>
         <footer data-role="footer"></footer>
     </div>
+    <!--data-views='[controlPointScreen,screenhightGuard,screentoolFlyD,screentoolFlyV,screenToolFlyA,screenFlyV,screenFlyD,screenFlyA,machozScreen,projectScreen,authenticationScreen]'-->
 
-
-    <div id="appDrawer" data-position="right" data-role="drawer" style="background: linear-gradient(186.34deg, #17536A 0%, #0B2B38 100%);width:50%;">
+    <div id="appDrawer" data-position="right" data-role="drawer"   style="background: linear-gradient(186.34deg, #17536A 0%, #0B2B38 100%);width:50%;">
         <header style="width:100%;font-size:3vw;background-color:transparent;" data-role="header">
             <div data-role="navbar" class="header" style="background: linear-gradient(5.58deg, #923714 0%, #f7931e 100%);">
                 <span data-bind="text:strings.MB.home.myDropdown1.menu" id="menuAppDrawer">תפריט</span>
@@ -131,11 +131,11 @@
 
         }
         function flyFunc() {
-           app.mobileApp.navigate('#components/hightGuard/fly.html');
+            app.mobileApp.navigate('#components/hightGuard/fly.html');
 
         }
         function toolFlyFunc() {
-          app.mobileApp.navigate('#components/hightGuard/tool.html');
+            app.mobileApp.navigate('#components/hightGuard/tool.html');
         }
         function projectLocation() {
             app.mobileApp.navigate('#components/machoz/view.html');
