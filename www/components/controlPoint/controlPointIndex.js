@@ -438,8 +438,8 @@ app.controlPoint = kendo.observable({
                                     Remarks = homeModel.get("arrSeifComments")[x].Comments;
                             }
                             var obj = {
-                                "R408159700": arrObjectes[i].id,//מקשרת למפגע שניבחר
-                                "R370259173": arrObjectes[i].seif[j].id,//מקשרת לסעיף בנק
+                                "R408159700": parseInt(arrObjectes[i].id),//מקשרת למפגע שניבחר
+                                "R370259173": parseInt(arrObjectes[i].seif[j].id),//מקשרת לסעיף בנק
                                 "IntScore": arrObjectes[i].seif[j].value,//ערך
                                 "locationId": (app.project.homeModel.get("dataItem")).locationId,
                                 "cb_isActive": true,//פעיל
@@ -451,8 +451,8 @@ app.controlPoint = kendo.observable({
                     }
                     if (flag == true) {
                         var obj = {
-                            "R408159685": homeModel.currentControlPointCheckup.id,//מקשרת לנקודת בקרה שנוצרה
-                            "R408159765": arrObjectes[i].id,//מקשרת למפגע בנק
+                            "R408159685": parseInt(homeModel.currentControlPointCheckup.id),//מקשרת לנקודת בקרה שנוצרה
+                            "R408159765": parseInt(arrObjectes[i].id),//מקשרת למפגע בנק
                             "locationId": (app.project.homeModel.get("dataItem")).locationId,
                             "cb_isActive": true//פעיל
                         };
@@ -482,7 +482,7 @@ app.controlPoint = kendo.observable({
                         dataSource = new kendo.data.DataSource(dataSourceOptions)
                         function saveModel() {
                             dataSource.add(obj);
-                            dataSource.one('change', function (e) {
+                            dataSource.one('sync', function (e) {
                                 m1++;
 
                                 for (var k = 0; k < arr.length; k++) {
@@ -520,7 +520,9 @@ app.controlPoint = kendo.observable({
                         dataSource = new kendo.data.DataSource(dataSourceOptions)
                         function saveModel() {
                             dataSource.add(obj);
-                            dataSource.one('change', function (e) {
+                            
+                            dataSource.one('sync', function (e) {
+                              console.log("e")
                                 for (var x = 0; x < homeModel.get("arrSeifImage").length; x++) {
                                     if (homeModel.get("arrSeifImage")[x].id == current.R370259173 && homeModel.get("arrSeifImage")[x].src != "")
                                         arrSeifSaveImage.push({ "id": current.id, "SectionImage1": current.SectionImage1, "image": homeModel.get("arrSeifImage")[x].src })
@@ -718,8 +720,8 @@ app.controlPoint = kendo.observable({
                                 //אם הסעיף מקושר ל
                                 if (view[i].id == view1[j].R408159700) {//אם מקושר סעיף למפגע
                                     var url = "";
-                                    if (view1[j].SectionImage1URL != "null")
-                                        url = view1[j].SectionImage1URL;
+                                     if (view1[j].SectionImage1URL != "null")
+                                         url = view1[j].SectionImage1URL;
                                     var obj = {
                                         "idMefga": view[i].R408159765, "idMefgaID": view[i].id, "idSeif": view1[j].R370259173, "id": view1[j].id, "val": view1[j].IntScore, "image": url, "SectionImage1": view1[j].SectionImage1, "Remarks": view1[j].Remarks
                                     }
@@ -944,7 +946,7 @@ app.controlPoint = kendo.observable({
                         dataSource = new kendo.data.DataSource(dataSourceOptions)
                         function saveModel() {
                             dataSource.add(obj);
-                            dataSource.one('change', function (e) {
+                            dataSource.one('sync', function (e) {
                                 m1++;
                                 for (var k = 0; k < arrNew.length; k++) {//סעיפים
                                     if (arrNew[k].R408159700 == current.R408159765) {
@@ -989,19 +991,19 @@ app.controlPoint = kendo.observable({
                         dataSourceOptions.transport.jsdo = jsdo;
                         dataSource = new kendo.data.DataSource(dataSourceOptions)
                         function saveModel() {
-                            dataSource.add(obj);
-                            dataSource.one('change', function (e) {
-                                s1++;
-                                for (var x = 0; x < homeModel.get("arrSeifImage").length; x++) {
-                                    if (homeModel.get("arrSeifImage")[x].id == current.R370259173 && homeModel.get("arrSeifImage")[x].src != "" && homeModel.get("arrSeifImage")[x].src != homeModel.get("arrSeifImage")[x].srcTemp)
-                                        arrEditImage.push({ "id": current.id, "SectionImage1": current.SectionImage1, "image": homeModel.get("arrSeifImage")[x].src });
-                                }
-                                //console.log("יצירה")
-                                // console.log(current)
-                                if (s1 == s) {
-                                    uploadPhotoSeifD();
-                                }
-                            });
+                            dataSource.add(obj); 
+                            // dataSource.one('sync', function (e) {
+                            //     s1++;
+                            //     for (var x = 0; x < homeModel.get("arrSeifImage").length; x++) {
+                            //         if (homeModel.get("arrSeifImage")[x].id == current.R370259173 && homeModel.get("arrSeifImage")[x].src != "" && homeModel.get("arrSeifImage")[x].src != homeModel.get("arrSeifImage")[x].srcTemp)
+                            //             arrEditImage.push({ "id": current.id, "SectionImage1": current.SectionImage1, "image": homeModel.get("arrSeifImage")[x].src });
+                            //     }
+                            //     //console.log("יצירה")
+                            //     // console.log(current)
+                            //     if (s1 == s) {
+                            //         uploadPhotoSeifD();
+                            //     }
+                            // });
                             dataSource.sync();
                         };
                         saveModel();
@@ -2965,7 +2967,7 @@ app.controlPoint = kendo.observable({
                 "structureNum": "",
                 "publicBuildingsDetails": "",
             }
-            homeModel.set("checkItem", obj)
+            homeModel.set("checkItem", obj);
             document.getElementById("publicBuildings").checked = false;
             document.getElementById("publishToContact").checked = false;
             document.getElementById("DroneCalibration").checked = false;
